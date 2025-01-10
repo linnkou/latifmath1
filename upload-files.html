@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رفع الملفات</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="main-title">
+            <h1>رفع الملفات</h1>
+        </div>
+        <nav>
+            <a href="index.html">الرئيسية</a>
+            <a href="upload-files.html" class="active">رفع الملفات</a>
+            <a href="login.html" class="login-button">تسجيل الدخول</a>
+        </nav>
+    </header>
+
+    <div class="upload-section">
+        <h2>رفع الملفات حسب المستوى</h2>
+        
+        <!-- السنة الأولى متوسط -->
+        <div class="level" onclick="toggleSubjects('first-year')">
+            <h3>السنة أولى متوسط</h3>
+            <div id="first-year" class="subjects">
+                <div class="subject-item">
+                    <span>التدرجات الشهرية و السنوية</span>
+                    <button class="upload-button" onclick="uploadFile('first-year', 'التدرجات الشهرية و السنوية')">رفع الملف</button>
+                </div>
+                <div class="subject-item">
+                    <span>نماذج تقويم تشخيصي</span>
+                    <button class="upload-button" onclick="uploadFile('first-year', 'نماذج تقويم تشخيصي')">رفع الملف</button>
+                </div>
+                <div class="subject-item">
+                    <span>وضعيات (إنطلاق - إدماج - تقويم)</span>
+                    <button class="upload-button" onclick="uploadFile('first-year', 'وضعيات (إنطلاق - إدماج - تقويم)')">رفع الملف</button>
+                </div>
+                <div class="subject-item">
+                    <span>مذكرات دروس</span>
+                    <button class="upload-button" onclick="uploadFile('first-year', 'مذكرات دروس')">رفع الملف</button>
+                </div>
+                <div class="subject-item">
+                    <span>مذكرات أعمال موجهة</span>
+                    <button class="upload-button" onclick="uploadFile('first-year', 'مذكرات أعمال موجهة')">رفع الملف</button>
+                </div>
+                <div class="subject-item">
+                    <span>حلول تمارين كتاب المدرسي</span>
+                    <button class="upload-button" onclick="uploadFile('first-year', 'حلول تمارين كتاب المدرسي')">رفع الملف</button>
+                </div>
+                <div class="subject-item">
+                    <span>فروض</span>
+                    <button class="upload-button" onclick="uploadFile('first-year', 'فروض')">رفع الملف</button>
+                </div>
+                <div class="subject-item">
+                    <span>اختبارات</span>
+                    <button class="upload-button" onclick="uploadFile('first-year', 'اختبارات')">رفع الملف</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- السنة الثانية متوسط -->
+        <div class="level" onclick="toggleSubjects('second-year')">
+            <h3>السنة ثانية متوسط</h3>
+            <div id="second-year" class="subjects">
+                <!-- نفس الهيكل كما في السنة الأولى -->
+            </div>
+        </div>
+
+        <!-- السنة الثالثة متوسط -->
+        <div class="level" onclick="toggleSubjects('third-year')">
+            <h3>السنة ثالثة متوسط</h3>
+            <div id="third-year" class="subjects">
+                <!-- نفس الهيكل كما في السنة الأولى -->
+            </div>
+        </div>
+
+        <!-- السنة الرابعة متوسط -->
+        <div class="level" onclick="toggleSubjects('fourth-year')">
+            <h3>السنة رابعة متوسط</h3>
+            <div id="fourth-year" class="subjects">
+                <!-- نفس الهيكل كما في السنة الأولى -->
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 الرياضيات السهلة - جميع الحقوق محفوظة</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
