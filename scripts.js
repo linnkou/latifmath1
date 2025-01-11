@@ -13,7 +13,7 @@ buttons.forEach(button => {
 const searchButton = document.getElementById('search-button');
 const searchInput = document.getElementById('search-input');
 
-searchButton.addEventListener('click', () => {
+searchButton?.addEventListener('click', () => {
     const query = searchInput.value.trim();
     if (query.length < 3) {
         alert('يرجى إدخال كلمة بحث تحتوي على 3 أحرف على الأقل.');
@@ -30,41 +30,66 @@ if (loginButton) {
     });
 }
 
-// اختبار الجبر
-const algebraTestForm = document.getElementById('algebraTestForm');
-if (algebraTestForm) {
-    algebraTestForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const q1 = document.querySelector('input[name="q1"]:checked');
-        const q2 = document.querySelector('input[name="q2"]:checked');
-        let score = 0;
+// إظهار الاختبارات عند النقر على الزر
+document.getElementById('start-algebra-test')?.addEventListener('click', function (e) {
+    e.preventDefault();
+    document.getElementById('algebra-test').style.display = 'block';
+});
 
-        if (q1 && q1.value === 'b') score++;
-        if (q2 && q2.value === 'b') score++;
+document.getElementById('start-geometry-test')?.addEventListener('click', function (e) {
+    e.preventDefault();
+    document.getElementById('geometry-test').style.display = 'block';
+});
 
-        const result = document.getElementById('algebraResult');
-        result.innerHTML = `نتيجتك: ${score} من 2`;
-        result.style.color = score === 2 ? 'green' : 'red';
-    });
-}
+document.getElementById('start-statistics-test')?.addEventListener('click', function (e) {
+    e.preventDefault();
+    document.getElementById('statistics-test').style.display = 'block';
+});
 
-// اختبار الهندسة
-const geometryTestForm = document.getElementById('geometryTestForm');
-if (geometryTestForm) {
-    geometryTestForm.addEventListener('submit', function (e) {
-        e.preventDefault();
-        const q1 = document.querySelector('input[name="q1"]:checked');
-        const q2 = document.querySelector('input[name="q2"]:checked');
-        let score = 0;
+// تقييم اختبار الجبر
+document.getElementById('algebraTestForm')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const q1 = document.querySelector('input[name="q1"]:checked');
+    const q2 = document.querySelector('input[name="q2"]:checked');
+    let score = 0;
 
-        if (q1 && q1.value === 'b') score++;
-        if (q2 && q2.value === 'a') score++;
+    if (q1 && q1.value === 'b') score++;
+    if (q2 && q2.value === 'b') score++;
 
-        const result = document.getElementById('geometryResult');
-        result.innerHTML = `نتيجتك: ${score} من 2`;
-        result.style.color = score === 2 ? 'green' : 'red';
-    });
-}
+    const result = document.getElementById('algebraResult');
+    result.innerHTML = `نتيجتك: ${score} من 2`;
+    result.style.color = score === 2 ? 'green' : 'red';
+});
+
+// تقييم اختبار الهندسة
+document.getElementById('geometryTestForm')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const q1 = document.querySelector('input[name="q1"]:checked');
+    const q2 = document.querySelector('input[name="q2"]:checked');
+    let score = 0;
+
+    if (q1 && q1.value === 'b') score++;
+    if (q2 && q2.value === 'a') score++;
+
+    const result = document.getElementById('geometryResult');
+    result.innerHTML = `نتيجتك: ${score} من 2`;
+    result.style.color = score === 2 ? 'green' : 'red';
+});
+
+// تقييم اختبار الإحصاء
+document.getElementById('statisticsTestForm')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const q1 = document.querySelector('input[name="q1"]:checked');
+    const q2 = document.querySelector('input[name="q2"]:checked');
+    let score = 0;
+
+    if (q1 && q1.value === 'a') score++;
+    if (q2 && q2.value === 'b') score++;
+
+    const result = document.getElementById('statisticsResult');
+    result.innerHTML = `نتيجتك: ${score} من 2`;
+    result.style.color = score === 2 ? 'green' : 'red';
+});
 
 // تفاعل البطاقات
 const testCards = document.querySelectorAll('.test-card');
@@ -76,23 +101,6 @@ testCards.forEach(card => {
         card.style.transform = 'translateY(0)';
     });
 });
-
-// إظهار الاختبارات عند النقر على الزر
-const startAlgebraTest = document.getElementById('start-algebra-test');
-if (startAlgebraTest) {
-    startAlgebraTest.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.getElementById('algebra-test').style.display = 'block';
-    });
-}
-
-const startGeometryTest = document.getElementById('start-geometry-test');
-if (startGeometryTest) {
-    startGeometryTest.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.getElementById('geometry-test').style.display = 'block';
-    });
-}
 
 // تحسين تجربة تحميل الملفات
 function toggleSubjects(levelId) {
