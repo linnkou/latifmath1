@@ -102,7 +102,7 @@ testCards.forEach(card => {
     });
 });
 
-// تحسين تجربة تحميل الملفات
+// إظهار أو إخفاء قائمة المواد
 function toggleSubjects(levelId) {
     const subjects = document.getElementById(levelId);
     if (subjects.style.display === "none" || subjects.style.display === "") {
@@ -112,6 +112,7 @@ function toggleSubjects(levelId) {
     }
 }
 
+// رفع الملف
 function uploadFile(level, subject) {
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
