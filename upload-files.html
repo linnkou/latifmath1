@@ -1,85 +1,82 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رفع الملفات</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <header>
-        <div class="main-title">
-            <h1>رفع الملفات</h1>
-        </div>
-        <nav>
-            <a href="index.html">الرئيسية</a>
-            <a href="upload-files.html" class="active">رفع الملفات</a>
-            <a href="login.html" class="login-button">تسجيل الدخول</a>
-        </nav>
-    </header>
+document.getElementById('upload-button')?.addEventListener('click', async () => {
+    console.log("تم النقر على زر رفع الملف"); // تحقق من ظهور هذه الرسالة في الكونسول
 
-    <div class="upload-section">
-        <h2>رفع الملفات حسب المستوى</h2>
+    const year = document.getElementById('year').value;
+    const section = document.getElementById('section').value;
+    const fileName = document.getElementById('file-name').value.trim();
+    const file = document.getElementById('file-upload').files[0];
 
-        <!-- اختيار السنة -->
-        <div class="form-group">
-            <label for="year">السنة:</label>
-            <select id="year">
-                <option value="first-year">الأولى متوسط</option>
-                <option value="second-year">الثانية متوسط</option>
-                <option value="third-year">الثالثة متوسط</option>
-                <option value="fourth-year">الرابعة متوسط</option>
-            </select>
-        </div>
+    console.log("السنة:", year); // تحقق من قيمة السنة
+    console.log("القسم:", section); // تحقق من قيمة القسم
+    console.log("اسم الملف:", fileName); // تحقق من اسم الملف
+    console.log("الملف:", file); // تحقق من الملف
 
-        <!-- اختيار القسم -->
-        <div class="form-group">
-            <label for="section">القسم:</label>
-            <select id="section">
-                <option value="grading">التدرجات الشهرية و السنوية</option>
-                <option value="diagnostic">نماذج تقويم تشخيصي</option>
-                <option value="situations">وضعيات (إنطلاق - إدماج - تقويم)</option>
-                <option value="lessons">مذكرات دروس</option>
-                <option value="guided-work">مذكرات أعمال موجهة</option>
-                <option value="exercises">حلول تمارين كتاب المدرسي</option>
-                <option value="homework">فروض</option>
-                <option value="exams">اختبارات</option>
-                <option value="certificates">شهادات التعليم المتوسط</option>
-            </select>
-        </div>
+    if (!file) {
+        alert('يرجى اختيار ملف.');
+        return;
+    }
 
-        <!-- إدخال اسم الملف -->
-        <div class="form-group">
-            <label for="file-name">اسم الملف:</label>
-            <input type="text" id="file-name" placeholder="أدخل اسم الملف">
-        </div>
+    if (!fileName) {
+        alert('يرجى إدخال اسم الملف.');
+        return;
+    }
 
-        <!-- زر رفع الملف -->
-        <div class="form-group">
-            <input type="file" id="file-upload" accept=".pdf,.doc,.docx">
-        </div>
+    try {
+        console.log("جاري رفع الملف...");
+        const downloadUrl = await uploadFileToGitHub(file, fileName, year, section);
+        console.log("تم رفع الملف بنجاح:", downloadUrl);
+        displayFileLink(fileName, downloadUrl);
+        alert('تم رفع الملف بنجاح!');
+    } catch (error) {
+        console.error("حدث خطأ أثناء رفع الملف:", error);
+        alert('حدث خطأ أثناء رفع الملف: ' + error.message);
+    }
+});
 
-        <!-- زر "تم" -->
-        <button id="upload-button">تم</button>
+async function uploadFileToGitHub(file, fileName, year, section) {
+    const token = 'YOUR_FINE_GRAINED_TOKEN'; // استبدل بالرمز الخاص بك
+    const repoOwner = 'YOUR_GITHUB_USERNAME'; // استبدل باسم مستخدمك
+    const repoName = 'YOUR_REPO_NAME'; // استبدل باسم المستودع
+    const path = `${year}/${section}/${fileName}`; // المسار في المستودع
 
-        <!-- قسم عرض الملفات المرفوعة -->
-        <div class="file-list" id="file-list">
-            <h2>الملفات المرفوعة:</h2>
-            <!-- سيتم عرض الملفات هنا -->
-        </div>
-    </div>
+    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
 
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2025 الرياضيات السهلة - جميع الحقوق محفوظة</p>
-            <div class="social-links">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </footer>
+    const content = await toBase64(file); // تحويل الملف إلى Base64
 
-    <script src="scripts.js"></script>
-</body>
-</html>
+    const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+            'Authorization': `token ${token}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            message: `رفع ملف: ${fileName}`,
+            content: content
+        })
+    });
+
+    if (!response.ok) {
+        throw new Error(`خطأ في الرفع: ${response.statusText}`);
+    }
+
+    const data = await response.json();
+    return data.content.download_url; // رابط التحميل
+}
+
+function toBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = error => reject(error);
+    });
+}
+
+function displayFileLink(fileName, downloadUrl) {
+    const fileList = document.getElementById('file-list');
+    const fileLink = document.createElement('a');
+    fileLink.href = downloadUrl;
+    fileLink.textContent = fileName;
+    fileLink.target = '_blank';
+    fileList.appendChild(fileLink);
+}
