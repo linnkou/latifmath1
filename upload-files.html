@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رفع الملفات إلى GitHub</title>
+    <title>رفع الملفات</title> <!-- تم تغيير العنوان هنا -->
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -127,11 +127,19 @@
         .logout-button:hover {
             background-color: #c0392b;
         }
+        /* إخفاء العنوان الرئيسي */
+        .container h1 {
+            display: none; /* إخفاء العنوان */
+        }
+        /* إخفاء قسم الملفات المرفوعة */
+        #files-list, #pagination, .container h2 {
+            display: none; /* إخفاء القسم بالكامل */
+        }
     </style>
 </head>
 <body>
     <header>
-        <h1>رفع الملفات إلى GitHub</h1>
+        <h1>رفع الملفات</h1> <!-- تم تغيير العنوان هنا -->
         <nav>
             <a href="index.html">الرئيسية</a>
             <a href="first-year.html">السنة أولى متوسط</a>
@@ -148,6 +156,7 @@
     </header>
 
     <div class="container">
+        <!-- العنوان مخفي الآن -->
         <h1>رفع الملفات إلى GitHub</h1>
 
         <form id="upload-form">
@@ -187,6 +196,7 @@
 
         <div id="message"></div>
 
+        <!-- هذا القسم مخفي الآن -->
         <h2>الملفات المرفوعة:</h2>
         <div id="files-list"></div>
         <div class="pagination" id="pagination"></div>
