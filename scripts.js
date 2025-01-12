@@ -112,24 +112,6 @@ function toggleSubjects(levelId) {
     }
 }
 
-// رفع الملف
-function uploadFile(level, subject) {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = '.pdf,.doc,.docx';
-    fileInput.onchange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            if (file.size > 5 * 1024 * 1024) {
-                alert('حجم الملف أكبر من المسموح به (5MB).');
-                return;
-            }
-            alert(`تم رفع الملف: ${file.name} للمستوى: ${level} والعنوان: ${subject}`);
-        }
-    };
-    fileInput.click();
-}
-
 // رفع الملف إلى GitHub
 document.getElementById('upload-form')?.addEventListener('submit', async function (e) {
     e.preventDefault();
@@ -139,23 +121,38 @@ document.getElementById('upload-form')?.addEventListener('submit', async functio
     const fileName = document.getElementById('file-name').value;
     const file = document.getElementById('file-upload').files[0];
 
-    if (file) {
-        const message = document.getElementById('message');
-        message.textContent = 'جاري رفع الملف...';
+    console.log("السنة:", year); // تحقق من قيمة السنة
+    console.log("القسم:", section); // تحقق من قيمة القسم
+    console.log("اسم الملف:", fileName); // تحقق من اسم الملف
+    console.log("الملف:", file); // تحقق من الملف
 
-        try {
-            const downloadUrl = await uploadFileToGitHub(file, fileName, year, section);
-            message.innerHTML = `تم رفع الملف بنجاح: <a href="${downloadUrl}" target="_blank">${fileName}</a>`;
-        } catch (error) {
-            message.textContent = 'حدث خطأ أثناء رفع الملف: ' + error.message;
-        }
+    if (!file) {
+        alert('يرجى اختيار ملف.');
+        return;
+    }
+
+    if (!fileName) {
+        alert('يرجى إدخال اسم الملف.');
+        return;
+    }
+
+    const message = document.getElementById('message');
+    message.textContent = 'جاري رفع الملف...';
+
+    try {
+        const downloadUrl = await uploadFileToGitHub(file, fileName, year, section);
+        console.log("تم رفع الملف بنجاح:", downloadUrl); // تحقق من رابط التحميل
+        message.innerHTML = `تم رفع الملف بنجاح: <a href="${downloadUrl}" target="_blank">${fileName}</a>`;
+    } catch (error) {
+        console.error("حدث خطأ أثناء رفع الملف:", error); // تحقق من الخطأ
+        message.textContent = 'حدث خطأ أثناء رفع الملف: ' + error.message;
     }
 });
 
 async function uploadFileToGitHub(file, fileName, year, section) {
-    const token = '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'; // استبدل بالرمز الخاص بك
-    const repoOwner = 'linnkou'; // استبدل باسم مستخدمك
-    const repoName = 'easymath'; // استبدل باسم المستودع
+    const token = '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'; // الرمز المميز الخاص بك
+    const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
+    const repoName = 'latifmath1'; // اسم المستودع
     const path = `${year}/${section}/${fileName}`; // المسار في المستودع
 
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
@@ -173,6 +170,10 @@ async function uploadFileToGitHub(file, fileName, year, section) {
             content: content
         })
     });
+
+    if (!response.ok) {
+        throw new Error(`خطأ في الرفع: ${response.statusText}`);
+    }
 
     const data = await response.json();
     return data.content.download_url; // رابط التحميل
