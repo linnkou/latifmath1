@@ -142,5 +142,15 @@
     </footer>
 
     <script src="scripts.js"></script>
+    <script>
+        // التحقق من تسجيل الدخول عند تحميل الصفحة
+        window.onload = () => {
+            const token = localStorage.getItem('github-token');
+            if (!token) {
+                alert('يرجى تسجيل الدخول أولاً.');
+                window.location.href = 'login.html'; // إعادة توجيه إلى صفحة تسجيل الدخول
+            }
+        };
+    </script>
 </body>
 </html>
