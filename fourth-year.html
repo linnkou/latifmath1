@@ -5,9 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>السنة رابعة متوسط</title>
     <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .test-section {
             display: none;
+        }
+        .file-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .file-item i {
+            margin-left: 10px;
+            font-size: 1.2em;
+        }
+        .file-item a {
+            text-decoration: none;
+            color: #003366;
+            font-weight: bold;
+        }
+        .file-item a:hover {
+            color: #ffcc00;
+        }
+        .hidden {
+            display: none;
+        }
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+            background-color: #003366;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+        .pagination button:hover {
+            background-color: #ffcc00;
+            color: #003366;
         }
     </style>
 </head>
@@ -15,6 +58,7 @@
     <header>
         <div class="main-title">
             <h1>السنة رابعة متوسط</h1>
+            <p>جميع الموارد التعليمية للسنة رابعة متوسط</p>
         </div>
         <nav>
             <a href="index.html">الرئيسية</a>
@@ -29,16 +73,27 @@
     </header>
 
     <div class="button-container">
-        <a href="#" class="button" style="background-color: #ff6666;"><i class="fas fa-calendar-alt"></i> التدرجات الشهرية و السنوية</a>
-        <a href="#" class="button" style="background-color: #66cc66;"><i class="fas fa-puzzle-piece"></i> نماذج تقويم تشخيصي</a>
-        <a href="#" class="button" style="background-color: #66ccff;"><i class="fas fa-chalkboard-teacher"></i> وضعيات (إنطلاق - إدماج - تقويم)</a>
-        <a href="#" class="button" style="background-color: #ffcc33;"><i class="fas fa-book"></i> مذكرات دروس</a>
-        <a href="#" class="button" style="background-color: #ff9966;"><i class="fas fa-pencil-alt"></i> مذكرات أعمال موجهة</a>
-        <a href="#" class="button" style="background-color: #ffcc66;"><i class="fas fa-book-open"></i> حلول تمارين كتاب المدرسي</a>
-        <a href="#" class="button" style="background-color: #66ccff;"><i class="fas fa-file-alt"></i> فروض</a>
-        <a href="#" class="button" style="background-color: #66ff66;"><i class="fas fa-check-circle"></i> اختبارات</a>
-        <a href="#" class="button" style="background-color: #cc66ff;"><i class="fas fa-certificate"></i> شهادات التعليم المتوسط</a>
+        <a href="#" class="button" style="background-color: #ff6666;" onclick="showFiles('monthly-grades')"><i class="fas fa-calendar-alt"></i> التدرجات الشهرية و السنوية</a>
+        <a href="#" class="button" style="background-color: #66cc66;" onclick="showFiles('diagnostic-models')"><i class="fas fa-puzzle-piece"></i> نماذج تقويم تشخيصي</a>
+        <a href="#" class="button" style="background-color: #66ccff;" onclick="showFiles('situations')"><i class="fas fa-chalkboard-teacher"></i> وضعيات (إنطلاق - إدماج - تقويم)</a>
+        <a href="#" class="button" style="background-color: #ffcc33;" onclick="showFiles('lesson-notes')"><i class="fas fa-book"></i> مذكرات دروس</a>
+        <a href="#" class="button" style="background-color: #ff9966;" onclick="showFiles('guided-work')"><i class="fas fa-pencil-alt"></i> مذكرات أعمال موجهة</a>
+        <a href="#" class="button" style="background-color: #ffcc66;" onclick="showFiles('textbook-solutions')"><i class="fas fa-book-open"></i> حلول تمارين كتاب المدرسي</a>
+        <a href="#" class="button" style="background-color: #66ccff;" onclick="showFiles('homework')"><i class="fas fa-file-alt"></i> فروض</a>
+        <a href="#" class="button" style="background-color: #66ff66;" onclick="showFiles('exams')"><i class="fas fa-check-circle"></i> اختبارات</a>
+        <a href="#" class="button" style="background-color: #cc66ff;" onclick="showFiles('certificates')"><i class="fas fa-certificate"></i> شهادات التعليم المتوسط</a>
     </div>
+
+    <!-- قسم عرض الملفات -->
+    <section id="files-section" style="display: none;">
+        <h2>الملفات المرفوعة</h2>
+        <div id="files-list">
+            <!-- سيتم عرض الملفات هنا تلقائيًا -->
+        </div>
+        <div class="pagination" id="pagination">
+            <!-- سيتم عرض أزرار الترقيم هنا -->
+        </div>
+    </section>
 
     <!-- مقاطع الفيديو التعليمية -->
     <section class="video-section">
@@ -49,91 +104,6 @@
             <iframe width="560" height="315" src="https://www.youtube.com/embed/MUNuJz3hagQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             <iframe width="560" height="315" src="https://www.youtube.com/embed/ilb7iZjaMlc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
-    </section>
-
-    <!-- الاختبارات التفاعلية -->
-    <section class="interactive-tests">
-        <h2>اختبارات تفاعلية</h2>
-        <div class="test-container">
-            <div class="test-card">
-                <h3>اختبار الجبر</h3>
-                <p>اختبر معرفتك في الجبر مع هذا الاختبار التفاعلي.</p>
-                <a href="#algebra-test" class="test-button" id="start-algebra-test">ابدأ الاختبار</a>
-            </div>
-            <div class="test-card">
-                <h3>اختبار الهندسة</h3>
-                <p>اختبر معرفتك في الهندسة مع هذا الاختبار التفاعلي.</p>
-                <a href="#geometry-test" class="test-button" id="start-geometry-test">ابدأ الاختبار</a>
-            </div>
-            <div class="test-card">
-                <h3>اختبار الإحصاء</h3>
-                <p>اختبر معرفتك في الإحصاء مع هذا الاختبار التفاعلي.</p>
-                <a href="#statistics-test" class="test-button" id="start-statistics-test">ابدأ الاختبار</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- اختبار الجبر -->
-    <section id="algebra-test" class="test-section">
-        <h2>اختبار الجبر</h2>
-        <form id="algebraTestForm">
-            <div class="question">
-                <p>1. ما هو حل المعادلة: 2x + 3 = 7؟</p>
-                <label><input type="radio" name="q1" value="a"> أ) 1</label>
-                <label><input type="radio" name="q1" value="b"> ب) 2</label>
-                <label><input type="radio" name="q1" value="c"> ج) 3</label>
-            </div>
-            <div class="question">
-                <p>2. ما هو حل المعادلة: 3x - 5 = 4؟</p>
-                <label><input type="radio" name="q2" value="a"> أ) 2</label>
-                <label><input type="radio" name="q2" value="b"> ب) 3</label>
-                <label><input type="radio" name="q2" value="c"> ج) 4</label>
-            </div>
-            <button type="submit">تقديم الإجابات</button>
-        </form>
-        <div id="algebraResult" class="result"></div>
-    </section>
-
-    <!-- اختبار الهندسة -->
-    <section id="geometry-test" class="test-section">
-        <h2>اختبار الهندسة</h2>
-        <form id="geometryTestForm">
-            <div class="question">
-                <p>1. ما هو محيط المربع إذا كان طول ضلعه 5 سم؟</p>
-                <label><input type="radio" name="q1" value="a"> أ) 10 سم</label>
-                <label><input type="radio" name="q1" value="b"> ب) 20 سم</label>
-                <label><input type="radio" name="q1" value="c"> ج) 25 سم</label>
-            </div>
-            <div class="question">
-                <p>2. ما هو مساحة المثلث إذا كان طول القاعدة 6 سم والارتفاع 4 سم؟</p>
-                <label><input type="radio" name="q2" value="a"> أ) 12 سم²</label>
-                <label><input type="radio" name="q2" value="b"> ب) 24 سم²</label>
-                <label><input type="radio" name="q2" value="c"> ج) 18 سم²</label>
-            </div>
-            <button type="submit">تقديم الإجابات</button>
-        </form>
-        <div id="geometryResult" class="result"></div>
-    </section>
-
-    <!-- اختبار الإحصاء -->
-    <section id="statistics-test" class="test-section">
-        <h2>اختبار الإحصاء</h2>
-        <form id="statisticsTestForm">
-            <div class="question">
-                <p>1. ما هو المتوسط الحسابي للأعداد: 5، 10، 15؟</p>
-                <label><input type="radio" name="q1" value="a"> أ) 10</label>
-                <label><input type="radio" name="q1" value="b"> ب) 15</label>
-                <label><input type="radio" name="q1" value="c"> ج) 20</label>
-            </div>
-            <div class="question">
-                <p>2. ما هو الوسيط للأعداد: 3، 7، 1، 9؟</p>
-                <label><input type="radio" name="q2" value="a"> أ) 5</label>
-                <label><input type="radio" name="q2" value="b"> ب) 7</label>
-                <label><input type="radio" name="q2" value="c"> ج) 9</label>
-            </div>
-            <button type="submit">تقديم الإجابات</button>
-        </form>
-        <div id="statisticsResult" class="result"></div>
     </section>
 
     <footer>
@@ -147,6 +117,78 @@
         </div>
     </footer>
 
-    <script src="scripts.js"></script>
+    <script>
+        let currentPage = 1;
+        const itemsPerPage = 10; // عدد الملفات المعروضة في كل صفحة
+        let currentFileType = 'lesson-notes'; // النوع الافتراضي للعرض
+
+        // دالة لجلب الملفات المرفوعة من GitHub
+        async function fetchUploadedFiles(fileType) {
+            const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
+            const repoName = 'latifmath1'; // اسم المستودع
+            const path = `fourth-year/${fileType}`; // المسار في المستودع
+
+            const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
+
+            const response = await fetch(url);
+
+            if (!response.ok) {
+                throw new Error(`خطأ في جلب الملفات: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            return data;
+        }
+
+        // دالة لعرض الملفات المرفوعة مع ترقيم الصفحات
+        async function displayFiles(fileType, page = 1) {
+            const filesList = document.getElementById('files-list');
+            const pagination = document.getElementById('pagination');
+            filesList.innerHTML = 'جاري تحميل الملفات...';
+            pagination.innerHTML = '';
+
+            try {
+                const files = await fetchUploadedFiles(fileType);
+                const totalPages = Math.ceil(files.length / itemsPerPage);
+
+                const startIndex = (page - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const filesToDisplay = files.slice(startIndex, endIndex);
+
+                filesList.innerHTML = filesToDisplay.map(file => `
+                    <div class="file-item">
+                        <a href="${file.download_url}" target="_blank">${file.name}</a>
+                    </div>
+                `).join('');
+
+                if (totalPages > 1) {
+                    for (let i = 1; i <= totalPages; i++) {
+                        const button = document.createElement('button');
+                        button.textContent = i;
+                        button.addEventListener('click', () => {
+                            currentPage = i;
+                            displayFiles(fileType, currentPage);
+                        });
+                        pagination.appendChild(button);
+                    }
+                }
+            } catch (error) {
+                filesList.innerHTML = 'حدث خطأ أثناء جلب الملفات: ' + error.message;
+            }
+        }
+
+        // دالة للتبديل بين أنواع الملفات وإظهار قسم الملفات
+        function showFiles(fileType) {
+            currentFileType = fileType;
+            currentPage = 1;
+            document.getElementById('files-section').style.display = 'block'; // إظهار قسم الملفات
+            displayFiles(fileType, currentPage);
+        }
+
+        // عرض الملفات عند تحميل الصفحة
+        window.onload = () => {
+            displayFiles(currentFileType, currentPage);
+        };
+    </script>
 </body>
 </html>
