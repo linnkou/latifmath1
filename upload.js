@@ -20,6 +20,8 @@ async function uploadFileToGitHub(file, fileName, year, section, token) {
     });
 
     if (!response.ok) {
+        const errorData = await response.json(); // تحقق من استجابة API
+        console.error('تفاصيل الخطأ:', errorData);
         throw new Error(`خطأ في الرفع: ${response.statusText}`);
     }
 
@@ -104,6 +106,7 @@ document.getElementById('upload-form')?.addEventListener('submit', async functio
         message.innerHTML = `تم رفع الملف بنجاح: <a href="${downloadUrl}" target="_blank">${fileName}</a>`;
         displayUploadedFiles(token); // تحديث قائمة الملفات بعد الرفع
     } catch (error) {
+        console.error(error); // عرض تفاصيل الخطأ في الكونسول
         message.textContent = 'حدث خطأ أثناء رفع الملف: ' + error.message;
     }
 });
