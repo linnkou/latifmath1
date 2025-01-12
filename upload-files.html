@@ -1,77 +1,52 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رفع الملفات إلى GitHub</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            direction: rtl;
-            padding: 20px;
+<script>
+    // معالجة رفع الملفات
+    document.getElementById('upload-form')?.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const token = localStorage.getItem('github-token');
+        if (!token) {
+            alert('يرجى تسجيل الدخول أولاً.');
+            window.location.href = 'login.html'; // إعادة توجيه إلى صفحة تسجيل الدخول
+            return;
         }
-        label {
-            display: block;
-            margin-top: 10px;
+
+        const year = document.getElementById('year').value;
+        const fileType = document.getElementById('file-type').value;
+        const fileName = document.getElementById('file-name').value;
+        const file = document.getElementById('file-upload').files[0];
+
+        if (!file) {
+            alert('يرجى اختيار ملف.');
+            return;
         }
-        input, select, button {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
+
+        if (!fileName) {
+            alert('يرجى إدخال اسم الملف.');
+            return;
         }
-        #message {
-            margin-top: 20px;
-            color: green;
+
+        const message = document.getElementById('message');
+        message.textContent = 'جاري رفع الملف...';
+
+        try {
+            const downloadUrl = await uploadFileToGitHub(file, fileName, year, fileType, token);
+            message.innerHTML = `تم رفع الملف بنجاح: <a href="${downloadUrl}" target="_blank">${fileName}</a>`;
+            displayUploadedFiles(token); // تحديث قائمة الملفات بعد الرفع
+        } catch (error) {
+            console.error(error); // عرض تفاصيل الخطأ في الكونسول
+            message.textContent = 'حدث خطأ أثناء رفع الملف: ' + error.message;
         }
-        #files-list {
-            margin-top: 20px;
+    });
+
+    // عرض الملفات عند تحميل الصفحة (إذا كان التوكن مخزنًا في localStorage)
+    window.onload = () => {
+        const token = localStorage.getItem('github-token');
+        if (!token) {
+            alert('يرجى تسجيل الدخول أولاً.');
+            window.location.href = 'login.html'; // إعادة توجيه إلى صفحة تسجيل الدخول
+        } else {
+            document.getElementById('github-token').value = token;
+            displayUploadedFiles(token);
         }
-        .file-item {
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-    <h1>رفع الملفات إلى GitHub</h1>
-
-    <form id="upload-form">
-        <label for="year">المستوى الدراسي:</label>
-        <select id="year" name="year">
-            <option value="first-year">الأولى متوسط</option>
-            <option value="second-year">الثانية متوسط</option>
-            <option value="third-year">الثالثة متوسط</option>
-            <option value="fourth-year">الرابعة متوسط</option>
-        </select>
-
-        <label for="file-type">نوع الملف:</label>
-        <select id="file-type" name="file-type">
-            <option value="monthly-grades">التدرجات الشهرية</option>
-            <option value="diagnostic-models">نماذج تقويم تشخيصي</option>
-            <option value="situations">وضعيات (إنطلاق - إدماج - تقويم)</option>
-            <option value="lesson-notes">مذكرات دروس</option>
-            <option value="guided-work">مذكرات أعمال موجهة</option>
-            <option value="textbook-solutions">حلول تمارين كتاب المدرسي</option>
-            <option value="homework">فروض</option>
-            <option value="exams">اختبارات</option>
-        </select>
-
-        <label for="file-name">اسم الملف:</label>
-        <input type="text" id="file-name" name="file-name" required>
-
-        <label for="file-upload">اختر ملف:</label>
-        <input type="file" id="file-upload" name="file-upload" required>
-
-        <label for="github-token">GitHub Token:</label>
-        <input type="text" id="github-token" name="github-token" required>
-
-        <button type="submit">رفع الملف</button>
-    </form>
-
-    <div id="message"></div>
-
-    <h2>الملفات المرفوعة:</h2>
-    <div id="files-list"></div>
-
-    <script src="upload.js"></script>
-</body>
-</html>
+    };
+</script>
