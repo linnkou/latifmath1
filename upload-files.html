@@ -29,6 +29,16 @@
         .file-item {
             margin-bottom: 10px;
         }
+        .pagination {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .pagination button {
+            margin: 0 5px;
+            padding: 5px 10px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -84,8 +94,13 @@
 
     <h2>الملفات المرفوعة:</h2>
     <div id="files-list"></div>
+    <div class="pagination" id="pagination"></div>
 
     <script>
+        let currentPage = 1;
+        const itemsPerPage = 10; // عدد الملفات المعروضة في كل صفحة
+        let currentFileType = 'homework'; // النوع الافتراضي للعرض
+
         // دالة لإضافة الامتداد إلى اسم الملف
         function addFileExtension(fileName, file) {
             const extension = file.name.split('.').pop(); // الحصول على امتداد الملف
@@ -135,11 +150,11 @@
         }
 
         // دالة لجلب الملفات المرفوعة من GitHub
-        async function fetchUploadedFiles(token) {
+        async function fetchUploadedFiles(token, fileType) {
             const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
             const repoName = 'latifmath1'; // اسم المستودع
 
-            const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
+            const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileType}`;
 
             const response = await fetch(url, {
                 headers: {
@@ -155,18 +170,38 @@
             return data;
         }
 
-        // دالة لعرض الملفات المرفوعة
-        async function displayUploadedFiles(token) {
+        // دالة لعرض الملفات المرفوعة مع ترقيم الصفحات
+        async function displayUploadedFiles(token, fileType, page = 1) {
             const filesList = document.getElementById('files-list');
+            const pagination = document.getElementById('pagination');
             filesList.innerHTML = 'جاري تحميل الملفات...';
+            pagination.innerHTML = '';
 
             try {
-                const files = await fetchUploadedFiles(token);
-                filesList.innerHTML = files.map(file => `
+                const files = await fetchUploadedFiles(token, fileType);
+                const totalPages = Math.ceil(files.length / itemsPerPage);
+
+                const startIndex = (page - 1) * itemsPerPage;
+                const endIndex = startIndex + itemsPerPage;
+                const filesToDisplay = files.slice(startIndex, endIndex);
+
+                filesList.innerHTML = filesToDisplay.map(file => `
                     <div class="file-item">
                         <a href="${file.download_url}" target="_blank">${file.name}</a>
                     </div>
                 `).join('');
+
+                if (totalPages > 1) {
+                    for (let i = 1; i <= totalPages; i++) {
+                        const button = document.createElement('button');
+                        button.textContent = i;
+                        button.addEventListener('click', () => {
+                            currentPage = i;
+                            displayUploadedFiles(token, fileType, currentPage);
+                        });
+                        pagination.appendChild(button);
+                    }
+                }
             } catch (error) {
                 filesList.innerHTML = 'حدث خطأ أثناء جلب الملفات: ' + error.message;
             }
@@ -207,7 +242,7 @@
             try {
                 const downloadUrl = await uploadFileToGitHub(file, fileName, year, fileType, token);
                 message.innerHTML = `تم رفع الملف بنجاح: <a href="${downloadUrl}" target="_blank">${fileName}</a>`;
-                displayUploadedFiles(token); // تحديث قائمة الملفات بعد الرفع
+                displayUploadedFiles(token, fileType, currentPage); // تحديث قائمة الملفات بعد الرفع
             } catch (error) {
                 console.error(error); // عرض تفاصيل الخطأ في الكونسول
                 message.textContent = 'حدث خطأ أثناء رفع الملف: ' + error.message;
@@ -222,7 +257,7 @@
                 window.location.href = 'login.html'; // إعادة توجيه إلى صفحة تسجيل الدخول
             } else {
                 document.getElementById('github-token').value = token;
-                displayUploadedFiles(token);
+                displayUploadedFiles(token, currentFileType, currentPage);
             }
         };
     </script>
