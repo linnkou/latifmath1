@@ -1,4 +1,3 @@
-// دالة لرفع الملف إلى GitHub
 async function uploadFileToGitHub(file, fileName, year, section, token) {
     const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
     const repoName = 'latifmath1'; // اسم المستودع
@@ -28,7 +27,6 @@ async function uploadFileToGitHub(file, fileName, year, section, token) {
     return data.content.download_url; // رابط التحميل
 }
 
-// دالة لتحويل الملف إلى Base64
 function toBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -38,7 +36,6 @@ function toBase64(file) {
     });
 }
 
-// دالة لجلب الملفات المرفوعة من GitHub
 async function fetchUploadedFiles(token) {
     const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
     const repoName = 'latifmath1'; // اسم المستودع
@@ -59,7 +56,6 @@ async function fetchUploadedFiles(token) {
     return data;
 }
 
-// دالة لعرض الملفات المرفوعة
 async function displayUploadedFiles(token) {
     const filesList = document.getElementById('files-list');
     filesList.innerHTML = 'جاري تحميل الملفات...';
@@ -76,7 +72,6 @@ async function displayUploadedFiles(token) {
     }
 }
 
-// معالجة رفع الملفات
 document.getElementById('upload-form')?.addEventListener('submit', async function (e) {
     e.preventDefault();
 
@@ -113,7 +108,6 @@ document.getElementById('upload-form')?.addEventListener('submit', async functio
     }
 });
 
-// عرض الملفات عند تحميل الصفحة (إذا كان التوكن مخزنًا في localStorage)
 window.onload = () => {
     const token = localStorage.getItem('github-token');
     if (token) {
