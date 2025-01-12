@@ -150,7 +150,7 @@ document.getElementById('upload-form')?.addEventListener('submit', async functio
 });
 
 async function uploadFileToGitHub(file, fileName, year, section) {
-    const token = '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'; // الرمز المميز الخاص بك
+    const token = '${{ secrets.EASYMATH }}'; // استخدام متغير البيئة
     const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
     const repoName = 'latifmath1'; // اسم المستودع
     const path = `${year}/${section}/${fileName}`; // المسار في المستودع
