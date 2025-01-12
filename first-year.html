@@ -6,9 +6,6 @@
     <title>السنة أولى متوسط</title>
     <link rel="stylesheet" href="styles.css">
     <style>
-        .test-section {
-            display: none;
-        }
         .file-list {
             display: none;
             margin-top: 20px;
@@ -46,92 +43,71 @@
     </header>
 
     <div class="button-container">
-        <a href="#" class="button" style="background-color: #ff6666;" onclick="toggleFiles('monthly-grades')">
-            <i class="fas fa-calendar-alt"></i> التدرجات الشهرية و السنوية
+        <a href="#" class="button" style="background-color: #ff6666;" onclick="toggleFiles('first-year-monthly-grades')">
+            <i class="fas fa-calendar-alt"></i> التدرجات الشهرية
         </a>
-        <a href="#" class="button" style="background-color: #66cc66;"><i class="fas fa-puzzle-piece"></i> نماذج تقويم تشخيصي</a>
-        <a href="#" class="button" style="background-color: #66ccff;"><i class="fas fa-chalkboard-teacher"></i> وضعيات (إنطلاق - إدماج - تقويم)</a>
-        <a href="#" class="button" style="background-color: #ffcc33;"><i class="fas fa-book"></i> مذكرات دروس</a>
-        <a href="#" class="button" style="background-color: #ff9966;"><i class="fas fa-pencil-alt"></i> مذكرات أعمال موجهة</a>
-        <a href="#" class="button" style="background-color: #ffcc66;"><i class="fas fa-book-open"></i> حلول تمارين كتاب المدرسي</a>
-        <a href="#" class="button" style="background-color: #66ccff;"><i class="fas fa-file-alt"></i> فروض</a>
-        <a href="#" class="button" style="background-color: #66ff66;"><i class="fas fa-check-circle"></i> اختبارات</a>
+        <a href="#" class="button" style="background-color: #66cc66;" onclick="toggleFiles('first-year-diagnostic-models')">
+            <i class="fas fa-puzzle-piece"></i> نماذج تقويم تشخيصي
+        </a>
+        <a href="#" class="button" style="background-color: #66ccff;" onclick="toggleFiles('first-year-situations')">
+            <i class="fas fa-chalkboard-teacher"></i> وضعيات (إنطلاق - إدماج - تقويم)
+        </a>
+        <a href="#" class="button" style="background-color: #ffcc33;" onclick="toggleFiles('first-year-lesson-notes')">
+            <i class="fas fa-book"></i> مذكرات دروس
+        </a>
+        <a href="#" class="button" style="background-color: #ff9966;" onclick="toggleFiles('first-year-guided-work')">
+            <i class="fas fa-pencil-alt"></i> مذكرات أعمال موجهة
+        </a>
+        <a href="#" class="button" style="background-color: #ffcc66;" onclick="toggleFiles('first-year-textbook-solutions')">
+            <i class="fas fa-book-open"></i> حلول تمارين كتاب المدرسي
+        </a>
+        <a href="#" class="button" style="background-color: #66ccff;" onclick="toggleFiles('first-year-homework')">
+            <i class="fas fa-file-alt"></i> فروض
+        </a>
+        <a href="#" class="button" style="background-color: #66ff66;" onclick="toggleFiles('first-year-exams')">
+            <i class="fas fa-check-circle"></i> اختبارات
+        </a>
     </div>
 
     <!-- قسم لعرض الملفات المرفوعة -->
-    <section id="monthly-grades" class="file-list">
+    <section id="first-year-monthly-grades" class="file-list">
         <h2>الملفات المرفوعة في التدرجات الشهرية</h2>
-        <div id="monthly-grades-files"></div>
+        <div id="first-year-monthly-grades-files"></div>
     </section>
 
-    <!-- مقاطع الفيديو التعليمية -->
-    <section class="video-section">
-        <h2>مقاطع فيديو تعليمية</h2>
-        <div class="video-container">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/BXc936XjzpU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/G-4JB9Li74g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/MUNuJz3hagQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/ilb7iZjaMlc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
+    <section id="first-year-diagnostic-models" class="file-list">
+        <h2>الملفات المرفوعة في نماذج تقويم تشخيصي</h2>
+        <div id="first-year-diagnostic-models-files"></div>
     </section>
 
-    <!-- الاختبارات التفاعلية -->
-    <section class="interactive-tests">
-        <h2>اختبارات تفاعلية</h2>
-        <div class="test-container">
-            <div class="test-card">
-                <h3>اختبار الجبر</h3>
-                <p>اختبر معرفتك في الجبر مع هذا الاختبار التفاعلي.</p>
-                <a href="#algebra-test" class="test-button" id="start-algebra-test">ابدأ الاختبار</a>
-            </div>
-            <div class="test-card">
-                <h3>اختبار الهندسة</h3>
-                <p>اختبر معرفتك في الهندسة مع هذا الاختبار التفاعلي.</p>
-                <a href="#geometry-test" class="test-button" id="start-geometry-test">ابدأ الاختبار</a>
-            </div>
-        </div>
+    <section id="first-year-situations" class="file-list">
+        <h2>الملفات المرفوعة في وضعيات (إنطلاق - إدماج - تقويم)</h2>
+        <div id="first-year-situations-files"></div>
     </section>
 
-    <!-- اختبار الجبر -->
-    <section id="algebra-test" class="test-section">
-        <h2>اختبار الجبر</h2>
-        <form id="algebraTestForm">
-            <div class="question">
-                <p>1. ما هو حل المعادلة: 2x + 3 = 7؟</p>
-                <label><input type="radio" name="q1" value="a"> أ) 1</label>
-                <label><input type="radio" name="q1" value="b"> ب) 2</label>
-                <label><input type="radio" name="q1" value="c"> ج) 3</label>
-            </div>
-            <div class="question">
-                <p>2. ما هو حل المعادلة: 3x - 5 = 4؟</p>
-                <label><input type="radio" name="q2" value="a"> أ) 2</label>
-                <label><input type="radio" name="q2" value="b"> ب) 3</label>
-                <label><input type="radio" name="q2" value="c"> ج) 4</label>
-            </div>
-            <button type="submit">تقديم الإجابات</button>
-        </form>
-        <div id="algebraResult" class="result"></div>
+    <section id="first-year-lesson-notes" class="file-list">
+        <h2>الملفات المرفوعة في مذكرات دروس</h2>
+        <div id="first-year-lesson-notes-files"></div>
     </section>
 
-    <!-- اختبار الهندسة -->
-    <section id="geometry-test" class="test-section">
-        <h2>اختبار الهندسة</h2>
-        <form id="geometryTestForm">
-            <div class="question">
-                <p>1. ما هو محيط المربع إذا كان طول ضلعه 5 سم؟</p>
-                <label><input type="radio" name="q1" value="a"> أ) 10 سم</label>
-                <label><input type="radio" name="q1" value="b"> ب) 20 سم</label>
-                <label><input type="radio" name="q1" value="c"> ج) 25 سم</label>
-            </div>
-            <div class="question">
-                <p>2. ما هو مساحة المثلث إذا كان طول القاعدة 6 سم والارتفاع 4 سم؟</p>
-                <label><input type="radio" name="q2" value="a"> أ) 12 سم²</label>
-                <label><input type="radio" name="q2" value="b"> ب) 24 سم²</label>
-                <label><input type="radio" name="q2" value="c"> ج) 18 سم²</label>
-            </div>
-            <button type="submit">تقديم الإجابات</button>
-        </form>
-        <div id="geometryResult" class="result"></div>
+    <section id="first-year-guided-work" class="file-list">
+        <h2>الملفات المرفوعة في مذكرات أعمال موجهة</h2>
+        <div id="first-year-guided-work-files"></div>
+    </section>
+
+    <section id="first-year-textbook-solutions" class="file-list">
+        <h2>الملفات المرفوعة في حلول تمارين كتاب المدرسي</h2>
+        <div id="first-year-textbook-solutions-files"></div>
+    </section>
+
+    <section id="first-year-homework" class="file-list">
+        <h2>الملفات المرفوعة في فروض</h2>
+        <div id="first-year-homework-files"></div>
+    </section>
+
+    <section id="first-year-exams" class="file-list">
+        <h2>الملفات المرفوعة في اختبارات</h2>
+        <div id="first-year-exams-files"></div>
     </section>
 
     <footer>
@@ -200,6 +176,14 @@
             const data = await response.json();
             return data;
         }
+
+        // تحميل الملفات عند فتح الصفحة
+        window.onload = () => {
+            const token = localStorage.getItem('github-token');
+            if (token) {
+                loadFiles('first-year-monthly-grades'); // تحميل ملفات التدرجات الشهرية تلقائيًا
+            }
+        };
     </script>
 </body>
 </html>
