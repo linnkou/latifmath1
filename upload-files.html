@@ -8,44 +8,130 @@
         body {
             font-family: Arial, sans-serif;
             direction: rtl;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        nav {
+            display: flex;
+            gap: 15px;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .container {
+            max-width: 800px;
+            margin: 80px auto 20px;
             padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
         label {
             display: block;
-            margin-top: 10px;
+            margin-top: 15px;
+            font-weight: bold;
         }
         input, select, button {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
         }
         #message {
             margin-top: 20px;
-            color: green;
+            color: #27ae60;
+            font-weight: bold;
         }
         #files-list {
             margin-top: 20px;
         }
         .file-item {
             margin-bottom: 10px;
+            padding: 10px;
+            background-color: #ecf0f1;
+            border-radius: 4px;
+        }
+        .file-item a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .file-item a:hover {
+            text-decoration: underline;
         }
         .pagination {
             margin-top: 20px;
             display: flex;
             justify-content: center;
+            gap: 5px;
         }
         .pagination button {
-            margin: 0 5px;
             padding: 5px 10px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
             cursor: pointer;
+        }
+        .pagination button:hover {
+            background-color: #2980b9;
+        }
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .user-info span {
+            font-weight: bold;
+        }
+        .logout-button {
+            background-color: #e74c3c;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .logout-button:hover {
+            background-color: #c0392b;
         }
     </style>
 </head>
 <body>
     <header>
-        <div class="main-title">
-            <h1>رفع الملفات إلى GitHub</h1>
-        </div>
+        <h1>رفع الملفات إلى GitHub</h1>
         <nav>
             <a href="index.html">الرئيسية</a>
             <a href="first-year.html">السنة أولى متوسط</a>
@@ -54,53 +140,57 @@
             <a href="fourth-year.html">السنة رابعة متوسط</a>
             <a href="teacher-documents.html">وثائق الأستاذ</a>
             <a href="upload-files.html">رفع الملفات</a>
-            <a href="login.html" class="login-button">تسجيل الدخول</a>
         </nav>
+        <div class="user-info">
+            <span id="github-username"></span>
+            <div class="logout-button" onclick="logout()">تسجيل الخروج</div>
+        </div>
     </header>
 
-    <h1>رفع الملفات إلى GitHub</h1>
+    <div class="container">
+        <h1>رفع الملفات إلى GitHub</h1>
 
-    <form id="upload-form">
-        <label for="year">المستوى الدراسي:</label>
-        <select id="year" name="year">
-            <option value="first-year">الأولى متوسط</option>
-            <option value="second-year">الثانية متوسط</option>
-            <option value="third-year">الثالثة متوسط</option>
-            <option value="fourth-year">الرابعة متوسط</option>
-            <option value="teacher-documents">وثائق الأستاذ</option>
-        </select>
+        <form id="upload-form">
+            <label for="year">المستوى الدراسي:</label>
+            <select id="year" name="year">
+                <option value="first-year">الأولى متوسط</option>
+                <option value="second-year">الثانية متوسط</option>
+                <option value="third-year">الثالثة متوسط</option>
+                <option value="fourth-year">الرابعة متوسط</option>
+                <option value="teacher-documents">وثائق الأستاذ</option>
+            </select>
 
-        <label for="file-type">نوع الملف:</label>
-        <select id="file-type" name="file-type">
-            <!-- الخيارات للسنة الأولى إلى الثالثة -->
-            <option value="monthly-grades">التدرجات الشهرية</option>
-            <option value="diagnostic-models">نماذج تقويم تشخيصي</option>
-            <option value="situations">وضعيات (إنطلاق - إدماج - تقويم)</option>
-            <option value="lesson-notes">مذكرات دروس</option>
-            <option value="guided-work">مذكرات أعمال موجهة</option>
-            <option value="textbook-solutions">حلول تمارين كتاب المدرسي</option>
-            <option value="homework">فروض</option>
-            <option value="exams">اختبارات</option>
-            <!-- خيار إضافي للسنة الرابعة -->
-            <option value="certificate">الشهادة</option>
-            <!-- خيار خاص بوثائق الأستاذ -->
-            <option value="teacher-documents">وثائق الأستاذ</option>
-        </select>
+            <label for="file-type">نوع الملف:</label>
+            <select id="file-type" name="file-type">
+                <!-- الخيارات الأساسية -->
+                <option value="monthly-grades">التدرجات الشهرية</option>
+                <option value="diagnostic-models">نماذج تقويم تشخيصي</option>
+                <option value="situations">وضعيات (إنطلاق - إدماج - تقويم)</option>
+                <option value="lesson-notes">مذكرات دروس</option>
+                <option value="guided-work">مذكرات أعمال موجهة</option>
+                <option value="textbook-solutions">حلول تمارين كتاب المدرسي</option>
+                <option value="homework">فروض</option>
+                <option value="exams">اختبارات</option>
+                <!-- خيارات إضافية سيتم إظهارها أو إخفاؤها بناءً على المستوى الدراسي -->
+                <option value="certificate" class="optional">شهادة التعليم المتوسط</option>
+                <option value="teacher-documents" class="optional">وثائق الأستاذ</option>
+            </select>
 
-        <label for="file-name">اسم الملف:</label>
-        <input type="text" id="file-name" name="file-name" required>
+            <label for="file-name">اسم الملف:</label>
+            <input type="text" id="file-name" name="file-name" required>
 
-        <label for="file-upload">اختر ملف:</label>
-        <input type="file" id="file-upload" name="file-upload" required>
+            <label for="file-upload">اختر ملف:</label>
+            <input type="file" id="file-upload" name="file-upload" required>
 
-        <button type="submit">رفع الملف</button>
-    </form>
+            <button type="submit">رفع الملف</button>
+        </form>
 
-    <div id="message"></div>
+        <div id="message"></div>
 
-    <h2>الملفات المرفوعة:</h2>
-    <div id="files-list"></div>
-    <div class="pagination" id="pagination"></div>
+        <h2>الملفات المرفوعة:</h2>
+        <div id="files-list"></div>
+        <div class="pagination" id="pagination"></div>
+    </div>
 
     <script>
         let currentPage = 1;
@@ -213,6 +303,42 @@
             }
         }
 
+        // دالة لتسجيل الخروج
+        function logout() {
+            localStorage.removeItem('github-token');
+            window.location.href = 'login.html';
+        }
+
+        // دالة لإظهار أو إخفاء خيارات نوع الملف بناءً على المستوى الدراسي
+        function updateFileTypeOptions() {
+            const year = document.getElementById('year').value;
+            const fileTypeSelect = document.getElementById('file-type');
+            const optionalOptions = fileTypeSelect.querySelectorAll('.optional');
+            const regularOptions = fileTypeSelect.querySelectorAll('option:not(.optional)');
+
+            // إخفاء جميع الخيارات الاختيارية أولاً
+            optionalOptions.forEach(option => {
+                option.style.display = 'none';
+            });
+
+            // إظهار الخيارات العادية أولاً
+            regularOptions.forEach(option => {
+                option.style.display = 'block';
+            });
+
+            if (year === 'fourth-year') {
+                // إظهار "شهادة التعليم المتوسط" وإخفاء "وثائق الأستاذ"
+                fileTypeSelect.querySelector('option[value="certificate"]').style.display = 'block';
+                fileTypeSelect.querySelector('option[value="teacher-documents"]').style.display = 'none';
+            } else if (year === 'teacher-documents') {
+                // إخفاء جميع الخيارات ما عدا "وثائق الأستاذ"
+                regularOptions.forEach(option => {
+                    option.style.display = 'none';
+                });
+                fileTypeSelect.querySelector('option[value="teacher-documents"]').style.display = 'block';
+            }
+        }
+
         // معالجة رفع الملفات
         document.getElementById('upload-form')?.addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -255,6 +381,9 @@
             }
         });
 
+        // تحديث خيارات نوع الملف عند تغيير المستوى الدراسي
+        document.getElementById('year').addEventListener('change', updateFileTypeOptions);
+
         // عرض الملفات عند تحميل الصفحة (إذا كان التوكن مخزنًا في localStorage)
         window.onload = () => {
             const token = localStorage.getItem('github-token');
@@ -262,7 +391,8 @@
                 alert('يرجى تسجيل الدخول أولاً.');
                 window.location.href = 'login.html'; // إعادة توجيه إلى صفحة تسجيل الدخول
             } else {
-                document.getElementById('github-token').value = token;
+                document.getElementById('github-username').textContent = 'linnkou'; // عرض اسم مستخدم GitHub
+                updateFileTypeOptions(); // تحديث خيارات نوع الملف بناءً على المستوى الدراسي
                 displayUploadedFiles(token, currentFileType, currentPage);
             }
         };
