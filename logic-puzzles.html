@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة المنطق</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+            text-align: center;
+        }
+
+        h1 {
+            color: #003366;
+            margin-top: 20px;
+        }
+
+        .puzzle-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 20px auto;
+        }
+
+        .question {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .option input {
+            margin: 0;
+        }
+
+        .option label {
+            font-size: 1.1em;
+        }
+
+        button {
+            background-color: #ffcc00;
+            color: #003366;
+            padding: 10px 20px;
+            font-size: 1.1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #003366;
+            color: #ffcc00;
+            transform: translateY(-3px);
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #003366;
+        }
+    </style>
+</head>
+<body>
+    <h1>لعبة المنطق</h1>
+
+    <div class="puzzle-container">
+        <div class="question">
+            <p>إذا كان أحمد أكبر من علي بـ 5 سنوات، وعمر علي الآن 10 سنوات، فكم عمر أحمد؟</p>
+        </div>
+
+        <div class="options">
+            <div class="option">
+                <input type="radio" id="option1" name="answer" value="10">
+                <label for="option1">10 سنوات</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="option2" name="answer" value="15">
+                <label for="option2">15 سنوات</label>
+            </div>
+            <div class="option">
+                <input type="radio" id="option3" name="answer" value="20">
+                <label for="option3">20 سنوات</label>
+            </div>
+        </div>
+
+        <button onclick="checkAnswer()">تحقق</button>
+
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        function checkAnswer() {
+            const selectedOption = document.querySelector('input[name="answer"]:checked');
+            const result = document.getElementById('result');
+
+            if (!selectedOption) {
+                result.textContent = 'يرجى اختيار إجابة.';
+                result.style.color = 'red';
+                return;
+            }
+
+            if (selectedOption.value === '15') {
+                result.textContent = 'إجابة صحيحة! عمر أحمد هو 15 سنة.';
+                result.style.color = 'green';
+            } else {
+                result.textContent = 'إجابة خاطئة! حاول مرة أخرى.';
+                result.style.color = 'red';
+            }
+        }
+    </script>
+</body>
+</html>
