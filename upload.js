@@ -1,7 +1,6 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
-const readline = require('readline');
 
 // دالة لرفع الملف إلى GitHub
 async function uploadFileToGitHub(filePath, fileName, year, fileType, token) {
@@ -42,42 +41,45 @@ async function uploadFileToGitHub(filePath, fileName, year, fileType, token) {
 
 // دالة رئيسية لتشغيل البرنامج
 async function main() {
-    const token = process.env.GITHUB_TOKEN || process.env.EASYMATH; // قراءة التوكن من متغير البيئة
+    const token = process.env.GITHUB_TOKEN; // قراءة التوكن من متغير البيئة
 
     if (!token) {
         console.error('لم يتم توفير GitHub Token.');
-        console.error('يرجى تعيين التوكن باستخدام السر EASYMATH في GitHub Secrets.');
         process.exit(1); // إنهاء البرنامج
     }
 
-    // إنشاء واجهة لإدخال المستخدم
-    const rl = readline.createInterface({
-        input: process.stdin,
-        output: process.stdout
-    });
+    // تحديد الملفات المطلوب رفعها
+    const uploadFolder = './uploads'; // المسار إلى المجلد
+    const year = 'first-year'; // المستوى الدراسي
+    const fileType = 'monthly-grades'; // نوع الملف
 
-    // طلب إدخال اسم الملف
-    rl.question('أدخل اسم الملف الذي تريد رفعه: ', async (fileName) => {
-        const filePath = path.join('./uploads', fileName); // المسار إلى الملف
-        const year = 'first-year'; // المستوى الدراسي
-        const fileType = 'monthly-grades'; // نوع الملف
+    // التحقق من وجود المجلد
+    if (!fs.existsSync(uploadFolder)) {
+        console.error('المجلد غير موجود:', uploadFolder);
+        process.exit(1); // إنهاء البرنامج
+    }
 
-        if (!fs.existsSync(filePath)) {
-            console.error('الملف غير موجود:', filePath);
-            rl.close();
-            process.exit(1); // إنهاء البرنامج
-        }
+    // قراءة جميع الملفات في المجلد
+    const files = fs.readdirSync(uploadFolder);
+
+    if (files.length === 0) {
+        console.error('لا توجد ملفات في المجلد:', uploadFolder);
+        process.exit(1); // إنهاء البرنامج
+    }
+
+    // رفع كل ملف
+    for (const file of files) {
+        const filePath = path.join(uploadFolder, file); // المسار الكامل إلى الملف
+        const fileName = path.basename(file); // اسم الملف
 
         try {
             // رفع الملف
             const downloadUrl = await uploadFileToGitHub(filePath, fileName, year, fileType, token);
             console.log(`تم رفع الملف بنجاح: ${downloadUrl}`);
         } catch (error) {
-            console.error('حدث خطأ أثناء رفع الملف:', error.message);
-        } finally {
-            rl.close(); // إغلاق واجهة الإدخال
+            console.error(`حدث خطأ أثناء رفع الملف ${fileName}:`, error.message);
         }
-    });
+    }
 }
 
 // تشغيل الدالة الرئيسية
