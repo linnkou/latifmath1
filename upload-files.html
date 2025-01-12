@@ -35,18 +35,24 @@
     <h1>رفع الملفات إلى GitHub</h1>
 
     <form id="upload-form">
-        <label for="year">السنة:</label>
+        <label for="year">المستوى الدراسي:</label>
         <select id="year" name="year">
-            <option value="first_year">الأولى متوسط</option>
-            <option value="second_year">الثانية متوسط</option>
-            <option value="third_year">الثالثة متوسط</option>
-            <option value="fourth_year">الرابعة متوسط</option>
+            <option value="first-year">الأولى متوسط</option>
+            <option value="second-year">الثانية متوسط</option>
+            <option value="third-year">الثالثة متوسط</option>
+            <option value="fourth-year">الرابعة متوسط</option>
         </select>
 
-        <label for="section">القسم:</label>
-        <select id="section" name="section">
-            <option value="monthly_grades">التدرجات الشهرية</option>
-            <option value="annual_grades">التدرجات السنوية</option>
+        <label for="file-type">نوع الملف:</label>
+        <select id="file-type" name="file-type">
+            <option value="monthly-grades">التدرجات الشهرية</option>
+            <option value="diagnostic-models">نماذج تقويم تشخيصي</option>
+            <option value="situations">وضعيات (إنطلاق - إدماج - تقويم)</option>
+            <option value="lesson-notes">مذكرات دروس</option>
+            <option value="guided-work">مذكرات أعمال موجهة</option>
+            <option value="textbook-solutions">حلول تمارين كتاب المدرسي</option>
+            <option value="homework">فروض</option>
+            <option value="exams">اختبارات</option>
         </select>
 
         <label for="file-name">اسم الملف:</label>
