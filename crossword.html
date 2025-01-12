@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة الكلمات المتقاطعة</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>لعبة الكلمات المتقاطعة</h1>
+    <div id="crossword">
+        <p>السؤال 1: ما هو العدد الأولي الأصغر؟</p>
+        <input type="text" id="crossword-answer-0">
+        <p id="crossword-result-0"></p>
+        <p>السؤال 2: ما هو الجذر التربيعي لـ 16؟</p>
+        <input type="text" id="crossword-answer-1">
+        <p id="crossword-result-1"></p>
+        <button onclick="checkCrosswordAnswers()">تحقق من الإجابات</button>
+    </div>
+    <script src="crossword.js"></script>
+</body>
+</html>
