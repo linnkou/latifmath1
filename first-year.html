@@ -69,46 +69,13 @@
         </a>
     </div>
 
-    <!-- قسم لعرض الملفات المرفوعة -->
-    <section id="first-year-monthly-grades" class="file-list">
-        <h2>الملفات المرفوعة في التدرجات الشهرية</h2>
-        <div id="first-year-monthly-grades-files"></div>
-    </section>
-
-    <section id="first-year-diagnostic-models" class="file-list">
-        <h2>الملفات المرفوعة في نماذج تقويم تشخيصي</h2>
-        <div id="first-year-diagnostic-models-files"></div>
-    </section>
-
-    <section id="first-year-situations" class="file-list">
-        <h2>الملفات المرفوعة في وضعيات (إنطلاق - إدماج - تقويم)</h2>
-        <div id="first-year-situations-files"></div>
-    </section>
-
-    <section id="first-year-lesson-notes" class="file-list">
-        <h2>الملفات المرفوعة في مذكرات دروس</h2>
-        <div id="first-year-lesson-notes-files"></div>
-    </section>
-
-    <section id="first-year-guided-work" class="file-list">
-        <h2>الملفات المرفوعة في مذكرات أعمال موجهة</h2>
-        <div id="first-year-guided-work-files"></div>
-    </section>
-
-    <section id="first-year-textbook-solutions" class="file-list">
-        <h2>الملفات المرفوعة في حلول تمارين كتاب المدرسي</h2>
-        <div id="first-year-textbook-solutions-files"></div>
-    </section>
-
+    <!-- قسم لعرض الملفات المرفوعة في فروض -->
     <section id="first-year-homework" class="file-list">
         <h2>الملفات المرفوعة في فروض</h2>
         <div id="first-year-homework-files"></div>
     </section>
 
-    <section id="first-year-exams" class="file-list">
-        <h2>الملفات المرفوعة في اختبارات</h2>
-        <div id="first-year-exams-files"></div>
-    </section>
+    <!-- أقسام أخرى بنفس الطريقة -->
 
     <footer>
         <div class="footer-content">
@@ -139,6 +106,7 @@
             const token = localStorage.getItem('github-token');
             if (!token) {
                 alert('يرجى تسجيل الدخول أولاً.');
+                window.location.href = 'login.html'; // إعادة توجيه إلى صفحة تسجيل الدخول
                 return;
             }
 
@@ -181,7 +149,7 @@
         window.onload = () => {
             const token = localStorage.getItem('github-token');
             if (token) {
-                loadFiles('first-year-monthly-grades'); // تحميل ملفات التدرجات الشهرية تلقائيًا
+                loadFiles('first-year-homework'); // تحميل ملفات الفروض تلقائيًا
             }
         };
     </script>
