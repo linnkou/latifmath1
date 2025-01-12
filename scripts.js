@@ -29,6 +29,7 @@ if (loginButton) {
         window.location.href = 'login.html';
     });
 }
+
 // تفاعل البطاقات
 const testCards = document.querySelectorAll('.test-card');
 testCards.forEach(card => {
@@ -39,6 +40,7 @@ testCards.forEach(card => {
         card.style.transform = 'translateY(0)';
     });
 });
+
 // إظهار الاختبارات عند النقر على الزر
 document.getElementById('start-algebra-test')?.addEventListener('click', function (e) {
     e.preventDefault();
