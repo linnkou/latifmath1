@@ -1,8 +1,8 @@
 // دالة لرفع الملف إلى GitHub
-async function uploadFileToGitHub(file, fileName, year, section, token) {
+async function uploadFileToGitHub(file, fileName, year, fileType, token) {
     const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
     const repoName = 'latifmath1'; // اسم المستودع
-    const path = `${year}/${section}/${fileName}`; // المسار في المستودع
+    const path = `${year}/${fileType}/${fileName}`; // المسار في المستودع
 
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
 
@@ -83,7 +83,7 @@ document.getElementById('upload-form')?.addEventListener('submit', async functio
     e.preventDefault();
 
     const year = document.getElementById('year').value;
-    const section = document.getElementById('section').value;
+    const fileType = document.getElementById('file-type').value;
     const fileName = document.getElementById('file-name').value;
     const file = document.getElementById('file-upload').files[0];
     const token = document.getElementById('github-token').value; // الحصول على التوكن
@@ -107,7 +107,7 @@ document.getElementById('upload-form')?.addEventListener('submit', async functio
     message.textContent = 'جاري رفع الملف...';
 
     try {
-        const downloadUrl = await uploadFileToGitHub(file, fileName, year, section, token);
+        const downloadUrl = await uploadFileToGitHub(file, fileName, year, fileType, token);
         message.innerHTML = `تم رفع الملف بنجاح: <a href="${downloadUrl}" target="_blank">${fileName}</a>`;
         displayUploadedFiles(token); // تحديث قائمة الملفات بعد الرفع
     } catch (error) {
