@@ -102,26 +102,45 @@ document.getElementById('statisticsTestForm')?.addEventListener('submit', functi
     result.style.color = score === 2 ? 'green' : 'red';
 });
 
-// تفاعل البطاقات
-const testCards = document.querySelectorAll('.test-card');
-testCards.forEach(card => {
-    card.addEventListener('mouseenter', () => {
-        card.style.transform = 'translateY(-10px)';
-    });
-    card.addEventListener('mouseleave', () => {
-        card.style.transform = 'translateY(0)';
-    });
+// تفاعل اختبارات الذكاء
+document.getElementById('focus-game')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const answer = document.getElementById('focus-answer').value;
+    const result = document.getElementById('focus-result');
+    if (answer.toLowerCase() === 'التركيز') {
+        result.textContent = 'إجابة صحيحة!';
+        result.style.color = 'green';
+    } else {
+        result.textContent = 'إجابة خاطئة!';
+        result.style.color = 'red';
+    }
 });
 
-// إظهار أو إخفاء قائمة المواد
-function toggleSubjects(levelId) {
-    const subjects = document.getElementById(levelId);
-    if (subjects.style.display === "none" || subjects.style.display === "") {
-        subjects.style.display = "block";
+document.getElementById('math-puzzles')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const answer = document.getElementById('answer').value;
+    const result = document.getElementById('result');
+    if (answer === '5') {
+        result.textContent = 'إجابة صحيحة!';
+        result.style.color = 'green';
     } else {
-        subjects.style.display = "none";
+        result.textContent = 'إجابة خاطئة!';
+        result.style.color = 'red';
     }
-}
+});
+
+document.getElementById('number-game')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const answer = document.getElementById('number-answer').value;
+    const result = document.getElementById('number-result');
+    if (answer === '7') {
+        result.textContent = 'إجابة صحيحة!';
+        result.style.color = 'green';
+    } else {
+        result.textContent = 'إجابة خاطئة!';
+        result.style.color = 'red';
+    }
+});
 
 // دالة لرفع الملف إلى GitHub
 async function uploadFileToGitHub(file, fileName, year, fileType, token) {
