@@ -3,27 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>السنة أولى متوسط</title>
+    <title>السنة أولى متوسط - فروض</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .file-list {
-            display: none;
-            margin-top: 20px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .file-list a {
-            display: block;
-            margin: 5px 0;
-            color: #003366;
-            text-decoration: none;
-        }
-        .file-list a:hover {
-            color: #ffcc00;
-        }
-    </style>
 </head>
 <body>
     <header>
@@ -42,17 +23,14 @@
         </nav>
     </header>
 
-    <div class="button-container">
-        <a href="#" class="button" style="background-color: #66ccff;" onclick="toggleFiles('first-year-homework')">
-            <i class="fas fa-file-alt"></i> فروض
-        </a>
+    <div class="content">
+        <h2>فروض السنة أولى متوسط</h2>
+        <ul>
+            <li><a href="homework/test1.pdf" target="_blank">فرض رقم 1</a></li>
+            <li><a href="homework/test2.pdf" target="_blank">فرض رقم 2</a></li>
+            <li><a href="homework/test3.pdf" target="_blank">فرض رقم 3</a></li>
+        </ul>
     </div>
-
-    <!-- قسم لعرض الملفات المرفوعة في فروض -->
-    <section id="first-year-homework" class="file-list">
-        <h2>الملفات المرفوعة في فروض</h2>
-        <div id="first-year-homework-files"></div>
-    </section>
 
     <footer>
         <div class="footer-content">
@@ -65,50 +43,6 @@
         </div>
     </footer>
 
-    <script>
-        // دالة لإظهار أو إخفاء قائمة الملفات
-        function toggleFiles(sectionId) {
-            const fileList = document.getElementById(sectionId);
-            if (fileList.style.display === "none" || fileList.style.display === "") {
-                fileList.style.display = "block";
-                loadFiles(sectionId); // تحميل الملفات عند العرض
-            } else {
-                fileList.style.display = "none";
-            }
-        }
-
-        // دالة لتحميل الملفات من GitHub
-        async function loadFiles(sectionId) {
-            const filesContainer = document.getElementById(`${sectionId}-files`);
-            filesContainer.innerHTML = 'جاري تحميل الملفات...';
-
-            try {
-                const files = await fetchUploadedFiles();
-                const filteredFiles = files.filter(file => file.path.includes(sectionId));
-                filesContainer.innerHTML = filteredFiles.map(file => `
-                    <a href="${file.download_url}" target="_blank">${file.name}</a>
-                `).join('');
-            } catch (error) {
-                filesContainer.innerHTML = 'حدث خطأ أثناء جلب الملفات: ' + error.message;
-            }
-        }
-
-        // دالة لجلب الملفات المرفوعة من GitHub
-        async function fetchUploadedFiles() {
-            const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
-            const repoName = 'latifmath1'; // اسم المستودع
-
-            const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/first-year/homework`;
-
-            const response = await fetch(url);
-
-            if (!response.ok) {
-                throw new Error(`خطأ في جلب الملفات: ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            return data;
-        }
-    </script>
+    <script src="scripts.js"></script>
 </body>
 </html>
