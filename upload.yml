@@ -1,0 +1,32 @@
+name: Upload File
+
+on:
+  workflow_dispatch:  # تشغيل يدوي
+  push:
+    branches:
+      - main  # تشغيل تلقائي عند push إلى فرع main
+
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      # الخطوة 1: تنزيل الكود من المستودع
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # الخطوة 2: إعداد Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      # الخطوة 3: تثبيت dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # الخطوة 4: تشغيل الكود الخاص برفع الملفات
+      - name: Run upload script
+        env:
+          GITHUB_TOKEN: ${{ secrets.EASYMATH }}  # استخدام السر
+        run: node upload.js
