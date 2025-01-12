@@ -79,20 +79,23 @@ async function displayUploadedFiles(token) {
 
 // دالة رئيسية لتشغيل البرنامج
 async function main() {
-    const token = process.env.GITHUB_TOKEN || 'YOUR_GITHUB_TOKEN'; // استبدل هذا بالتوكن الخاص بك
-    const filePath = './example.txt'; // المسار إلى الملف الذي تريد رفعه
-    const fileName = path.basename(filePath); // اسم الملف
-    const year = 'first-year'; // المستوى الدراسي
-    const fileType = 'lesson-notes'; // نوع الملف
+    const token = process.env.GITHUB_TOKEN || process.env.EASYMATH; // قراءة التوكن من متغير البيئة
 
     if (!token) {
         console.error('لم يتم توفير GitHub Token.');
-        return;
+        console.error('يرجى تعيين التوكن باستخدام السر EASYMATH في GitHub Secrets.');
+        process.exit(1); // إنهاء البرنامج
     }
+
+    // تحديد الملفات المطلوب رفعها
+    const filePath = './05-01-وضعية-الانطلاق-..pdf'; // المسار إلى الملف
+    const fileName = path.basename(filePath); // اسم الملف
+    const year = 'first-year'; // المستوى الدراسي
+    const fileType = 'monthly-grades'; // نوع الملف
 
     if (!fs.existsSync(filePath)) {
         console.error('الملف غير موجود:', filePath);
-        return;
+        process.exit(1); // إنهاء البرنامج
     }
 
     try {
@@ -104,6 +107,7 @@ async function main() {
         await displayUploadedFiles(token);
     } catch (error) {
         console.error('حدث خطأ أثناء رفع الملف:', error.message);
+        process.exit(1); // إنهاء البرنامج
     }
 }
 
