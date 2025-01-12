@@ -1,4 +1,4 @@
-name: Upload Files
+name: Upload File
 
 on:
   workflow_dispatch:  # تشغيل يدوي
@@ -25,14 +25,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # الخطوة 4: إنشاء مجلد uploads ونسخ الملفات إليه
-      - name: Prepare uploads folder
-        run: |
-          mkdir -p uploads
-          cp -r path/to/your/files/* uploads/  # نسخ الملفات إلى مجلد uploads
-
-      # الخطوة 5: تشغيل الكود الخاص برفع الملفات
+      # الخطوة 4: تشغيل الكود الخاص برفع الملفات
       - name: Run upload script
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # استخدام التوكن التلقائي
+          GITHUB_TOKEN: ${{ secrets.EASYMATH }}  # استخدام السر
         run: node upload.js
