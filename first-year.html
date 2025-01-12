@@ -84,7 +84,7 @@
     </div>
 
     <!-- قسم عرض الملفات -->
-    <section id="files-section">
+    <section id="files-section" style="display: none;">
         <h2>الملفات المرفوعة</h2>
         <div id="files-list">
             <!-- سيتم عرض الملفات هنا تلقائيًا -->
@@ -176,10 +176,11 @@
             }
         }
 
-        // دالة للتبديل بين أنواع الملفات
+        // دالة للتبديل بين أنواع الملفات وإظهار قسم الملفات
         function showFiles(fileType) {
             currentFileType = fileType;
             currentPage = 1;
+            document.getElementById('files-section').style.display = 'block'; // إظهار قسم الملفات
             displayFiles(fileType, currentPage);
         }
 
