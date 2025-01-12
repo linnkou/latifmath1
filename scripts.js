@@ -121,11 +121,6 @@ document.getElementById('upload-form')?.addEventListener('submit', async functio
     const fileName = document.getElementById('file-name').value;
     const file = document.getElementById('file-upload').files[0];
 
-    console.log("السنة:", year); // تحقق من قيمة السنة
-    console.log("القسم:", section); // تحقق من قيمة القسم
-    console.log("اسم الملف:", fileName); // تحقق من اسم الملف
-    console.log("الملف:", file); // تحقق من الملف
-
     if (!file) {
         alert('يرجى اختيار ملف.');
         return;
@@ -141,16 +136,14 @@ document.getElementById('upload-form')?.addEventListener('submit', async functio
 
     try {
         const downloadUrl = await uploadFileToGitHub(file, fileName, year, section);
-        console.log("تم رفع الملف بنجاح:", downloadUrl); // تحقق من رابط التحميل
         message.innerHTML = `تم رفع الملف بنجاح: <a href="${downloadUrl}" target="_blank">${fileName}</a>`;
     } catch (error) {
-        console.error("حدث خطأ أثناء رفع الملف:", error); // تحقق من الخطأ
         message.textContent = 'حدث خطأ أثناء رفع الملف: ' + error.message;
     }
 });
 
 async function uploadFileToGitHub(file, fileName, year, section) {
-    const token = '${{ secrets.EASYMATH }}'; // استخدام متغير البيئة
+    const token = process.env.GITHUB_TOKEN; // استخدام متغير البيئة
     const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
     const repoName = 'latifmath1'; // اسم المستودع
     const path = `${year}/${section}/${fileName}`; // المسار في المستودع
