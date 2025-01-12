@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            padding: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        #message {
+            margin-top: 20px;
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <h1>تسجيل الدخول</h1>
+
+    <form id="login-form">
+        <label for="github-token">GitHub Token:</label>
+        <input type="text" id="github-token" name="github-token" required>
+
+        <button type="submit">تسجيل الدخول</button>
+    </form>
+
+    <div id="message"></div>
+
+    <script>
+        // معالجة تسجيل الدخول
+        document.getElementById('login-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const token = document.getElementById('github-token').value;
+
+            if (!token) {
+                alert('يرجى إدخال GitHub Token.');
+                return;
+            }
+
+            // حفظ التوكن في localStorage
+            localStorage.setItem('github-token', token);
+
+            // عرض رسالة نجاح
+            document.getElementById('message').textContent = 'تم تسجيل الدخول بنجاح!';
+
+            // إعادة توجيه المستخدم إلى الصفحة الرئيسية بعد ثانيتين
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
