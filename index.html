@@ -5,11 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الرئيسية - الرياضيات السهلة</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        .test-section {
-            display: none;
-        }
-    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
@@ -23,7 +19,7 @@
             <a href="second-year.html">السنة ثانية متوسط</a>
             <a href="third-year.html">السنة ثالثة متوسط</a>
             <a href="fourth-year.html">السنة رابعة متوسط</a>
-            <a href="iq-tests.html" style="background-color: #cc66ff;">اختبر ذكاءك</a> <!-- زر جديد -->
+            <a href="iq-tests.html" style="background-color: #cc66ff;">اختبر ذكاءك</a>
             <a href="teacher-documents.html">وثائق الأستاذ</a>
             <a href="upload-files.html">رفع الملفات</a>
             <a href="login.html" class="login-button">تسجيل الدخول</a>
@@ -143,15 +139,5 @@
     </footer>
 
     <script src="scripts.js"></script>
-    <script>
-        // التحقق من تسجيل الدخول عند تحميل الصفحة
-        window.onload = () => {
-            const token = localStorage.getItem('github-token');
-            if (!token) {
-                alert('يرجى تسجيل الدخول أولاً.');
-                window.location.href = 'login.html'; // إعادة توجيه إلى صفحة تسجيل الدخول
-            }
-        };
-    </script>
 </body>
 </html>
