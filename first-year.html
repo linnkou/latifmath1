@@ -101,18 +101,11 @@
 
         // دالة لتحميل الملفات من GitHub
         async function loadFiles(sectionId) {
-            const token = localStorage.getItem('github-token');
-            if (!token) {
-                alert('يرجى تسجيل الدخول أولاً.');
-                window.location.href = 'login.html'; // إعادة توجيه إلى صفحة تسجيل الدخول
-                return;
-            }
-
             const filesContainer = document.getElementById(`${sectionId}-files`);
             filesContainer.innerHTML = 'جاري تحميل الملفات...';
 
             try {
-                const files = await fetchUploadedFiles(token);
+                const files = await fetchUploadedFiles();
                 const filteredFiles = files.filter(file => file.path.includes(sectionId));
                 filesContainer.innerHTML = filteredFiles.map(file => `
                     <a href="${file.download_url}" target="_blank">${file.name}</a>
@@ -123,17 +116,13 @@
         }
 
         // دالة لجلب الملفات المرفوعة من GitHub
-        async function fetchUploadedFiles(token) {
+        async function fetchUploadedFiles() {
             const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
             const repoName = 'latifmath1'; // اسم المستودع
 
             const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/first-year/homework`;
 
-            const response = await fetch(url, {
-                headers: {
-                    'Authorization': `token ${token}`
-                }
-            });
+            const response = await fetch(url);
 
             if (!response.ok) {
                 throw new Error(`خطأ في جلب الملفات: ${response.statusText}`);
@@ -145,10 +134,7 @@
 
         // تحميل الملفات عند فتح الصفحة
         window.onload = () => {
-            const token = localStorage.getItem('github-token');
-            if (token) {
-                loadFiles('first-year-homework'); // تحميل ملفات الفروض تلقائيًا
-            }
+            loadFiles('first-year-homework'); // تحميل ملفات الفروض تلقائيًا
         };
     </script>
 </body>
