@@ -437,6 +437,34 @@ footer {
     color: #ffcc00;
 }
 
+/* تنسيقات خاصة لعرض الملفات المرفوعة */
+.file-list {
+    margin: 40px 0;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 2s ease-in-out;
+}
+
+.file-list h2 {
+    font-size: 1.8em;
+    color: #003366;
+    margin-bottom: 20px;
+}
+
+.file-list a {
+    display: block;
+    margin: 10px 0;
+    color: #003366;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.file-list a:hover {
+    color: #ffcc00;
+}
+
 /* تنسيق الهاتف المحمول */
 @media (max-width: 768px) {
     .button-container {
