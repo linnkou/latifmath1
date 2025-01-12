@@ -26,9 +26,9 @@
     <main>
         <section>
             <h2>فروض السنة أولى متوسط</h2>
-            <ul>
+            <ul id="homework-list">
+                <!-- سيتم إضافة الفروض المرفوعة هنا تلقائيًا -->
                 <li><a href="first-year/homework/test554.pdf" target="_blank">فرض 554</a></li>
-                <!-- يمكنك إضافة فروض إضافية هنا -->
             </ul>
         </section>
     </main>
@@ -44,6 +44,57 @@
         </div>
     </footer>
 
-    <script src="scripts.js"></script>
+    <script>
+        // دالة لجلب الملفات المرفوعة من GitHub
+        async function fetchUploadedFiles(token) {
+            const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
+            const repoName = 'latifmath1'; // اسم المستودع
+            const path = 'first-year/homework'; // المسار إلى الفروض في السنة أولى متوسط
+
+            const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
+
+            const response = await fetch(url, {
+                headers: {
+                    'Authorization': `token ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`خطأ في جلب الملفات: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            return data;
+        }
+
+        // دالة لعرض الفروض المرفوعة
+        async function displayHomework() {
+            const homeworkList = document.getElementById('homework-list');
+            const token = localStorage.getItem('github-token');
+
+            if (!token) {
+                homeworkList.innerHTML = '<li>يرجى تسجيل الدخول لعرض الفروض.</li>';
+                return;
+            }
+
+            try {
+                const files = await fetchUploadedFiles(token);
+                if (files.length === 0) {
+                    homeworkList.innerHTML = '<li>لا توجد فروض مرفوعة بعد.</li>';
+                } else {
+                    homeworkList.innerHTML = files.map(file => `
+                        <li><a href="${file.download_url}" target="_blank">${file.name}</a></li>
+                    `).join('');
+                }
+            } catch (error) {
+                homeworkList.innerHTML = `<li>حدث خطأ أثناء جلب الفروض: ${error.message}</li>`;
+            }
+        }
+
+        // عرض الفروض عند تحميل الصفحة
+        window.onload = () => {
+            displayHomework();
+        };
+    </script>
 </body>
 </html>
