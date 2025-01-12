@@ -9,6 +9,23 @@
         .test-section {
             display: none;
         }
+        .file-list {
+            display: none;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .file-list a {
+            display: block;
+            margin: 5px 0;
+            color: #003366;
+            text-decoration: none;
+        }
+        .file-list a:hover {
+            color: #ffcc00;
+        }
     </style>
 </head>
 <body>
@@ -29,7 +46,9 @@
     </header>
 
     <div class="button-container">
-        <a href="#" class="button" style="background-color: #ff6666;"><i class="fas fa-calendar-alt"></i> التدرجات الشهرية و السنوية</a>
+        <a href="#" class="button" style="background-color: #ff6666;" onclick="toggleFiles('monthly-grades')">
+            <i class="fas fa-calendar-alt"></i> التدرجات الشهرية و السنوية
+        </a>
         <a href="#" class="button" style="background-color: #66cc66;"><i class="fas fa-puzzle-piece"></i> نماذج تقويم تشخيصي</a>
         <a href="#" class="button" style="background-color: #66ccff;"><i class="fas fa-chalkboard-teacher"></i> وضعيات (إنطلاق - إدماج - تقويم)</a>
         <a href="#" class="button" style="background-color: #ffcc33;"><i class="fas fa-book"></i> مذكرات دروس</a>
@@ -38,6 +57,12 @@
         <a href="#" class="button" style="background-color: #66ccff;"><i class="fas fa-file-alt"></i> فروض</a>
         <a href="#" class="button" style="background-color: #66ff66;"><i class="fas fa-check-circle"></i> اختبارات</a>
     </div>
+
+    <!-- قسم لعرض الملفات المرفوعة -->
+    <section id="monthly-grades" class="file-list">
+        <h2>الملفات المرفوعة في التدرجات الشهرية</h2>
+        <div id="monthly-grades-files"></div>
+    </section>
 
     <!-- مقاطع الفيديو التعليمية -->
     <section class="video-section">
@@ -121,5 +146,60 @@
     </footer>
 
     <script src="scripts.js"></script>
+    <script>
+        // دالة لإظهار أو إخفاء قائمة الملفات
+        function toggleFiles(sectionId) {
+            const fileList = document.getElementById(sectionId);
+            if (fileList.style.display === "none" || fileList.style.display === "") {
+                fileList.style.display = "block";
+                loadFiles(sectionId); // تحميل الملفات عند العرض
+            } else {
+                fileList.style.display = "none";
+            }
+        }
+
+        // دالة لتحميل الملفات من GitHub
+        async function loadFiles(sectionId) {
+            const token = localStorage.getItem('github-token');
+            if (!token) {
+                alert('يرجى تسجيل الدخول أولاً.');
+                return;
+            }
+
+            const filesContainer = document.getElementById(`${sectionId}-files`);
+            filesContainer.innerHTML = 'جاري تحميل الملفات...';
+
+            try {
+                const files = await fetchUploadedFiles(token);
+                const filteredFiles = files.filter(file => file.path.includes(sectionId));
+                filesContainer.innerHTML = filteredFiles.map(file => `
+                    <a href="${file.download_url}" target="_blank">${file.name}</a>
+                `).join('');
+            } catch (error) {
+                filesContainer.innerHTML = 'حدث خطأ أثناء جلب الملفات: ' + error.message;
+            }
+        }
+
+        // دالة لجلب الملفات المرفوعة من GitHub
+        async function fetchUploadedFiles(token) {
+            const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
+            const repoName = 'latifmath1'; // اسم المستودع
+
+            const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
+
+            const response = await fetch(url, {
+                headers: {
+                    'Authorization': `token ${token}`
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error(`خطأ في جلب الملفات: ${response.statusText}`);
+            }
+
+            const data = await response.json();
+            return data;
+        }
+    </script>
 </body>
 </html>
