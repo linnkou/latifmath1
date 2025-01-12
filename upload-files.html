@@ -173,9 +173,6 @@
             <label for="file-upload">اختر ملف (الحد الأقصى: 25 ميجابايت):</label>
             <input type="file" id="file-upload" name="file-upload" required>
 
-            <label for="github-token">GitHub Token:</label>
-            <input type="text" id="github-token" name="github-token" required>
-
             <button type="submit">رفع الملف</button>
         </form>
 
@@ -186,9 +183,12 @@
         <div class="pagination" id="pagination"></div>
     </div>
 
+    <!-- استدعاء ملف config.js الذي يحتوي على التوكن -->
+    <script src="config.js"></script>
+
     <script>
         // دالة لرفع الملف إلى GitHub
-        async function uploadFileToGitHub(file, fileName, year, fileType, token) {
+        async function uploadFileToGitHub(file, fileName, year, fileType) {
             const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
             const repoName = 'latifmath1'; // اسم المستودع
             const path = `${year}/${fileType}/${fileName}`; // المسار في المستودع
@@ -200,7 +200,7 @@
             const response = await fetch(url, {
                 method: 'PUT',
                 headers: {
-                    'Authorization': `token ${token}`,
+                    'Authorization': `token ${GITHUB_TOKEN}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
@@ -230,7 +230,7 @@
         }
 
         // دالة لجلب الملفات المرفوعة من GitHub
-        async function fetchUploadedFiles(token) {
+        async function fetchUploadedFiles() {
             const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
             const repoName = 'latifmath1'; // اسم المستودع
 
@@ -238,7 +238,7 @@
 
             const response = await fetch(url, {
                 headers: {
-                    'Authorization': `token ${token}`
+                    'Authorization': `token ${GITHUB_TOKEN}`
                 }
             });
 
@@ -251,12 +251,12 @@
         }
 
         // دالة لعرض الملفات المرفوعة
-        async function displayUploadedFiles(token) {
+        async function displayUploadedFiles() {
             const filesList = document.getElementById('files-list');
             filesList.innerHTML = 'جاري تحميل الملفات...';
 
             try {
-                const files = await fetchUploadedFiles(token);
+                const files = await fetchUploadedFiles();
                 filesList.innerHTML = files.map(file => `
                     <div class="file-item">
                         <a href="${file.download_url}" target="_blank">${file.name}</a>
@@ -275,7 +275,6 @@
             const fileType = document.getElementById('file-type').value;
             const fileName = document.getElementById('file-name').value;
             const file = document.getElementById('file-upload').files[0];
-            const token = document.getElementById('github-token').value;
 
             if (!file) {
                 alert('يرجى اختيار ملف.');
@@ -284,11 +283,6 @@
 
             if (!fileName) {
                 alert('يرجى إدخال اسم الملف.');
-                return;
-            }
-
-            if (!token) {
-                alert('يرجى إدخال GitHub Token.');
                 return;
             }
 
@@ -301,22 +295,18 @@
             message.textContent = 'جاري رفع الملف...';
 
             try {
-                const downloadUrl = await uploadFileToGitHub(file, fileName, year, fileType, token);
+                const downloadUrl = await uploadFileToGitHub(file, fileName, year, fileType);
                 message.innerHTML = `تم رفع الملف بنجاح: <a href="${downloadUrl}" target="_blank">${fileName}</a>`;
-                displayUploadedFiles(token); // تحديث قائمة الملفات بعد الرفع
+                displayUploadedFiles(); // تحديث قائمة الملفات بعد الرفع
             } catch (error) {
                 console.error(error);
                 message.textContent = 'حدث خطأ أثناء رفع الملف: ' + error.message;
             }
         });
 
-        // عرض الملفات عند تحميل الصفحة (إذا كان التوكن مخزنًا في localStorage)
+        // عرض الملفات عند تحميل الصفحة
         window.onload = () => {
-            const token = localStorage.getItem('github-token');
-            if (token) {
-                document.getElementById('github-token').value = token;
-                displayUploadedFiles(token);
-            }
+            displayUploadedFiles();
         };
     </script>
 </body>
