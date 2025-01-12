@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لعبة الألغاز الرياضية</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h1>لعبة الألغاز الرياضية</h1>
-    <p>ما هو العدد الذي إذا ضربته في نفسه يكون الناتج 25؟</p>
-    <input type="text" id="answer" placeholder="أدخل الإجابة">
-    <button onclick="checkAnswer()">تحقق</button>
-    <p id="result"></p>
-    <script src="math-puzzles.js"></script>
-</body>
-</html>
+// math-puzzles.js
+function checkAnswer() {
+    const answer = document.getElementById('answer').value;
+    const result = document.getElementById('result');
+
+    if (answer === '5' || answer === '-5') {
+        result.textContent = 'إجابة صحيحة!';
+        result.style.color = 'green';
+    } else {
+        result.textContent = 'إجابة خاطئة، حاول مرة أخرى.';
+        result.style.color = 'red';
+    }
+}
