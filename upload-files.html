@@ -4,73 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>رفع الملفات</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
     <style>
-        /* الخطوط */
-        @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap');
-
-        /* الأساسيات */
         body {
             font-family: 'Tajawal', sans-serif;
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
             direction: rtl;
-            color: #333;
-        }
-
-        header {
-            background-color: #003366;
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .main-title h1 {
-            font-size: 2.5em;
-            margin: 0;
             text-align: center;
         }
 
-        nav {
-            display: flex;
-            justify-content: center;
-            background-color: #002244;
-            padding: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 15px;
-            font-size: 1.1em;
-            transition: color 0.3s ease;
-        }
-
-        nav a.active {
-            font-weight: bold;
-            border-bottom: 2px solid #ffcc00;
-        }
-
-        nav a:hover {
-            color: #ffcc00;
-        }
-
-        nav .login-button {
-            background-color: #ffcc00;
-            color: #003366;
-            padding: 5px 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-
-        nav .login-button:hover {
-            background-color: #003366;
-            color: #ffcc00;
-        }
-
-        /* تنسيقات الصفحة الرئيسية */
         .upload-section {
             max-width: 800px;
             margin: 50px auto;
@@ -78,7 +22,6 @@
             background: white;
             border-radius: 10px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            text-align: center;
         }
 
         .upload-section h1 {
@@ -179,21 +122,6 @@
             background-color: #ffcc00;
             color: #003366;
         }
-
-        /* تنسيقات للهاتف المحمول */
-        @media (max-width: 768px) {
-            .upload-section {
-                padding: 15px;
-            }
-
-            .upload-section h1 {
-                font-size: 1.8em;
-            }
-
-            .upload-section button {
-                width: 100%;
-            }
-        }
     </style>
 </head>
 <body>
@@ -245,6 +173,9 @@
             <label for="file-upload">اختر ملف (الحد الأقصى: 25 ميجابايت):</label>
             <input type="file" id="file-upload" name="file-upload" required>
 
+            <label for="github-token">GitHub Token:</label>
+            <input type="text" id="github-token" name="github-token" required>
+
             <button type="submit">رفع الملف</button>
         </form>
 
@@ -256,54 +187,11 @@
     </div>
 
     <script>
-        // دالة لتحديث خيارات نوع الملف بناءً على المستوى الدراسي
-        function updateFileTypeOptions() {
-            const yearSelect = document.getElementById('year');
-            const fileTypeSelect = document.getElementById('file-type');
-            const selectedYear = yearSelect.value;
-
-            // إخفاء أو إظهار الخيارات بناءً على المستوى الدراسي
-            if (selectedYear === 'teacher-documents') {
-                // إذا تم اختيار "وثائق الأستاذ"، نعرض فقط خيار "وثائق الأستاذ" في نوع الملف
-                Array.from(fileTypeSelect.options).forEach(option => {
-                    if (option.value === 'teacher-documents') {
-                        option.hidden = false;
-                    } else {
-                        option.hidden = true;
-                    }
-                });
-                fileTypeSelect.value = 'teacher-documents'; // تحديد خيار وثائق الأستاذ تلقائيًا
-            } else {
-                // إذا تم اختيار أي سنة دراسية، نخفي خيار "وثائق الأستاذ" في نوع الملف
-                Array.from(fileTypeSelect.options).forEach(option => {
-                    if (option.value === 'teacher-documents') {
-                        option.hidden = true;
-                    } else {
-                        option.hidden = false;
-                    }
-                });
-                fileTypeSelect.value = 'monthly-grades'; // تحديد خيار افتراضي
-            }
-        }
-
-        // تحديث الخيارات عند تغيير المستوى الدراسي
-        document.getElementById('year').addEventListener('change', updateFileTypeOptions);
-
-        // تحديث الخيارات عند تحميل الصفحة
-        document.addEventListener('DOMContentLoaded', updateFileTypeOptions);
-
         // دالة لرفع الملف إلى GitHub
         async function uploadFileToGitHub(file, fileName, year, fileType, token) {
             const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
             const repoName = 'latifmath1'; // اسم المستودع
-
-            // تحديد المسار بناءً على نوع الملف
-            let path;
-            if (fileType === 'teacher-documents') {
-                path = `teacher-documents/${fileName}`; // مسار وثائق الأستاذ
-            } else {
-                path = `${year}/${fileType}/${fileName}`; // مسار الملفات العادية
-            }
+            const path = `${year}/${fileType}/${fileName}`; // المسار في المستودع
 
             const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
 
@@ -322,7 +210,7 @@
             });
 
             if (!response.ok) {
-                const errorData = await response.json(); // تحقق من استجابة API
+                const errorData = await response.json();
                 console.error('تفاصيل الخطأ:', errorData);
                 throw new Error(`خطأ في الرفع: ${response.statusText}`);
             }
@@ -380,14 +268,14 @@
         }
 
         // معالجة رفع الملفات
-        document.getElementById('upload-form')?.addEventListener('submit', async function (e) {
+        document.getElementById('upload-form').addEventListener('submit', async function (e) {
             e.preventDefault();
 
             const year = document.getElementById('year').value;
             const fileType = document.getElementById('file-type').value;
             const fileName = document.getElementById('file-name').value;
             const file = document.getElementById('file-upload').files[0];
-            const token = document.getElementById('github-token').value; // الحصول على التوكن
+            const token = document.getElementById('github-token').value;
 
             if (!file) {
                 alert('يرجى اختيار ملف.');
@@ -404,6 +292,11 @@
                 return;
             }
 
+            if (file.size > 25 * 1024 * 1024) { // 25 ميجابايت
+                alert('الحد الأقصى لحجم الملف هو 25 ميجابايت.');
+                return;
+            }
+
             const message = document.getElementById('message');
             message.textContent = 'جاري رفع الملف...';
 
@@ -412,7 +305,7 @@
                 message.innerHTML = `تم رفع الملف بنجاح: <a href="${downloadUrl}" target="_blank">${fileName}</a>`;
                 displayUploadedFiles(token); // تحديث قائمة الملفات بعد الرفع
             } catch (error) {
-                console.error(error); // عرض تفاصيل الخطأ في الكونسول
+                console.error(error);
                 message.textContent = 'حدث خطأ أثناء رفع الملف: ' + error.message;
             }
         });
