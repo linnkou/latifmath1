@@ -223,7 +223,7 @@
                 <option value="second-year">الثانية متوسط</option>
                 <option value="third-year">الثالثة متوسط</option>
                 <option value="fourth-year">الرابعة متوسط</option>
-                <option value="teacher-documents">وثائق الأستاذ</option> <!-- إضافة خيار وثائق الأستاذ -->
+                <option value="teacher-documents">وثائق الأستاذ</option>
             </select>
 
             <label for="file-type">نوع الملف:</label>
@@ -236,7 +236,7 @@
                 <option value="textbook-solutions">حلول تمارين كتاب المدرسي</option>
                 <option value="homework">فروض</option>
                 <option value="exams">اختبارات</option>
-                <option value="teacher-documents">وثائق الأستاذ</option> <!-- إضافة خيار وثائق الأستاذ -->
+                <option value="teacher-documents">وثائق الأستاذ</option>
             </select>
 
             <label for="file-name">اسم الملف:</label>
@@ -256,11 +256,54 @@
     </div>
 
     <script>
+        // دالة لتحديث خيارات نوع الملف بناءً على المستوى الدراسي
+        function updateFileTypeOptions() {
+            const yearSelect = document.getElementById('year');
+            const fileTypeSelect = document.getElementById('file-type');
+            const selectedYear = yearSelect.value;
+
+            // إخفاء أو إظهار الخيارات بناءً على المستوى الدراسي
+            if (selectedYear === 'teacher-documents') {
+                // إذا تم اختيار "وثائق الأستاذ"، نعرض فقط خيار "وثائق الأستاذ" في نوع الملف
+                Array.from(fileTypeSelect.options).forEach(option => {
+                    if (option.value === 'teacher-documents') {
+                        option.hidden = false;
+                    } else {
+                        option.hidden = true;
+                    }
+                });
+                fileTypeSelect.value = 'teacher-documents'; // تحديد خيار وثائق الأستاذ تلقائيًا
+            } else {
+                // إذا تم اختيار أي سنة دراسية، نخفي خيار "وثائق الأستاذ" في نوع الملف
+                Array.from(fileTypeSelect.options).forEach(option => {
+                    if (option.value === 'teacher-documents') {
+                        option.hidden = true;
+                    } else {
+                        option.hidden = false;
+                    }
+                });
+                fileTypeSelect.value = 'monthly-grades'; // تحديد خيار افتراضي
+            }
+        }
+
+        // تحديث الخيارات عند تغيير المستوى الدراسي
+        document.getElementById('year').addEventListener('change', updateFileTypeOptions);
+
+        // تحديث الخيارات عند تحميل الصفحة
+        document.addEventListener('DOMContentLoaded', updateFileTypeOptions);
+
         // دالة لرفع الملف إلى GitHub
         async function uploadFileToGitHub(file, fileName, year, fileType, token) {
             const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
             const repoName = 'latifmath1'; // اسم المستودع
-            const path = `${year}/${fileType}/${fileName}`; // المسار في المستودع
+
+            // تحديد المسار بناءً على نوع الملف
+            let path;
+            if (fileType === 'teacher-documents') {
+                path = `teacher-documents/${fileName}`; // مسار وثائق الأستاذ
+            } else {
+                path = `${year}/${fileType}/${fileName}`; // مسار الملفات العادية
+            }
 
             const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
 
