@@ -3,83 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رفع الملفات</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>رفع الملفات إلى GitHub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            padding: 20px;
+        }
+        label {
+            display: block;
+            margin-top: 10px;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+        }
+        #message {
+            margin-top: 20px;
+            color: green;
+        }
+        #files-list {
+            margin-top: 20px;
+        }
+        .file-item {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <div class="main-title">
-            <h1>رفع الملفات</h1>
-        </div>
-        <nav>
-            <a href="index.html">الرئيسية</a>
-            <a href="upload-files.html" class="active">رفع الملفات</a>
-            <a href="login.html" class="login-button">تسجيل الدخول</a>
-        </nav>
-    </header>
+    <h1>رفع الملفات إلى GitHub</h1>
 
-    <div class="upload-section">
-        <h2>رفع الملفات حسب المستوى</h2>
+    <form id="upload-form">
+        <label for="year">السنة:</label>
+        <select id="year" name="year">
+            <option value="first_year">الأولى متوسط</option>
+            <option value="second_year">الثانية متوسط</option>
+            <option value="third_year">الثالثة متوسط</option>
+            <option value="fourth_year">الرابعة متوسط</option>
+        </select>
 
-        <!-- اختيار السنة -->
-        <div class="form-group">
-            <label for="year">السنة:</label>
-            <select id="year">
-                <option value="first-year">الأولى متوسط</option>
-                <option value="second-year">الثانية متوسط</option>
-                <option value="third-year">الثالثة متوسط</option>
-                <option value="fourth-year">الرابعة متوسط</option>
-            </select>
-        </div>
+        <label for="section">القسم:</label>
+        <select id="section" name="section">
+            <option value="monthly_grades">التدرجات الشهرية</option>
+            <option value="annual_grades">التدرجات السنوية</option>
+        </select>
 
-        <!-- اختيار القسم -->
-        <div class="form-group">
-            <label for="section">القسم:</label>
-            <select id="section">
-                <option value="grading">التدرجات الشهرية و السنوية</option>
-                <option value="diagnostic">نماذج تقويم تشخيصي</option>
-                <option value="situations">وضعيات (إنطلاق - إدماج - تقويم)</option>
-                <option value="lessons">مذكرات دروس</option>
-                <option value="guided-work">مذكرات أعمال موجهة</option>
-                <option value="exercises">حلول تمارين كتاب المدرسي</option>
-                <option value="homework">فروض</option>
-                <option value="exams">اختبارات</option>
-                <option value="certificates">شهادات التعليم المتوسط</option>
-            </select>
-        </div>
+        <label for="file-name">اسم الملف:</label>
+        <input type="text" id="file-name" name="file-name" required>
 
-        <!-- إدخال اسم الملف -->
-        <div class="form-group">
-            <label for="file-name">اسم الملف:</label>
-            <input type="text" id="file-name" placeholder="أدخل اسم الملف">
-        </div>
+        <label for="file-upload">اختر ملف:</label>
+        <input type="file" id="file-upload" name="file-upload" required>
 
-        <!-- زر رفع الملف -->
-        <div class="form-group">
-            <input type="file" id="file-upload" accept=".pdf,.doc,.docx">
-        </div>
+        <button type="submit">رفع الملف</button>
+    </form>
 
-        <!-- زر "تم" -->
-        <button id="upload-button">تم</button>
+    <div id="message"></div>
 
-        <!-- قسم عرض الملفات المرفوعة -->
-        <div class="file-list" id="file-list">
-            <h2>الملفات المرفوعة:</h2>
-            <!-- سيتم عرض الملفات هنا -->
-        </div>
-    </div>
+    <h2>الملفات المرفوعة:</h2>
+    <div id="files-list"></div>
 
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2025 الرياضيات السهلة - جميع الحقوق محفوظة</p>
-            <div class="social-links">
-                <a href="#"><i class="fab fa-facebook"></i></a>
-                <a href="#"><i class="fab fa-twitter"></i></a>
-                <a href="#"><i class="fab fa-instagram"></i></a>
-            </div>
-        </div>
-    </footer>
-
-    <script src="scripts.js"></script>
+    <script src="upload.js"></script>
 </body>
 </html>
