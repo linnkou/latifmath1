@@ -1,50 +1,85 @@
-<div class="upload-section">
-    <h2>رفع الملفات حسب المستوى</h2>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رفع الملفات</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="main-title">
+            <h1>رفع الملفات</h1>
+        </div>
+        <nav>
+            <a href="index.html">الرئيسية</a>
+            <a href="upload-files.html" class="active">رفع الملفات</a>
+            <a href="login.html" class="login-button">تسجيل الدخول</a>
+        </nav>
+    </header>
 
-    <!-- اختيار السنة -->
-    <div class="form-group">
-        <label for="year">السنة:</label>
-        <select id="year">
-            <option value="first-year">الأولى متوسط</option>
-            <option value="second-year">الثانية متوسط</option>
-            <option value="third-year">الثالثة متوسط</option>
-            <option value="fourth-year">الرابعة متوسط</option>
-        </select>
+    <div class="upload-section">
+        <h2>رفع الملفات حسب المستوى</h2>
+
+        <!-- اختيار السنة -->
+        <div class="form-group">
+            <label for="year">السنة:</label>
+            <select id="year">
+                <option value="first-year">الأولى متوسط</option>
+                <option value="second-year">الثانية متوسط</option>
+                <option value="third-year">الثالثة متوسط</option>
+                <option value="fourth-year">الرابعة متوسط</option>
+            </select>
+        </div>
+
+        <!-- اختيار القسم -->
+        <div class="form-group">
+            <label for="section">القسم:</label>
+            <select id="section">
+                <option value="grading">التدرجات الشهرية و السنوية</option>
+                <option value="diagnostic">نماذج تقويم تشخيصي</option>
+                <option value="situations">وضعيات (إنطلاق - إدماج - تقويم)</option>
+                <option value="lessons">مذكرات دروس</option>
+                <option value="guided-work">مذكرات أعمال موجهة</option>
+                <option value="exercises">حلول تمارين كتاب المدرسي</option>
+                <option value="homework">فروض</option>
+                <option value="exams">اختبارات</option>
+                <option value="certificates">شهادات التعليم المتوسط</option>
+            </select>
+        </div>
+
+        <!-- إدخال اسم الملف -->
+        <div class="form-group">
+            <label for="file-name">اسم الملف:</label>
+            <input type="text" id="file-name" placeholder="أدخل اسم الملف">
+        </div>
+
+        <!-- زر رفع الملف -->
+        <div class="form-group">
+            <input type="file" id="file-upload" accept=".pdf,.doc,.docx">
+        </div>
+
+        <!-- زر "تم" -->
+        <button id="upload-button">تم</button>
+
+        <!-- قسم عرض الملفات المرفوعة -->
+        <div class="file-list" id="file-list">
+            <h2>الملفات المرفوعة:</h2>
+            <!-- سيتم عرض الملفات هنا -->
+        </div>
     </div>
 
-    <!-- اختيار القسم -->
-    <div class="form-group">
-        <label for="section">القسم:</label>
-        <select id="section">
-            <option value="grading">التدرجات الشهرية و السنوية</option>
-            <option value="diagnostic">نماذج تقويم تشخيصي</option>
-            <option value="situations">وضعيات (إنطلاق - إدماج - تقويم)</option>
-            <option value="lessons">مذكرات دروس</option>
-            <option value="guided-work">مذكرات أعمال موجهة</option>
-            <option value="exercises">حلول تمارين كتاب المدرسي</option>
-            <option value="homework">فروض</option>
-            <option value="exams">اختبارات</option>
-            <option value="certificates">شهادات التعليم المتوسط</option>
-        </select>
-    </div>
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 الرياضيات السهلة - جميع الحقوق محفوظة</p>
+            <div class="social-links">
+                <a href="#"><i class="fab fa-facebook"></i></a>
+                <a href="#"><i class="fab fa-twitter"></i></a>
+                <a href="#"><i class="fab fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
 
-    <!-- إدخال اسم الملف -->
-    <div class="form-group">
-        <label for="file-name">اسم الملف:</label>
-        <input type="text" id="file-name" placeholder="أدخل اسم الملف">
-    </div>
-
-    <!-- زر رفع الملف -->
-    <div class="form-group">
-        <input type="file" id="file-upload" accept=".pdf,.doc,.docx">
-    </div>
-
-    <!-- زر "تم" -->
-    <button id="upload-button">تم</button>
-
-    <!-- قسم عرض الملفات المرفوعة -->
-    <div class="file-list" id="file-list">
-        <h2>الملفات المرفوعة:</h2>
-        <!-- سيتم عرض الملفات هنا -->
-    </div>
-</div>
+    <script src="scripts.js"></script>
+</body>
+</html>
