@@ -84,7 +84,7 @@
         <label for="file-name">اسم الملف:</label>
         <input type="text" id="file-name" name="file-name" required>
 
-        <label for="file-upload">اختر ملف:</label>
+        <label for="file-upload">اختر ملف (الحد الأقصى: 25 ميجابايت):</label>
         <input type="file" id="file-upload" name="file-upload" required>
 
         <button type="submit">رفع الملف</button>
@@ -99,7 +99,7 @@
     <script>
         let currentPage = 1;
         const itemsPerPage = 10; // عدد الملفات المعروضة في كل صفحة
-        let currentFileType = 'homework'; // النوع الافتراضي للعرض
+        const maxFileSize = 25 * 1024 * 1024; // 25 ميجابايت
 
         // دالة لإضافة الامتداد إلى اسم الملف
         function addFileExtension(fileName, file) {
@@ -230,6 +230,12 @@
 
             if (!fileName) {
                 alert('يرجى إدخال اسم الملف.');
+                return;
+            }
+
+            // التحقق من حجم الملف
+            if (file.size > maxFileSize) {
+                alert('حجم الملف كبير جدًا. الحد الأقصى المسموح به هو 25 ميجابايت.');
                 return;
             }
 
