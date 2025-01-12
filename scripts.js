@@ -29,7 +29,16 @@ if (loginButton) {
         window.location.href = 'login.html';
     });
 }
-
+// تفاعل البطاقات
+const testCards = document.querySelectorAll('.test-card');
+testCards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+        card.style.transform = 'translateY(-10px)';
+    });
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'translateY(0)';
+    });
+});
 // إظهار الاختبارات عند النقر على الزر
 document.getElementById('start-algebra-test')?.addEventListener('click', function (e) {
     e.preventDefault();
