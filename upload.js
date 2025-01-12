@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const fs = require('fs');
 const path = require('path');
+const readline = require('readline');
 
 // دالة لرفع الملف إلى GitHub
 async function uploadFileToGitHub(filePath, fileName, year, fileType, token) {
@@ -39,44 +40,6 @@ async function uploadFileToGitHub(filePath, fileName, year, fileType, token) {
     }
 }
 
-// دالة لجلب الملفات المرفوعة من GitHub
-async function fetchUploadedFiles(token) {
-    const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
-    const repoName = 'latifmath1'; // اسم المستودع
-    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
-
-    try {
-        const response = await fetch(url, {
-            headers: {
-                'Authorization': `token ${token}`
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error(`خطأ في جلب الملفات: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('حدث خطأ أثناء جلب الملفات:', error.message);
-        throw error;
-    }
-}
-
-// دالة لعرض الملفات المرفوعة
-async function displayUploadedFiles(token) {
-    try {
-        const files = await fetchUploadedFiles(token);
-        console.log('الملفات المرفوعة:');
-        files.forEach(file => {
-            console.log(`- ${file.name}: ${file.download_url}`);
-        });
-    } catch (error) {
-        console.error('حدث خطأ أثناء جلب الملفات:', error.message);
-    }
-}
-
 // دالة رئيسية لتشغيل البرنامج
 async function main() {
     const token = process.env.GITHUB_TOKEN || process.env.EASYMATH; // قراءة التوكن من متغير البيئة
@@ -87,28 +50,34 @@ async function main() {
         process.exit(1); // إنهاء البرنامج
     }
 
-    // تحديد الملفات المطلوب رفعها
-    const filePath = './05-01-وضعية-الانطلاق-..pdf'; // المسار إلى الملف
-    const fileName = path.basename(filePath); // اسم الملف
-    const year = 'first-year'; // المستوى الدراسي
-    const fileType = 'monthly-grades'; // نوع الملف
+    // إنشاء واجهة لإدخال المستخدم
+    const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+    });
 
-    if (!fs.existsSync(filePath)) {
-        console.error('الملف غير موجود:', filePath);
-        process.exit(1); // إنهاء البرنامج
-    }
+    // طلب إدخال اسم الملف
+    rl.question('أدخل اسم الملف الذي تريد رفعه: ', async (fileName) => {
+        const filePath = path.join('./uploads', fileName); // المسار إلى الملف
+        const year = 'first-year'; // المستوى الدراسي
+        const fileType = 'monthly-grades'; // نوع الملف
 
-    try {
-        // رفع الملف
-        const downloadUrl = await uploadFileToGitHub(filePath, fileName, year, fileType, token);
-        console.log(`تم رفع الملف بنجاح: ${downloadUrl}`);
+        if (!fs.existsSync(filePath)) {
+            console.error('الملف غير موجود:', filePath);
+            rl.close();
+            process.exit(1); // إنهاء البرنامج
+        }
 
-        // عرض الملفات المرفوعة
-        await displayUploadedFiles(token);
-    } catch (error) {
-        console.error('حدث خطأ أثناء رفع الملف:', error.message);
-        process.exit(1); // إنهاء البرنامج
-    }
+        try {
+            // رفع الملف
+            const downloadUrl = await uploadFileToGitHub(filePath, fileName, year, fileType, token);
+            console.log(`تم رفع الملف بنجاح: ${downloadUrl}`);
+        } catch (error) {
+            console.error('حدث خطأ أثناء رفع الملف:', error.message);
+        } finally {
+            rl.close(); // إغلاق واجهة الإدخال
+        }
+    });
 }
 
 // تشغيل الدالة الرئيسية
