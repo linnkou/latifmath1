@@ -46,18 +46,14 @@
 
     <script>
         // دالة لجلب الملفات المرفوعة من GitHub
-        async function fetchUploadedFiles(token) {
+        async function fetchUploadedFiles() {
             const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
             const repoName = 'latifmath1'; // اسم المستودع
             const path = 'first-year/homework'; // المسار إلى الفروض في السنة أولى متوسط
 
             const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
 
-            const response = await fetch(url, {
-                headers: {
-                    'Authorization': `token ${token}`
-                }
-            });
+            const response = await fetch(url);
 
             if (!response.ok) {
                 throw new Error(`خطأ في جلب الملفات: ${response.statusText}`);
@@ -70,15 +66,9 @@
         // دالة لعرض الفروض المرفوعة
         async function displayHomework() {
             const homeworkList = document.getElementById('homework-list');
-            const token = localStorage.getItem('github-token');
-
-            if (!token) {
-                homeworkList.innerHTML = '<li>يرجى تسجيل الدخول لعرض الفروض.</li>';
-                return;
-            }
 
             try {
-                const files = await fetchUploadedFiles(token);
+                const files = await fetchUploadedFiles();
                 if (files.length === 0) {
                     homeworkList.innerHTML = '<li>لا توجد فروض مرفوعة بعد.</li>';
                 } else {
