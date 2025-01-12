@@ -86,6 +86,12 @@
     <div id="files-list"></div>
 
     <script>
+        // دالة لإضافة الامتداد إلى اسم الملف
+        function addFileExtension(fileName, file) {
+            const extension = file.name.split('.').pop(); // الحصول على امتداد الملف
+            return `${fileName}.${extension}`; // إضافة الامتداد إلى اسم الملف
+        }
+
         // دالة لرفع الملف إلى GitHub
         async function uploadFileToGitHub(file, fileName, year, fileType, token) {
             const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
@@ -179,7 +185,7 @@
 
             const year = document.getElementById('year').value;
             const fileType = document.getElementById('file-type').value;
-            const fileName = document.getElementById('file-name').value;
+            let fileName = document.getElementById('file-name').value;
             const file = document.getElementById('file-upload').files[0];
 
             if (!file) {
@@ -191,6 +197,9 @@
                 alert('يرجى إدخال اسم الملف.');
                 return;
             }
+
+            // إضافة الامتداد إلى اسم الملف
+            fileName = addFileExtension(fileName, file);
 
             const message = document.getElementById('message');
             message.textContent = 'جاري رفع الملف...';
