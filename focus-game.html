@@ -8,11 +8,35 @@
 </head>
 <body>
     <h1>لعبة التركيز</h1>
-    <p>الوقت المتبقي: <span id="timer">30</span> ثانية</p>
-    <p>ما هي الكلمة التي تعني "التركيز"؟</p>
-    <input type="text" id="focus-answer">
-    <button onclick="checkFocusAnswer()">تحقق</button>
-    <p id="focus-result"></p>
+    <div id="questions">
+        <div class="question">
+            <p>1. ما هو العدد الأولي الأصغر؟</p>
+            <input type="text" id="focus-answer-0">
+            <p id="focus-result-0"></p>
+        </div>
+        <div class="question">
+            <p>2. ما هو الجذر التربيعي لـ 64؟</p>
+            <input type="text" id="focus-answer-1">
+            <p id="focus-result-1"></p>
+        </div>
+        <div class="question">
+            <p>3. ما هو العدد الذي إذا ضربته في نفسه يكون الناتج 49؟</p>
+            <input type="text" id="focus-answer-2">
+            <p id="focus-result-2"></p>
+        </div>
+        <div class="question">
+            <p>4. ما هو العدد الذي يمثل نصف العدد 20؟</p>
+            <input type="text" id="focus-answer-3">
+            <p id="focus-result-3"></p>
+        </div>
+        <div class="question">
+            <p>5. ما هو العدد الذي يمثل ضعف العدد 15؟</p>
+            <input type="text" id="focus-answer-4">
+            <p id="focus-result-4"></p>
+        </div>
+    </div>
+    <button onclick="checkFocusAnswer()">تحقق من الإجابات</button>
+    <p id="focus-final-result"></p>
     <script src="focus-game.js"></script>
 </body>
 </html>
