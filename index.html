@@ -12,6 +12,8 @@
         <div class="main-title">
             <h1>الرياضيات السهلة</h1>
             <p>موقع تعليمي متكامل لطلاب المرحلة المتوسطة</p>
+            <!-- إضافة العلم الجزائري هنا -->
+            <img src="images/algerie.gif" alt="العلم الجزائري" style="width: 100px; height: auto; margin-top: 10px;">
         </div>
         <nav>
             <a href="index.html" class="active">الرئيسية</a>
@@ -26,6 +28,7 @@
         </nav>
     </header>
 
+    <!-- بقية المحتوى -->
     <div class="content">
         <h2>مرحبًا بكم في الرياضيات السهلة!</h2>
         <p>هنا يمكنك العثور على جميع الموارد التعليمية لطلاب المرحلة المتوسطة.</p>
@@ -64,68 +67,68 @@
         </div>
     </section>
 
-   <!-- اختبار الجبر -->
-<section id="algebra-test" class="test-section" style="display: none;">
-    <h2>اختبار الجبر</h2>
-    <form id="algebraTestForm">
-        <div class="question">
-            <p>1. ما هو حل المعادلة: 2x + 3 = 7؟</p>
-            <label><input type="radio" name="q1" value="a"> أ) 1</label>
-            <label><input type="radio" name="q1" value="b"> ب) 2</label>
-            <label><input type="radio" name="q1" value="c"> ج) 3</label>
-        </div>
-        <div class="question">
-            <p>2. ما هو حل المعادلة: 3x - 5 = 4؟</p>
-            <label><input type="radio" name="q2" value="a"> أ) 2</label>
-            <label><input type="radio" name="q2" value="b"> ب) 3</label>
-            <label><input type="radio" name="q2" value="c"> ج) 4</label>
-        </div>
-        <button type="submit">تقديم الإجابات</button>
-    </form>
-    <div id="algebraResult" class="result"></div>
-</section>
+    <!-- اختبار الجبر -->
+    <section id="algebra-test" class="test-section" style="display: none;">
+        <h2>اختبار الجبر</h2>
+        <form id="algebraTestForm">
+            <div class="question">
+                <p>1. ما هو حل المعادلة: 2x + 3 = 7؟</p>
+                <label><input type="radio" name="q1" value="a"> أ) 1</label>
+                <label><input type="radio" name="q1" value="b"> ب) 2</label>
+                <label><input type="radio" name="q1" value="c"> ج) 3</label>
+            </div>
+            <div class="question">
+                <p>2. ما هو حل المعادلة: 3x - 5 = 4؟</p>
+                <label><input type="radio" name="q2" value="a"> أ) 2</label>
+                <label><input type="radio" name="q2" value="b"> ب) 3</label>
+                <label><input type="radio" name="q2" value="c"> ج) 4</label>
+            </div>
+            <button type="submit">تقديم الإجابات</button>
+        </form>
+        <div id="algebraResult" class="result"></div>
+    </section>
 
-<!-- اختبار الهندسة -->
-<section id="geometry-test" class="test-section" style="display: none;">
-    <h2>اختبار الهندسة</h2>
-    <form id="geometryTestForm">
-        <div class="question">
-            <p>1. ما هو محيط المربع إذا كان طول ضلعه 5 سم؟</p>
-            <label><input type="radio" name="q1" value="a"> أ) 10 سم</label>
-            <label><input type="radio" name="q1" value="b"> ب) 20 سم</label>
-            <label><input type="radio" name="q1" value="c"> ج) 25 سم</label>
-        </div>
-        <div class="question">
-            <p>2. ما هو مساحة المثلث إذا كان طول القاعدة 6 سم والارتفاع 4 سم؟</p>
-            <label><input type="radio" name="q2" value="a"> أ) 12 سم²</label>
-            <label><input type="radio" name="q2" value="b"> ب) 24 سم²</label>
-            <label><input type="radio" name="q2" value="c"> ج) 18 سم²</label>
-        </div>
-        <button type="submit">تقديم الإجابات</button>
-    </form>
-    <div id="geometryResult" class="result"></div>
-</section>
+    <!-- اختبار الهندسة -->
+    <section id="geometry-test" class="test-section" style="display: none;">
+        <h2>اختبار الهندسة</h2>
+        <form id="geometryTestForm">
+            <div class="question">
+                <p>1. ما هو محيط المربع إذا كان طول ضلعه 5 سم؟</p>
+                <label><input type="radio" name="q1" value="a"> أ) 10 سم</label>
+                <label><input type="radio" name="q1" value="b"> ب) 20 سم</label>
+                <label><input type="radio" name="q1" value="c"> ج) 25 سم</label>
+            </div>
+            <div class="question">
+                <p>2. ما هو مساحة المثلث إذا كان طول القاعدة 6 سم والارتفاع 4 سم؟</p>
+                <label><input type="radio" name="q2" value="a"> أ) 12 سم²</label>
+                <label><input type="radio" name="q2" value="b"> ب) 24 سم²</label>
+                <label><input type="radio" name="q2" value="c"> ج) 18 سم²</label>
+            </div>
+            <button type="submit">تقديم الإجابات</button>
+        </form>
+        <div id="geometryResult" class="result"></div>
+    </section>
 
-<!-- اختبار الإحصاء -->
-<section id="statistics-test" class="test-section" style="display: none;">
-    <h2>اختبار الإحصاء</h2>
-    <form id="statisticsTestForm">
-        <div class="question">
-            <p>1. ما هو المتوسط الحسابي للأعداد: 5، 10، 15؟</p>
-            <label><input type="radio" name="q1" value="a"> أ) 10</label>
-            <label><input type="radio" name="q1" value="b"> ب) 15</label>
-            <label><input type="radio" name="q1" value="c"> ج) 20</label>
-        </div>
-        <div class="question">
-            <p>2. ما هو الوسيط للأعداد: 3، 7، 1، 9؟</p>
-            <label><input type="radio" name="q2" value="a"> أ) 5</label>
-            <label><input type="radio" name="q2" value="b"> ب) 7</label>
-            <label><input type="radio" name="q2" value="c"> ج) 9</label>
-        </div>
-        <button type="submit">تقديم الإجابات</button>
-    </form>
-    <div id="statisticsResult" class="result"></div>
-</section>
+    <!-- اختبار الإحصاء -->
+    <section id="statistics-test" class="test-section" style="display: none;">
+        <h2>اختبار الإحصاء</h2>
+        <form id="statisticsTestForm">
+            <div class="question">
+                <p>1. ما هو المتوسط الحسابي للأعداد: 5، 10، 15؟</p>
+                <label><input type="radio" name="q1" value="a"> أ) 10</label>
+                <label><input type="radio" name="q1" value="b"> ب) 15</label>
+                <label><input type="radio" name="q1" value="c"> ج) 20</label>
+            </div>
+            <div class="question">
+                <p>2. ما هو الوسيط للأعداد: 3، 7، 1، 9؟</p>
+                <label><input type="radio" name="q2" value="a"> أ) 5</label>
+                <label><input type="radio" name="q2" value="b"> ب) 7</label>
+                <label><input type="radio" name="q2" value="c"> ج) 9</label>
+            </div>
+            <button type="submit">تقديم الإجابات</button>
+        </form>
+        <div id="statisticsResult" class="result"></div>
+    </section>
 
     <footer>
         <div class="footer-content">
