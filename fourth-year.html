@@ -7,32 +7,34 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        .test-section {
-            display: none;
-        }
         .file-item {
             display: flex;
             align-items: center;
             margin-bottom: 10px;
-            padding: 10px;
-            background-color: #f9f9f9;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .file-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         .file-item i {
             margin-left: 10px;
-            font-size: 1.2em;
+            font-size: 1.5em;
+            color: #003366;
         }
         .file-item a {
             text-decoration: none;
             color: #003366;
             font-weight: bold;
+            margin-right: 10px;
+            font-size: 1.1em;
         }
         .file-item a:hover {
             color: #ffcc00;
-        }
-        .hidden {
-            display: none;
         }
         .pagination {
             display: flex;
@@ -41,16 +43,32 @@
         }
         .pagination button {
             margin: 0 5px;
-            padding: 5px 10px;
+            padding: 8px 16px;
             cursor: pointer;
             background-color: #003366;
             color: white;
             border: none;
             border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
         .pagination button:hover {
             background-color: #ffcc00;
             color: #003366;
+        }
+        .semester-section {
+            margin-bottom: 30px;
+        }
+        .semester-section h3 {
+            font-size: 1.5em;
+            color: #003366;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .semester-section h3 i {
+            margin-left: 10px;
+            font-size: 1.2em;
+            color: #ffcc00;
         }
     </style>
 </head>
@@ -91,17 +109,6 @@
         </div>
         <div class="pagination" id="pagination">
             <!-- سيتم عرض أزرار الترقيم هنا -->
-        </div>
-    </section>
-
-    <!-- مقاطع الفيديو التعليمية -->
-    <section class="video-section">
-        <h2>مقاطع فيديو تعليمية</h2>
-        <div class="video-container">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/BXc936XjzpU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/G-4JB9Li74g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/MUNuJz3hagQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/ilb7iZjaMlc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
     </section>
 
@@ -154,11 +161,37 @@
                 const endIndex = startIndex + itemsPerPage;
                 const filesToDisplay = files.slice(startIndex, endIndex);
 
-                filesList.innerHTML = filesToDisplay.map(file => `
-                    <div class="file-item">
-                        <a href="${file.download_url}" target="_blank">${file.name}</a>
-                    </div>
-                `).join('');
+                // تقسيم الملفات حسب الفصول (فقط للفروض والاختبارات)
+                let filesHtml = '';
+                if (fileType === 'homework' || fileType === 'exams') {
+                    const semesters = {
+                        'الفصل الأول': filesToDisplay.filter(file => file.name.includes('الفصل الأول')),
+                        'الفصل الثاني': filesToDisplay.filter(file => file.name.includes('الفصل الثاني')),
+                        'الفصل الثالث': filesToDisplay.filter(file => file.name.includes('الفصل الثالث'))
+                    };
+
+                    filesHtml = Object.entries(semesters).map(([semester, files]) => `
+                        <div class="semester-section">
+                            <h3><i class="fas fa-book-open"></i> ${semester}</h3>
+                            ${files.map(file => `
+                                <div class="file-item">
+                                    <i class="fas fa-file-alt"></i>
+                                    <a href="${file.download_url}" target="_blank">${file.name}</a>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `).join('');
+                } else {
+                    // عرض الملفات بدون تقسيم الفصول
+                    filesHtml = filesToDisplay.map(file => `
+                        <div class="file-item">
+                            <i class="fas fa-file-alt"></i>
+                            <a href="${file.download_url}" target="_blank">${file.name}</a>
+                        </div>
+                    `).join('');
+                }
+
+                filesList.innerHTML = filesHtml;
 
                 if (totalPages > 1) {
                     for (let i = 1; i <= totalPages; i++) {
