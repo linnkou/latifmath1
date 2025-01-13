@@ -5,109 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لعبة المنطق</title>
     <link rel="stylesheet" href="styles.css">
-    <style>
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-            direction: rtl;
-            text-align: center;
-        }
-
-        h1 {
-            color: #003366;
-            margin-top: 20px;
-        }
-
-        .puzzle-container {
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            max-width: 600px;
-            margin: 20px auto;
-        }
-
-        .question {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-        }
-
-        .options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .option {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .option input {
-            margin: 0;
-        }
-
-        .option label {
-            font-size: 1.1em;
-        }
-
-        button {
-            background-color: #ffcc00;
-            color: #003366;
-            padding: 10px 20px;
-            font-size: 1.1em;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 20px;
-            transition: background-color 0.3s ease, transform 0.3s ease;
-        }
-
-        button:hover {
-            background-color: #003366;
-            color: #ffcc00;
-            transform: translateY(-3px);
-        }
-
-        .result {
-            margin-top: 20px;
-            font-size: 1.2em;
-            color: #003366;
-        }
-    </style>
 </head>
 <body>
     <h1>لعبة المنطق</h1>
-
-    <div class="puzzle-container">
+    <div id="questions">
         <div class="question">
-            <p>إذا كان أحمد أكبر من علي بـ 5 سنوات، وعمر علي الآن 10 سنوات، فكم عمر أحمد؟</p>
+            <p>1. إذا كان أحمد أكبر من علي بـ 5 سنوات، وعمر علي الآن 10 سنوات، فكم عمر أحمد؟</p>
+            <label><input type="radio" name="answer-0" value="10"> 10 سنوات</label>
+            <label><input type="radio" name="answer-0" value="15"> 15 سنوات</label>
+            <label><input type="radio" name="answer-0" value="20"> 20 سنوات</label>
+            <p id="logic-result-0"></p>
         </div>
-
-        <div class="options">
-            <div class="option">
-                <input type="radio" id="option1" name="answer" value="10">
-                <label for="option1">10 سنوات</label>
-            </div>
-            <div class="option">
-                <input type="radio" id="option2" name="answer" value="15">
-                <label for="option2">15 سنوات</label>
-            </div>
-            <div class="option">
-                <input type="radio" id="option3" name="answer" value="20">
-                <label for="option3">20 سنوات</label>
-            </div>
+        <div class="question">
+            <p>2. إذا كان لديك 3 تفاحات وأخذت منها تفاحتين، فكم تفاحة لديك الآن؟</p>
+            <label><input type="radio" name="answer-1" value="1"> 1</label>
+            <label><input type="radio" name="answer-1" value="2"> 2</label>
+            <label><input type="radio" name="answer-1" value="3"> 3</label>
+            <p id="logic-result-1"></p>
         </div>
-
-        <button onclick="checkAnswer()">تحقق</button>
-
-        <div id="result" class="result"></div>
+        <div class="question">
+            <p>3. إذا كان اليوم هو الخميس، فما هو اليوم بعد غد؟</p>
+            <label><input type="radio" name="answer-2" value="الجمعة"> الجمعة</label>
+            <label><input type="radio" name="answer-2" value="السبت"> السبت</label>
+            <label><input type="radio" name="answer-2" value="الأحد"> الأحد</label>
+            <p id="logic-result-2"></p>
+        </div>
+        <div class="question">
+            <p>4. إذا كان لديك 10 دراهم وأنفقت 4 دراهم، فكم درهماً بقي معك؟</p>
+            <label><input type="radio" name="answer-3" value="6"> 6</label>
+            <label><input type="radio" name="answer-3" value="8"> 8</label>
+            <label><input type="radio" name="answer-3" value="10"> 10</label>
+            <p id="logic-result-3"></p>
+        </div>
+        <div class="question">
+            <p>5. إذا كان لديك 5 كتب وأضفت إليها 3 كتب أخرى، فكم كتاب لديك الآن؟</p>
+            <label><input type="radio" name="answer-4" value="8"> 8</label>
+            <label><input type="radio" name="answer-4" value="10"> 10</label>
+            <label><input type="radio" name="answer-4" value="12"> 12</label>
+            <p id="logic-result-4"></p>
+        </div>
     </div>
-
-    <!-- استدعاء ملف JavaScript -->
+    <button onclick="checkAnswer()">تحقق من الإجابات</button>
+    <p id="logic-final-result"></p>
     <script src="logic-puzzles.js"></script>
 </body>
 </html>
