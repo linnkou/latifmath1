@@ -8,10 +8,35 @@
 </head>
 <body>
     <h1>لعبة الأرقام</h1>
-    <p>ما هو العدد الذي يمثل الجذر التربيعي لـ 49؟</p>
-    <input type="text" id="number-answer">
-    <button onclick="checkNumberAnswer()">تحقق</button>
-    <p id="number-result"></p>
+    <div id="questions">
+        <div class="question">
+            <p>1. ما هو العدد الذي يمثل الجذر التربيعي لـ 16؟</p>
+            <input type="text" id="number-answer-0">
+            <p id="number-result-0"></p>
+        </div>
+        <div class="question">
+            <p>2. ما هو العدد الذي يمثل ضعف العدد 12؟</p>
+            <input type="text" id="number-answer-1">
+            <p id="number-result-1"></p>
+        </div>
+        <div class="question">
+            <p>3. ما هو العدد الذي يمثل نصف العدد 50؟</p>
+            <input type="text" id="number-answer-2">
+            <p id="number-result-2"></p>
+        </div>
+        <div class="question">
+            <p>4. ما هو العدد الذي إذا أضفت إليه 10 يكون الناتج 30؟</p>
+            <input type="text" id="number-answer-3">
+            <p id="number-result-3"></p>
+        </div>
+        <div class="question">
+            <p>5. ما هو العدد الذي يمثل مجموع الأعداد من 1 إلى 5؟</p>
+            <input type="text" id="number-answer-4">
+            <p id="number-result-4"></p>
+        </div>
+    </div>
+    <button onclick="checkNumberAnswer()">تحقق من الإجابات</button>
+    <p id="number-final-result"></p>
     <script src="number-game.js"></script>
 </body>
 </html>
