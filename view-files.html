@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض الملفات المرفوعة</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #f4f4f9, #e0e0e0);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        #files-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .file-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .file-icon {
+            font-size: 1.5em;
+            margin-right: 15px;
+            transition: transform 0.3s ease;
+        }
+
+        .file-item:hover .file-icon {
+            transform: scale(1.1);
+        }
+
+        .file-name {
+            font-size: 1.1em;
+            color: #003366;
+            font-weight: bold;
+        }
+
+        .file-download {
+            margin-left: auto;
+            color: #3498db;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: color 0.3s ease;
+        }
+
+        .file-download:hover {
+            color: #2980b9;
+        }
+
+        /* ألوان الأيقونات بناءً على نوع الملف */
+        .file-icon.fa-file-pdf {
+            color: #ff6b6b; /* لون ملفات PDF */
+        }
+
+        .file-icon.fa-file-word {
+            color: #2b579a; /* لون ملفات Word */
+        }
+
+        .file-icon.fa-file-excel {
+            color: #217346; /* لون ملفات Excel */
+        }
+
+        .file-icon.fa-file-image {
+            color: #ff9f43; /* لون ملفات الصور */
+        }
+
+        .file-icon.fa-file-video {
+            color: #6c5ce7; /* لون ملفات الفيديو */
+        }
+
+        .file-icon.fa-file-archive {
+            color: #e84393; /* لون ملفات الأرشيف */
+        }
+
+        .file-icon.fa-file-alt {
+            color: #00b894; /* لون ملفات النص */
+        }
+
+        .file-icon.fa-file {
+            color: #636e72; /* لون الملفات الأخرى */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>عرض الملفات المرفوعة</h1>
+        <nav>
+            <a href="index.html">الرئيسية</a>
+            <a href="upload-files.html">رفع ملفات</a>
+        </nav>
+    </header>
+
+    <div id="files-list">
+        <!-- الملفات سيتم عرضها هنا تلقائيًا -->
+    </div>
+
+    <script>
+        // دالة لتحديد الأيقونة بناءً على نوع الملف
+        function getFileIcon(fileName) {
+            const extension = fileName.split('.').pop().toLowerCase();
+            switch (extension) {
+                case 'pdf':
+                    return 'fas fa-file-pdf';
+                case 'doc':
+                case 'docx':
+                    return 'fas fa-file-word';
+                case 'xls':
+                case 'xlsx':
+                    return 'fas fa-file-excel';
+                case 'ppt':
+                case 'pptx':
+                    return 'fas fa-file-powerpoint';
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                case 'gif':
+                    return 'fas fa-file-image';
+                case 'mp4':
+                case 'mov':
+                case 'avi':
+                    return 'fas fa-file-video';
+                case 'zip':
+                case 'rar':
+                case 'tar':
+                    return 'fas fa-file-archive';
+                case 'txt':
+                    return 'fas fa-file-alt';
+                default:
+                    return 'fas fa-file';
+            }
+        }
+
+        // دالة لعرض الملفات
+        function displayFiles(files) {
+            const filesList = document.getElementById('files-list');
+            filesList.innerHTML = files.map(file => `
+                <div class="file-item">
+                    <i class="file-icon ${getFileIcon(file.name)}"></i>
+                    <span class="file-name">${file.name}</span>
+                    <a href="${file.download_url}" class="file-download" download>
+                        <i class="fas fa-download"></i>
+                    </a>
+                </div>
+            `).join('');
+        }
+
+        // دالة لجلب الملفات المرفوعة من GitHub
+        async function fetchUploadedFiles() {
+            try {
+                const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
+                const repoName = 'latifmath1'; // اسم المستودع
+                const path = 'uploaded-files'; // المسار في المستودع
+
+                const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
+
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('حدث خطأ أثناء جلب الملفات');
+                }
+
+                const data = await response.json();
+                const files = data.map(file => ({
+                    name: file.name,
+                    download_url: file.download_url
+                }));
+
+                displayFiles(files);
+            } catch (error) {
+                console.error('حدث خطأ أثناء جلب الملفات:', error);
+                document.getElementById('files-list').innerHTML = '<p style="color: red;">حدث خطأ أثناء جلب الملفات.</p>';
+            }
+        }
+
+        // عرض الملفات عند تحميل الصفحة
+        window.onload = () => {
+            fetchUploadedFiles();
+        };
+    </script>
+</body>
+</html>
