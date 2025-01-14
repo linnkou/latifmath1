@@ -1,33 +1,60 @@
-// دالة لرفع الملف إلى GitHub
-async function uploadFileToGitHub(file, fileName, year, fileType, token) {
-    const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
-    const repoName = 'latifmath1'; // اسم المستودع
-    const path = `${year}/${fileType}/${fileName}`; // المسار في المستودع
+// دالة لتوليد اسم الملف تلقائيًا (بدون تاريخ)
+function generateFileName(fileType, semester, index) {
+    let fileName = '';
 
-    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
-
-    const content = await toBase64(file); // تحويل الملف إلى Base64
-
-    const response = await fetch(url, {
-        method: 'PUT',
-        headers: {
-            'Authorization': `token ${token}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            message: `رفع ملف: ${fileName}`,
-            content: content
-        })
-    });
-
-    if (!response.ok) {
-        const errorData = await response.json(); // تحقق من استجابة API
-        console.error('تفاصيل الخطأ:', errorData);
-        throw new Error(`خطأ في الرفع: ${response.statusText}`);
+    switch (fileType) {
+        case 'monthly-grades':
+            fileName = `التدرجات_الشهرية`;
+            break;
+        case 'homework':
+            fileName = `فرض_${semester}_${index + 1}`;
+            break;
+        case 'exams':
+            fileName = `اختبار_${semester}_${index + 1}`;
+            break;
+        default:
+            fileName = `ملف_${fileType}_${index + 1}`;
     }
 
-    const data = await response.json();
-    return data.content.download_url; // رابط التحميل
+    return fileName;
+}
+
+// دالة لرفع الملفات إلى GitHub
+async function uploadFilesToGitHub(files, year, fileType, semester, token) {
+    const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
+    const repoName = 'latifmath1'; // اسم المستودع
+
+    const uploadPromises = files.map(async (file, index) => {
+        const fileName = generateFileName(fileType, semester, index);
+        const path = `${year}/${fileType}/${fileName}.${file.name.split('.').pop()}`; // المسار في المستودع
+
+        const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
+
+        const content = await toBase64(file); // تحويل الملف إلى Base64
+
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: `رفع ملف: ${fileName}`,
+                content: content
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json(); // تحقق من استجابة API
+            console.error('تفاصيل الخطأ:', errorData);
+            throw new Error(`خطأ في الرفع: ${response.statusText}`);
+        }
+
+        const data = await response.json();
+        return data.content.download_url; // رابط التحميل
+    });
+
+    return Promise.all(uploadPromises); // رفع جميع الملفات بشكل متوازي
 }
 
 // دالة لتحويل الملف إلى Base64
@@ -40,87 +67,52 @@ function toBase64(file) {
     });
 }
 
-// دالة لجلب الملفات المرفوعة من GitHub
-async function fetchUploadedFiles(token) {
-    const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
-    const repoName = 'latifmath1'; // اسم المستودع
-
-    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/`;
-
-    const response = await fetch(url, {
-        headers: {
-            'Authorization': `token ${token}`
-        }
-    });
-
-    if (!response.ok) {
-        throw new Error(`خطأ في جلب الملفات: ${response.statusText}`);
-    }
-
-    const data = await response.json();
-    return data;
-}
-
-// دالة لعرض الملفات المرفوعة
-async function displayUploadedFiles(token) {
-    const filesList = document.getElementById('files-list');
-    filesList.innerHTML = 'جاري تحميل الملفات...';
-
-    try {
-        const files = await fetchUploadedFiles(token);
-        filesList.innerHTML = files.map(file => `
-            <div class="file-item">
-                <a href="${file.download_url}" target="_blank">${file.name}</a>
-            </div>
-        `).join('');
-    } catch (error) {
-        filesList.innerHTML = 'حدث خطأ أثناء جلب الملفات: ' + error.message;
-    }
-}
-
 // معالجة رفع الملفات
 document.getElementById('upload-form')?.addEventListener('submit', async function (e) {
     e.preventDefault();
 
+    const token = localStorage.getItem('github-token');
+    if (!token) {
+        alert('يرجى تسجيل الدخول أولاً.');
+        window.location.href = 'login.html'; // إعادة توجيه إلى صفحة تسجيل الدخول
+        return;
+    }
+
     const year = document.getElementById('year').value;
     const fileType = document.getElementById('file-type').value;
-    const fileName = document.getElementById('file-name').value;
-    const file = document.getElementById('file-upload').files[0];
-    const token = document.getElementById('github-token').value; // الحصول على التوكن
+    const semester = document.getElementById('semester').value;
+    const files = document.getElementById('file-upload').files;
 
-    if (!file) {
-        alert('يرجى اختيار ملف.');
-        return;
-    }
-
-    if (!fileName) {
-        alert('يرجى إدخال اسم الملف.');
-        return;
-    }
-
-    if (!token) {
-        alert('يرجى إدخال GitHub Token.');
+    if (files.length === 0) {
+        alert('يرجى اختيار ملفات.');
         return;
     }
 
     const message = document.getElementById('message');
-    message.textContent = 'جاري رفع الملف...';
+    message.textContent = 'جاري رفع الملفات...';
 
     try {
-        const downloadUrl = await uploadFileToGitHub(file, fileName, year, fileType, token);
-        message.innerHTML = `تم رفع الملف بنجاح: <a href="${downloadUrl}" target="_blank">${fileName}</a>`;
-        displayUploadedFiles(token); // تحديث قائمة الملفات بعد الرفع
+        const downloadUrls = await uploadFilesToGitHub(files, year, fileType, semester, token);
+        message.innerHTML = `تم رفع الملفات بنجاح:<br>${downloadUrls.map(url => `<a href="${url}" target="_blank">${url}</a><br>`).join('')}`;
     } catch (error) {
         console.error(error); // عرض تفاصيل الخطأ في الكونسول
-        message.textContent = 'حدث خطأ أثناء رفع الملف: ' + error.message;
+        message.textContent = 'حدث خطأ أثناء رفع الملفات: ' + error.message;
     }
 });
 
-// عرض الملفات عند تحميل الصفحة (إذا كان التوكن مخزنًا في localStorage)
+// دالة لتسجيل الخروج
+function logout() {
+    localStorage.removeItem('github-token');
+    window.location.href = 'login.html';
+}
+
+// عرض اسم المستخدم عند تحميل الصفحة
 window.onload = () => {
     const token = localStorage.getItem('github-token');
-    if (token) {
-        document.getElementById('github-token').value = token;
-        displayUploadedFiles(token);
+    if (!token) {
+        alert('يرجى تسجيل الدخول أولاً.');
+        window.location.href = 'login.html'; // إعادة توجيه إلى صفحة تسجيل الدخول
+    } else {
+        document.getElementById('github-username').textContent = 'linnkou'; // عرض اسم مستخدم GitHub
     }
 };
