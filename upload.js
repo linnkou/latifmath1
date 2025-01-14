@@ -1,3 +1,35 @@
+// دالة لتحديد آخر رقم مستخدم
+async function getLastFileIndex(repoOwner, repoName, fileType, year, token) {
+    const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${year}/${fileType}`;
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!response.ok) {
+            if (response.status === 404) {
+                // إذا كان المجلد غير موجود
+                return 0;
+            }
+            const errorData = await response.json();
+            console.error('تفاصيل الخطأ:', errorData);
+            throw new Error(`خطأ أثناء قراءة الملفات: ${response.statusText}`);
+        }
+        const data = await response.json();
+        const fileNames = data.map(file => file.name);
+        const indices = fileNames
+            .map(name => parseInt(name.match(/_(\d+)\./)?.[1])) // استخراج الأرقام
+            .filter(Number.isFinite); // تصفية الأرقام الصحيحة فقط
+        return indices.length > 0 ? Math.max(...indices) : 0; // أكبر رقم موجود
+    } catch (error) {
+        console.error('خطأ أثناء تحديد آخر رقم:', error);
+        return 0;
+    }
+}
+
 // دالة لتوليد اسم الملف باللغة العربية
 function generateFileName(fileType, semester, index) {
     let fileName = '';
@@ -6,51 +38,45 @@ function generateFileName(fileType, semester, index) {
             fileName = `التدرجات`;
             break;
         case 'diagnostic-models':
-            fileName = `تقويم_تشخيصي_${index + 1}`;
+            fileName = `تقويم_تشخيصي_${index}`;
             break;
         case 'situations':
-            fileName = `وضعية_${index + 1}`;
+            fileName = `وضعية_${index}`;
             break;
         case 'lesson-notes':
-            fileName = `مذكرات_${index + 1}`; // الفصل غير مضمّن
+            fileName = `مذكرات_${index}`;
             break;
         case 'guided-work':
-            fileName = `عمل_موجه_${index + 1}`;
+            fileName = `عمل_موجه_${index}`;
             break;
         case 'textbook-solutions':
-            fileName = `حلول_التمارين_${index + 1}`;
+            fileName = `حلول_التمارين_${index}`;
             break;
         case 'homework':
-            fileName = `فرض_${semester}_${index + 1}`; // الفصل مضمّن
+            fileName = `فرض_${semester}_${index}`;
             break;
         case 'exams':
-            fileName = `اختبار_${semester}_${index + 1}`; // الفصل مضمّن
+            fileName = `اختبار_${semester}_${index}`;
             break;
         case 'certificate':
-            fileName = `شهادة_التعليم_${index + 1}`;
+            fileName = `شهادة_التعليم_${index}`;
             break;
         default:
-            fileName = `ملف_${fileType}_${index + 1}`;
+            fileName = `ملف_${fileType}_${index}`;
     }
     return fileName;
-}
-
-// دالة لتحويل الملف إلى Base64
-function toBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result.split(',')[1]);
-        reader.onerror = error => reject(error);
-    });
 }
 
 // دالة لرفع الملفات إلى GitHub
 async function uploadFilesToGitHub(files, year, fileType, semester, token) {
     const repoOwner = 'linnkou'; // اسم مستخدم GitHub
     const repoName = 'latifmath1'; // اسم المستودع
-    const uploadPromises = Array.from(files).map(async (file, index) => {
-        const fileName = generateFileName(fileType, semester, index);
+    const lastIndex = await getLastFileIndex(repoOwner, repoName, fileType, year, token);
+    let currentIndex = lastIndex;
+
+    const uploadPromises = Array.from(files).map(async (file) => {
+        currentIndex += 1; // الترقيم المستمر
+        const fileName = generateFileName(fileType, semester, currentIndex);
         const path = `${year}/${fileType}/${fileName}.${file.name.split('.').pop()}`;
         const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
         const content = await toBase64(file);
@@ -103,20 +129,3 @@ document.getElementById('upload-form').addEventListener('submit', async function
         message.textContent = 'حدث خطأ أثناء رفع الملفات: ' + error.message;
     }
 });
-
-// دالة لتسجيل الخروج
-function logout() {
-    localStorage.removeItem('github-token');
-    window.location.href = 'login.html';
-}
-
-// عرض اسم المستخدم عند تحميل الصفحة
-window.onload = () => {
-    const token = localStorage.getItem('github-token');
-    if (!token) {
-        alert('يرجى تسجيل الدخول أولاً.');
-        window.location.href = 'login.html';
-    } else {
-        document.getElementById('github-username').textContent = 'linnkou';
-    }
-};
