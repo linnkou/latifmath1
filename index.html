@@ -33,6 +33,13 @@
         <p>هنا يمكنك العثور على جميع الموارد التعليمية لطلاب المرحلة المتوسطة.</p>
     </div>
 
+    <!-- إضافة زر لوضع الملاحظات وتحليل النتائج -->
+    <div class="button-container">
+        <a href="#" class="button" style="background-color: #cc66ff;" onclick="redirectToAnalysis()">
+            <i class="fas fa-chart-line"></i> وضع الملاحظات وتحليل النتائج
+        </a>
+    </div>
+
     <!-- مقاطع الفيديو التعليمية -->
     <section class="video-section">
         <h2>مقاطع فيديو تعليمية</h2>
@@ -141,5 +148,17 @@
     </footer>
 
     <script src="scripts.js"></script>
+
+    <!-- إضافة JavaScript للتحقق من نوع الجهاز -->
+    <script>
+        function redirectToAnalysis() {
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+            if (isMobile) {
+                window.location.href = "https://latif8.onrender.com/";
+            } else {
+                window.location.href = "https://mlhzt-w-thlyl-nty-j-ltlmydh.onrender.com/";
+            }
+        }
+    </script>
 </body>
 </html>
