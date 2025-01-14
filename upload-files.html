@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رفع الملفات</title> <!-- تم تغيير العنوان هنا -->
+    <title>رفع الملفات</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -77,39 +77,6 @@
             color: #27ae60;
             font-weight: bold;
         }
-        #files-list {
-            margin-top: 20px;
-        }
-        .file-item {
-            margin-bottom: 10px;
-            padding: 10px;
-            background-color: #ecf0f1;
-            border-radius: 4px;
-        }
-        .file-item a {
-            color: #3498db;
-            text-decoration: none;
-        }
-        .file-item a:hover {
-            text-decoration: underline;
-        }
-        .pagination {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 5px;
-        }
-        .pagination button {
-            padding: 5px 10px;
-            background-color: #3498db;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .pagination button:hover {
-            background-color: #2980b9;
-        }
         .user-info {
             display: flex;
             align-items: center;
@@ -127,19 +94,11 @@
         .logout-button:hover {
             background-color: #c0392b;
         }
-        /* إخفاء العنوان الرئيسي */
-        .container h1 {
-            display: none; /* إخفاء العنوان */
-        }
-        /* إخفاء قسم الملفات المرفوعة */
-        #files-list, #pagination, .container h2 {
-            display: none; /* إخفاء القسم بالكامل */
-        }
     </style>
 </head>
 <body>
     <header>
-        <h1>رفع الملفات</h1> <!-- تم تغيير العنوان هنا -->
+        <h1>رفع الملفات</h1>
         <nav>
             <a href="index.html">الرئيسية</a>
             <a href="first-year.html">السنة أولى متوسط</a>
@@ -156,9 +115,6 @@
     </header>
 
     <div class="container">
-        <!-- العنوان مخفي الآن -->
-        <h1>رفع الملفات إلى GitHub</h1>
-
         <form id="upload-form">
             <label for="year">المستوى الدراسي:</label>
             <select id="year" name="year">
@@ -171,7 +127,6 @@
 
             <label for="file-type">نوع الملف:</label>
             <select id="file-type" name="file-type">
-                <!-- الخيارات الأساسية -->
                 <option value="monthly-grades">التدرجات الشهرية</option>
                 <option value="diagnostic-models">نماذج تقويم تشخيصي</option>
                 <option value="situations">وضعيات (إنطلاق - إدماج - تقويم)</option>
@@ -180,69 +135,86 @@
                 <option value="textbook-solutions">حلول تمارين كتاب المدرسي</option>
                 <option value="homework">فروض</option>
                 <option value="exams">اختبارات</option>
-                <!-- خيارات إضافية سيتم إظهارها أو إخفاؤها بناءً على المستوى الدراسي -->
                 <option value="certificate" class="optional">شهادة التعليم المتوسط</option>
                 <option value="teacher-documents" class="optional">وثائق الأستاذ</option>
             </select>
 
-            <label for="file-name">اسم الملف:</label>
-            <input type="text" id="file-name" name="file-name" required>
+            <!-- إضافة حقل لتحديد الفصل الدراسي -->
+            <label for="semester">الفصل الدراسي:</label>
+            <select id="semester" name="semester">
+                <option value="الفصل الأول">الفصل الأول</option>
+                <option value="الفصل الثاني">الفصل الثاني</option>
+                <option value="الفصل الثالث">الفصل الثالث</option>
+            </select>
 
-            <label for="file-upload">اختر ملف:</label>
-            <input type="file" id="file-upload" name="file-upload" required>
+            <!-- إمكانية رفع ملفات متعددة -->
+            <label for="file-upload">اختر ملفات:</label>
+            <input type="file" id="file-upload" name="file-upload" multiple required>
 
-            <button type="submit">رفع الملف</button>
+            <button type="submit">رفع الملفات</button>
         </form>
 
         <div id="message"></div>
-
-        <!-- هذا القسم مخفي الآن -->
-        <h2>الملفات المرفوعة:</h2>
-        <div id="files-list"></div>
-        <div class="pagination" id="pagination"></div>
     </div>
 
     <script>
-        let currentPage = 1;
-        const itemsPerPage = 10; // عدد الملفات المعروضة في كل صفحة
-        let currentFileType = 'homework'; // النوع الافتراضي للعرض
+        // دالة لتوليد اسم الملف تلقائيًا (بدون تاريخ)
+        function generateFileName(fileType, semester, index) {
+            let fileName = '';
 
-        // دالة لإضافة الامتداد إلى اسم الملف
-        function addFileExtension(fileName, file) {
-            const extension = file.name.split('.').pop(); // الحصول على امتداد الملف
-            return `${fileName}.${extension}`; // إضافة الامتداد إلى اسم الملف
-        }
-
-        // دالة لرفع الملف إلى GitHub
-        async function uploadFileToGitHub(file, fileName, year, fileType, token) {
-            const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
-            const repoName = 'latifmath1'; // اسم المستودع
-            const path = `${year}/${fileType}/${fileName}`; // المسار في المستودع
-
-            const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
-
-            const content = await toBase64(file); // تحويل الملف إلى Base64
-
-            const response = await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `token ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: `رفع ملف: ${fileName}`,
-                    content: content
-                })
-            });
-
-            if (!response.ok) {
-                const errorData = await response.json(); // تحقق من استجابة API
-                console.error('تفاصيل الخطأ:', errorData);
-                throw new Error(`خطأ في الرفع: ${response.statusText}`);
+            switch (fileType) {
+                case 'monthly-grades':
+                    fileName = `التدرجات_الشهرية`;
+                    break;
+                case 'homework':
+                    fileName = `فرض_${semester}_${index + 1}`;
+                    break;
+                case 'exams':
+                    fileName = `اختبار_${semester}_${index + 1}`;
+                    break;
+                default:
+                    fileName = `ملف_${fileType}_${index + 1}`;
             }
 
-            const data = await response.json();
-            return data.content.download_url; // رابط التحميل
+            return fileName;
+        }
+
+        // دالة لرفع الملفات إلى GitHub
+        async function uploadFilesToGitHub(files, year, fileType, semester, token) {
+            const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
+            const repoName = 'latifmath1'; // اسم المستودع
+
+            const uploadPromises = files.map(async (file, index) => {
+                const fileName = generateFileName(fileType, semester, index);
+                const path = `${year}/${fileType}/${fileName}.${file.name.split('.').pop()}`; // المسار في المستودع
+
+                const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
+
+                const content = await toBase64(file); // تحويل الملف إلى Base64
+
+                const response = await fetch(url, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `token ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        message: `رفع ملف: ${fileName}`,
+                        content: content
+                    })
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json(); // تحقق من استجابة API
+                    console.error('تفاصيل الخطأ:', errorData);
+                    throw new Error(`خطأ في الرفع: ${response.statusText}`);
+                }
+
+                const data = await response.json();
+                return data.content.download_url; // رابط التحميل
+            });
+
+            return Promise.all(uploadPromises); // رفع جميع الملفات بشكل متوازي
         }
 
         // دالة لتحويل الملف إلى Base64
@@ -253,100 +225,6 @@
                 reader.onload = () => resolve(reader.result.split(',')[1]);
                 reader.onerror = error => reject(error);
             });
-        }
-
-        // دالة لجلب الملفات المرفوعة من GitHub
-        async function fetchUploadedFiles(token, fileType) {
-            const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
-            const repoName = 'latifmath1'; // اسم المستودع
-
-            const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${fileType}`;
-
-            const response = await fetch(url, {
-                headers: {
-                    'Authorization': `token ${token}`
-                }
-            });
-
-            if (!response.ok) {
-                throw new Error(`خطأ في جلب الملفات: ${response.statusText}`);
-            }
-
-            const data = await response.json();
-            return data;
-        }
-
-        // دالة لعرض الملفات المرفوعة مع ترقيم الصفحات
-        async function displayUploadedFiles(token, fileType, page = 1) {
-            const filesList = document.getElementById('files-list');
-            const pagination = document.getElementById('pagination');
-            filesList.innerHTML = 'جاري تحميل الملفات...';
-            pagination.innerHTML = '';
-
-            try {
-                const files = await fetchUploadedFiles(token, fileType);
-                const totalPages = Math.ceil(files.length / itemsPerPage);
-
-                const startIndex = (page - 1) * itemsPerPage;
-                const endIndex = startIndex + itemsPerPage;
-                const filesToDisplay = files.slice(startIndex, endIndex);
-
-                filesList.innerHTML = filesToDisplay.map(file => `
-                    <div class="file-item">
-                        <a href="${file.download_url}" target="_blank">${file.name}</a>
-                    </div>
-                `).join('');
-
-                if (totalPages > 1) {
-                    for (let i = 1; i <= totalPages; i++) {
-                        const button = document.createElement('button');
-                        button.textContent = i;
-                        button.addEventListener('click', () => {
-                            currentPage = i;
-                            displayUploadedFiles(token, fileType, currentPage);
-                        });
-                        pagination.appendChild(button);
-                    }
-                }
-            } catch (error) {
-                filesList.innerHTML = 'حدث خطأ أثناء جلب الملفات: ' + error.message;
-            }
-        }
-
-        // دالة لتسجيل الخروج
-        function logout() {
-            localStorage.removeItem('github-token');
-            window.location.href = 'login.html';
-        }
-
-        // دالة لإظهار أو إخفاء خيارات نوع الملف بناءً على المستوى الدراسي
-        function updateFileTypeOptions() {
-            const year = document.getElementById('year').value;
-            const fileTypeSelect = document.getElementById('file-type');
-            const optionalOptions = fileTypeSelect.querySelectorAll('.optional');
-            const regularOptions = fileTypeSelect.querySelectorAll('option:not(.optional)');
-
-            // إخفاء جميع الخيارات الاختيارية أولاً
-            optionalOptions.forEach(option => {
-                option.style.display = 'none';
-            });
-
-            // إظهار الخيارات العادية أولاً
-            regularOptions.forEach(option => {
-                option.style.display = 'block';
-            });
-
-            if (year === 'fourth-year') {
-                // إظهار "شهادة التعليم المتوسط" وإخفاء "وثائق الأستاذ"
-                fileTypeSelect.querySelector('option[value="certificate"]').style.display = 'block';
-                fileTypeSelect.querySelector('option[value="teacher-documents"]').style.display = 'none';
-            } else if (year === 'teacher-documents') {
-                // إخفاء جميع الخيارات ما عدا "وثائق الأستاذ"
-                regularOptions.forEach(option => {
-                    option.style.display = 'none';
-                });
-                fileTypeSelect.querySelector('option[value="teacher-documents"]').style.display = 'block';
-            }
         }
 
         // معالجة رفع الملفات
@@ -362,39 +240,33 @@
 
             const year = document.getElementById('year').value;
             const fileType = document.getElementById('file-type').value;
-            let fileName = document.getElementById('file-name').value;
-            const file = document.getElementById('file-upload').files[0];
+            const semester = document.getElementById('semester').value;
+            const files = document.getElementById('file-upload').files;
 
-            if (!file) {
-                alert('يرجى اختيار ملف.');
+            if (files.length === 0) {
+                alert('يرجى اختيار ملفات.');
                 return;
             }
-
-            if (!fileName) {
-                alert('يرجى إدخال اسم الملف.');
-                return;
-            }
-
-            // إضافة الامتداد إلى اسم الملف
-            fileName = addFileExtension(fileName, file);
 
             const message = document.getElementById('message');
-            message.textContent = 'جاري رفع الملف...';
+            message.textContent = 'جاري رفع الملفات...';
 
             try {
-                const downloadUrl = await uploadFileToGitHub(file, fileName, year, fileType, token);
-                message.innerHTML = `تم رفع الملف بنجاح: <a href="${downloadUrl}" target="_blank">${fileName}</a>`;
-                displayUploadedFiles(token, fileType, currentPage); // تحديث قائمة الملفات بعد الرفع
+                const downloadUrls = await uploadFilesToGitHub(files, year, fileType, semester, token);
+                message.innerHTML = `تم رفع الملفات بنجاح:<br>${downloadUrls.map(url => `<a href="${url}" target="_blank">${url}</a><br>`).join('')}`;
             } catch (error) {
                 console.error(error); // عرض تفاصيل الخطأ في الكونسول
-                message.textContent = 'حدث خطأ أثناء رفع الملف: ' + error.message;
+                message.textContent = 'حدث خطأ أثناء رفع الملفات: ' + error.message;
             }
         });
 
-        // تحديث خيارات نوع الملف عند تغيير المستوى الدراسي
-        document.getElementById('year').addEventListener('change', updateFileTypeOptions);
+        // دالة لتسجيل الخروج
+        function logout() {
+            localStorage.removeItem('github-token');
+            window.location.href = 'login.html';
+        }
 
-        // عرض الملفات عند تحميل الصفحة (إذا كان التوكن مخزنًا في localStorage)
+        // عرض اسم المستخدم عند تحميل الصفحة
         window.onload = () => {
             const token = localStorage.getItem('github-token');
             if (!token) {
@@ -402,8 +274,6 @@
                 window.location.href = 'login.html'; // إعادة توجيه إلى صفحة تسجيل الدخول
             } else {
                 document.getElementById('github-username').textContent = 'linnkou'; // عرض اسم مستخدم GitHub
-                updateFileTypeOptions(); // تحديث خيارات نوع الملف بناءً على المستوى الدراسي
-                displayUploadedFiles(token, currentFileType, currentPage);
             }
         };
     </script>
