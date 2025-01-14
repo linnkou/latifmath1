@@ -1,3 +1,13 @@
+// دالة لتحويل الملف إلى base64
+function toBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = error => reject(error);
+    });
+}
+
 // دالة لتحديد آخر رقم مستخدم
 async function getLastFileIndex(repoOwner, repoName, fileType, year, token) {
     const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${year}/${fileType}`;
