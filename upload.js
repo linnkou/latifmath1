@@ -24,7 +24,10 @@ async function uploadFilesToGitHub(files, year, fileType, semester, token) {
     const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
     const repoName = 'latifmath1'; // اسم المستودع
 
-    const uploadPromises = files.map(async (file, index) => {
+    // تحويل FileList إلى مصفوفة
+    const filesArray = Array.from(files); // أو استخدام [...files]
+
+    const uploadPromises = filesArray.map(async (file, index) => {
         const fileName = generateFileName(fileType, semester, index);
         const path = `${year}/${fileType}/${fileName}.${file.name.split('.').pop()}`; // المسار في المستودع
 
