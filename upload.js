@@ -12,7 +12,7 @@ function generateFileName(fileType, semester, index) {
             fileName = `وضعية_${index + 1}`;
             break;
         case 'lesson-notes':
-            fileName = `مذكرات_${index + 1}`;
+            fileName = `مذكرات_${index + 1}`; // الفصل غير مضمّن
             break;
         case 'guided-work':
             fileName = `عمل_موجه_${index + 1}`;
@@ -21,10 +21,10 @@ function generateFileName(fileType, semester, index) {
             fileName = `حلول_التمارين_${index + 1}`;
             break;
         case 'homework':
-            fileName = `فرض_${semester}_${index + 1}`;
+            fileName = `فرض_${semester}_${index + 1}`; // الفصل مضمّن
             break;
         case 'exams':
-            fileName = `اختبار_${semester}_${index + 1}`;
+            fileName = `اختبار_${semester}_${index + 1}`; // الفصل مضمّن
             break;
         case 'certificate':
             fileName = `شهادة_التعليم_${index + 1}`;
