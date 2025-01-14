@@ -1,10 +1,10 @@
-// دالة لتحويل الملف إلى base64
+// دالة لتحويل الملف إلى صيغة Base64
 function toBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
         reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result.split(',')[1]);
-        reader.onerror = error => reject(error);
+        reader.onload = () => resolve(reader.result.split(',')[1]); // تجاهل الجزء "data:"
+        reader.onerror = (error) => reject(error);
     });
 }
 
