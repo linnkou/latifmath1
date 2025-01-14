@@ -6,19 +6,19 @@ function generateFileName(fileType, semester, index) {
             fileName = `التدرجات`;
             break;
         case 'diagnostic-models':
-            fileName = `تقويم_تشخيصي_${semester}_${index + 1}`;
+            fileName = `تقويم_تشخيصي_${index + 1}`;
             break;
         case 'situations':
-            fileName = `وضعية_${semester}_${index + 1}`;
+            fileName = `وضعية_${index + 1}`;
             break;
         case 'lesson-notes':
-            fileName = `مذكرات_${semester}_${index + 1}`;
+            fileName = `مذكرات_${index + 1}`;
             break;
         case 'guided-work':
-            fileName = `عمل_موجه_${semester}_${index + 1}`;
+            fileName = `عمل_موجه_${index + 1}`;
             break;
         case 'textbook-solutions':
-            fileName = `حلول_التمارين_${semester}_${index + 1}`;
+            fileName = `حلول_التمارين_${index + 1}`;
             break;
         case 'homework':
             fileName = `فرض_${semester}_${index + 1}`;
@@ -27,7 +27,7 @@ function generateFileName(fileType, semester, index) {
             fileName = `اختبار_${semester}_${index + 1}`;
             break;
         case 'certificate':
-            fileName = `شهادة_التعليم_${semester}_${index + 1}`;
+            fileName = `شهادة_التعليم_${index + 1}`;
             break;
         default:
             fileName = `ملف_${fileType}_${index + 1}`;
