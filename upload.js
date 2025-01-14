@@ -1,8 +1,24 @@
+// دالة لتوليد اسم الملف باللغة العربية
 function generateFileName(fileType, semester, index) {
     let fileName = '';
     switch (fileType) {
         case 'monthly-grades':
-            fileName = `التدرجات_الشهرية`;
+            fileName = `التدرجات`;
+            break;
+        case 'diagnostic-models':
+            fileName = `تقويم_تشخيصي_${semester}_${index + 1}`;
+            break;
+        case 'situations':
+            fileName = `وضعية_${semester}_${index + 1}`;
+            break;
+        case 'lesson-notes':
+            fileName = `مذكرات_${semester}_${index + 1}`;
+            break;
+        case 'guided-work':
+            fileName = `عمل_موجه_${semester}_${index + 1}`;
+            break;
+        case 'textbook-solutions':
+            fileName = `حلول_التمارين_${semester}_${index + 1}`;
             break;
         case 'homework':
             fileName = `فرض_${semester}_${index + 1}`;
@@ -10,15 +26,29 @@ function generateFileName(fileType, semester, index) {
         case 'exams':
             fileName = `اختبار_${semester}_${index + 1}`;
             break;
+        case 'certificate':
+            fileName = `شهادة_التعليم_${semester}_${index + 1}`;
+            break;
         default:
             fileName = `ملف_${fileType}_${index + 1}`;
     }
     return fileName;
 }
 
+// دالة لتحويل الملف إلى Base64
+function toBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result.split(',')[1]);
+        reader.onerror = error => reject(error);
+    });
+}
+
+// دالة لرفع الملفات إلى GitHub
 async function uploadFilesToGitHub(files, year, fileType, semester, token) {
-    const repoOwner = 'linnkou';
-    const repoName = 'latifmath1';
+    const repoOwner = 'linnkou'; // اسم مستخدم GitHub
+    const repoName = 'latifmath1'; // اسم المستودع
     const uploadPromises = Array.from(files).map(async (file, index) => {
         const fileName = generateFileName(fileType, semester, index);
         const path = `${year}/${fileType}/${fileName}.${file.name.split('.').pop()}`;
@@ -46,15 +76,7 @@ async function uploadFilesToGitHub(files, year, fileType, semester, token) {
     return Promise.all(uploadPromises);
 }
 
-function toBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => resolve(reader.result.split(',')[1]);
-        reader.onerror = error => reject(error);
-    });
-}
-
+// معالجة رفع الملفات
 document.getElementById('upload-form').addEventListener('submit', async function (e) {
     e.preventDefault();
     const token = localStorage.getItem('github-token');
@@ -82,11 +104,13 @@ document.getElementById('upload-form').addEventListener('submit', async function
     }
 });
 
+// دالة لتسجيل الخروج
 function logout() {
     localStorage.removeItem('github-token');
     window.location.href = 'login.html';
 }
 
+// عرض اسم المستخدم عند تحميل الصفحة
 window.onload = () => {
     const token = localStorage.getItem('github-token');
     if (!token) {
