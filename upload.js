@@ -90,6 +90,9 @@ async function uploadFilesToGitHub(files, year, fileType, semester, token) {
         const path = `${year}/${fileType}/${fileName}.${file.name.split('.').pop()}`;
         const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
         const content = await toBase64(file);
+        
+        console.log('البيانات قبل الرفع:', { path, fileName, contentPreview: content.slice(0, 50) });
+
         const response = await fetch(url, {
             method: 'PUT',
             headers: {
@@ -101,14 +104,17 @@ async function uploadFilesToGitHub(files, year, fileType, semester, token) {
                 content: content
             })
         });
+
         if (!response.ok) {
             const errorData = await response.json();
-            console.error('تفاصيل الخطأ:', errorData);
-            throw new Error(`خطأ في الرفع: ${response.statusText}`);
+            console.error('تفاصيل الخطأ من API:', errorData);
+            throw new Error(`خطأ في الرفع: ${response.statusText}, التفاصيل: ${errorData.message || 'غير متوفرة'}`);
         }
+
         const data = await response.json();
         return data.content.download_url;
     });
+
     return Promise.all(uploadPromises);
 }
 
