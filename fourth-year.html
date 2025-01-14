@@ -128,6 +128,36 @@
         const itemsPerPage = 10; // عدد الملفات المعروضة في كل صفحة
         let currentFileType = 'lesson-notes'; // النوع الافتراضي للعرض
 
+        // دالة لإرجاع الأيقونة المناسبة بناءً على امتداد الملف
+        function getFileIcon(fileName) {
+            const extension = fileName.split('.').pop().toLowerCase();
+            switch (extension) {
+                case 'pdf':
+                    return 'fas fa-file-pdf'; // أيقونة PDF
+                case 'doc':
+                case 'docx':
+                    return 'fas fa-file-word'; // أيقونة Word
+                case 'xls':
+                case 'xlsx':
+                    return 'fas fa-file-excel'; // أيقونة Excel
+                case 'jpg':
+                case 'jpeg':
+                case 'png':
+                case 'gif':
+                    return 'fas fa-file-image'; // أيقونة الصور
+                case 'zip':
+                case 'rar':
+                    return 'fas fa-file-archive'; // أيقونة الأرشيف
+                case 'txt':
+                    return 'fas fa-file-alt'; // أيقونة النصوص
+                case 'ppt':
+                case 'pptx':
+                    return 'fas fa-file-powerpoint'; // أيقونة PowerPoint
+                default:
+                    return 'fas fa-file'; // أيقونة عامة للملفات الأخرى
+            }
+        }
+
         // دالة لجلب الملفات المرفوعة من GitHub
         async function fetchUploadedFiles(fileType) {
             const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
@@ -173,22 +203,28 @@
                     filesHtml = Object.entries(semesters).map(([semester, files]) => `
                         <div class="semester-section">
                             <h3><i class="fas fa-book-open"></i> ${semester}</h3>
-                            ${files.map(file => `
-                                <div class="file-item">
-                                    <i class="fas fa-file-alt"></i>
-                                    <a href="${file.download_url}" target="_blank">${file.name}</a>
-                                </div>
-                            `).join('')}
+                            ${files.map(file => {
+                                const iconClass = getFileIcon(file.name); // الحصول على الأيقونة المناسبة
+                                return `
+                                    <div class="file-item">
+                                        <i class="${iconClass}"></i>
+                                        <a href="${file.download_url}" target="_blank">${file.name}</a>
+                                    </div>
+                                `;
+                            }).join('')}
                         </div>
                     `).join('');
                 } else {
                     // عرض الملفات بدون تقسيم الفصول
-                    filesHtml = filesToDisplay.map(file => `
-                        <div class="file-item">
-                            <i class="fas fa-file-alt"></i>
-                            <a href="${file.download_url}" target="_blank">${file.name}</a>
-                        </div>
-                    `).join('');
+                    filesHtml = filesToDisplay.map(file => {
+                        const iconClass = getFileIcon(file.name); // الحصول على الأيقونة المناسبة
+                        return `
+                            <div class="file-item">
+                                <i class="${iconClass}"></i>
+                                <a href="${file.download_url}" target="_blank">${file.name}</a>
+                            </div>
+                        `;
+                    }).join('');
                 }
 
                 filesList.innerHTML = filesHtml;
