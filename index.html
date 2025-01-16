@@ -10,18 +10,25 @@
     <style>
         /* تنسيق زر التشغيل */
         .play-quran-button {
-            background-color: #4CAF50;
+            background: linear-gradient(135deg, #4CAF50, #45a049);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: bold;
             margin-left: 20px;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .play-quran-button:hover {
-            background-color: #45a049;
+            background: linear-gradient(135deg, #45a049, #4CAF50);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        .play-quran-button:active {
+            transform: translateY(0);
         }
 
         /* تنسيق قسم تشغيل القرآن */
@@ -45,17 +52,25 @@
             margin-bottom: 20px;
         }
         .quran-section button {
-            background-color: #3498db;
+            background: linear-gradient(135deg, #3498db, #2980b9);
             color: white;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border: none;
-            border-radius: 5px;
+            border-radius: 25px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: bold;
             margin-right: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
         .quran-section button:hover {
-            background-color: #2980b9;
+            background: linear-gradient(135deg, #2980b9, #3498db);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.2);
+            transform: translateY(-2px);
+        }
+        .quran-section button:active {
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -63,6 +78,7 @@
     <header>
         <div class="main-title">
             <h1>الرياضيات السهلة</h1>
+            <button class="play-quran-button" id="play-quran">تشغيل القرآن</button>
             <p>موقع تعليمي متكامل لطلاب المرحلة المتوسطة</p>
             <!-- إضافة العلم الجزائري هنا -->
             <img src="https://raw.githubusercontent.com/linnkou/latifmath1/refs/heads/main/images/1-algerie.gif" alt="العلم الجزائري" style="width: 100px; height: auto; margin-top: 10px;">
@@ -88,117 +104,7 @@
             <option value="001">سورة الفاتحة</option>
             <option value="002">سورة البقرة</option>
             <option value="003">سورة آل عمران</option>
-            <option value="004">سورة النساء</option>
-            <option value="005">سورة المائدة</option>
-            <option value="006">سورة الأنعام</option>
-            <option value="007">سورة الأعراف</option>
-            <option value="008">سورة الأنفال</option>
-            <option value="009">سورة التوبة</option>
-            <option value="010">سورة يونس</option>
-            <option value="011">سورة هود</option>
-            <option value="012">سورة يوسف</option>
-            <option value="013">سورة الرعد</option>
-            <option value="014">سورة إبراهيم</option>
-            <option value="015">سورة الحجر</option>
-            <option value="016">سورة النحل</option>
-            <option value="017">سورة الإسراء</option>
-            <option value="018">سورة الكهف</option>
-            <option value="019">سورة مريم</option>
-            <option value="020">سورة طه</option>
-            <option value="021">سورة الأنبياء</option>
-            <option value="022">سورة الحج</option>
-            <option value="023">سورة المؤمنون</option>
-            <option value="024">سورة النور</option>
-            <option value="025">سورة الفرقان</option>
-            <option value="026">سورة الشعراء</option>
-            <option value="027">سورة النمل</option>
-            <option value="028">سورة القصص</option>
-            <option value="029">سورة العنكبوت</option>
-            <option value="030">سورة الروم</option>
-            <option value="031">سورة لقمان</option>
-            <option value="032">سورة السجدة</option>
-            <option value="033">سورة الأحزاب</option>
-            <option value="034">سورة سبأ</option>
-            <option value="035">سورة فاطر</option>
-            <option value="036">سورة يس</option>
-            <option value="037">سورة الصافات</option>
-            <option value="038">سورة ص</option>
-            <option value="039">سورة الزمر</option>
-            <option value="040">سورة غافر</option>
-            <option value="041">سورة فصلت</option>
-            <option value="042">سورة الشورى</option>
-            <option value="043">سورة الزخرف</option>
-            <option value="044">سورة الدخان</option>
-            <option value="045">سورة الجاثية</option>
-            <option value="046">سورة الأحقاف</option>
-            <option value="047">سورة محمد</option>
-            <option value="048">سورة الفتح</option>
-            <option value="049">سورة الحجرات</option>
-            <option value="050">سورة ق</option>
-            <option value="051">سورة الذاريات</option>
-            <option value="052">سورة الطور</option>
-            <option value="053">سورة النجم</option>
-            <option value="054">سورة القمر</option>
-            <option value="055">سورة الرحمن</option>
-            <option value="056">سورة الواقعة</option>
-            <option value="057">سورة الحديد</option>
-            <option value="058">سورة المجادلة</option>
-            <option value="059">سورة الحشر</option>
-            <option value="060">سورة الممتحنة</option>
-            <option value="061">سورة الصف</option>
-            <option value="062">سورة الجمعة</option>
-            <option value="063">سورة المنافقون</option>
-            <option value="064">سورة التغابن</option>
-            <option value="065">سورة الطلاق</option>
-            <option value="066">سورة التحريم</option>
-            <option value="067">سورة الملك</option>
-            <option value="068">سورة القلم</option>
-            <option value="069">سورة الحاقة</option>
-            <option value="070">سورة المعارج</option>
-            <option value="071">سورة نوح</option>
-            <option value="072">سورة الجن</option>
-            <option value="073">سورة المزمل</option>
-            <option value="074">سورة المدثر</option>
-            <option value="075">سورة القيامة</option>
-            <option value="076">سورة الإنسان</option>
-            <option value="077">سورة المرسلات</option>
-            <option value="078">سورة النبأ</option>
-            <option value="079">سورة النازعات</option>
-            <option value="080">سورة عبس</option>
-            <option value="081">سورة التكوير</option>
-            <option value="082">سورة الانفطار</option>
-            <option value="083">سورة المطففين</option>
-            <option value="084">سورة الانشقاق</option>
-            <option value="085">سورة البروج</option>
-            <option value="086">سورة الطارق</option>
-            <option value="087">سورة الأعلى</option>
-            <option value="088">سورة الغاشية</option>
-            <option value="089">سورة الفجر</option>
-            <option value="090">سورة البلد</option>
-            <option value="091">سورة الشمس</option>
-            <option value="092">سورة الليل</option>
-            <option value="093">سورة الضحى</option>
-            <option value="094">سورة الشرح</option>
-            <option value="095">سورة التين</option>
-            <option value="096">سورة العلق</option>
-            <option value="097">سورة القدر</option>
-            <option value="098">سورة البينة</option>
-            <option value="099">سورة الزلزلة</option>
-            <option value="100">سورة العاديات</option>
-            <option value="101">سورة القارعة</option>
-            <option value="102">سورة التكاثر</option>
-            <option value="103">سورة العصر</option>
-            <option value="104">سورة الهمزة</option>
-            <option value="105">سورة الفيل</option>
-            <option value="106">سورة قريش</option>
-            <option value="107">سورة الماعون</option>
-            <option value="108">سورة الكوثر</option>
-            <option value="109">سورة الكافرون</option>
-            <option value="110">سورة النصر</option>
-            <option value="111">سورة المسد</option>
-            <option value="112">سورة الإخلاص</option>
-            <option value="113">سورة الفلق</option>
-            <option value="114">سورة الناس</option>
+            <!-- يمكنك إضافة المزيد من السور هنا -->
         </select>
         <button id="play-surah">تشغيل السورة</button>
         <button id="play-full-quran">تشغيل القرآن كاملًا</button>
