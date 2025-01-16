@@ -69,115 +69,7 @@
         </nav>
     </header>
 
-    <div class="content">
-        <h2>مرحبًا بكم في الرياضيات السهلة!</h2>
-        <p>هنا يمكنك العثور على جميع الموارد التعليمية لطلاب المرحلة المتوسطة.</p>
-    </div>
-
-    <!-- إضافة زر لوضع الملاحظات وتحليل النتائج -->
-    <div class="button-container">
-        <a href="#" class="button" style="background-color: #cc66ff;" onclick="redirectToAnalysis()">
-            <i class="fas fa-chart-line"></i> وضع الملاحظات وتحليل النتائج
-        </a>
-    </div>
-
-    <!-- مقاطع الفيديو التعليمية -->
-    <section class="video-section">
-        <h2>مقاطع فيديو تعليمية</h2>
-        <div class="video-container">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/BXc936XjzpU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/G-4JB9Li74g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/MUNuJz3hagQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/ilb7iZjaMlc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-    </section>
-
-    <!-- الاختبارات التفاعلية -->
-    <section class="interactive-tests">
-        <h2>اختبارات تفاعلية</h2>
-        <div class="test-container">
-            <div class="test-card">
-                <h3>اختبار الجبر</h3>
-                <p>اختبر معرفتك في الجبر مع هذا الاختبار التفاعلي.</p>
-                <a href="#algebra-test" class="test-button" id="start-algebra-test">ابدأ الاختبار</a>
-            </div>
-            <div class="test-card">
-                <h3>اختبار الهندسة</h3>
-                <p>اختبر معرفتك في الهندسة مع هذا الاختبار التفاعلي.</p>
-                <a href="#geometry-test" class="test-button" id="start-geometry-test">ابدأ الاختبار</a>
-            </div>
-            <div class="test-card">
-                <h3>اختبار الإحصاء</h3>
-                <p>اختبر معرفتك في الإحصاء مع هذا الاختبار التفاعلي.</p>
-                <a href="#statistics-test" class="test-button" id="start-statistics-test">ابدأ الاختبار</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- اختبار الجبر -->
-    <section id="algebra-test" class="test-section" style="display: none;">
-        <h2>اختبار الجبر</h2>
-        <form id="algebraTestForm">
-            <div class="question">
-                <p>1. ما هو حل المعادلة: 2x + 3 = 7؟</p>
-                <label><input type="radio" name="q1" value="a"> أ) 1</label>
-                <label><input type="radio" name="q1" value="b"> ب) 2</label>
-                <label><input type="radio" name="q1" value="c"> ج) 3</label>
-            </div>
-            <div class="question">
-                <p>2. ما هو حل المعادلة: 3x - 5 = 4؟</p>
-                <label><input type="radio" name="q2" value="a"> أ) 2</label>
-                <label><input type="radio" name="q2" value="b"> ب) 3</label>
-                <label><input type="radio" name="q2" value="c"> ج) 4</label>
-            </div>
-            <button type="submit">تقديم الإجابات</button>
-        </form>
-        <div id="algebraResult" class="result"></div>
-    </section>
-
-    <!-- اختبار الهندسة -->
-    <section id="geometry-test" class="test-section" style="display: none;">
-        <h2>اختبار الهندسة</h2>
-        <form id="geometryTestForm">
-            <div class="question">
-                <p>1. ما هو محيط المربع إذا كان طول ضلعه 5 سم؟</p>
-                <label><input type="radio" name="q1" value="a"> أ) 10 سم</label>
-                <label><input type="radio" name="q1" value="b"> ب) 20 سم</label>
-                <label><input type="radio" name="q1" value="c"> ج) 25 سم</label>
-            </div>
-            <div class="question">
-                <p>2. ما هو مساحة المثلث إذا كان طول القاعدة 6 سم والارتفاع 4 سم؟</p>
-                <label><input type="radio" name="q2" value="a"> أ) 12 سم²</label>
-                <label><input type="radio" name="q2" value="b"> ب) 24 سم²</label>
-                <label><input type="radio" name="q2" value="c"> ج) 18 سم²</label>
-            </div>
-            <button type="submit">تقديم الإجابات</button>
-        </form>
-        <div id="geometryResult" class="result"></div>
-    </section>
-
-    <!-- اختبار الإحصاء -->
-    <section id="statistics-test" class="test-section" style="display: none;">
-        <h2>اختبار الإحصاء</h2>
-        <form id="statisticsTestForm">
-            <div class="question">
-                <p>1. ما هو المتوسط الحسابي للأعداد: 5، 10، 15؟</p>
-                <label><input type="radio" name="q1" value="a"> أ) 10</label>
-                <label><input type="radio" name="q1" value="b"> ب) 15</label>
-                <label><input type="radio" name="q1" value="c"> ج) 20</label>
-            </div>
-            <div class="question">
-                <p>2. ما هو الوسيط للأعداد: 3، 7، 1، 9؟</p>
-                <label><input type="radio" name="q2" value="a"> أ) 5</label>
-                <label><input type="radio" name="q2" value="b"> ب) 7</label>
-                <label><input type="radio" name="q2" value="c"> ج) 9</label>
-            </div>
-            <button type="submit">تقديم الإجابات</button>
-        </form>
-        <div id="statisticsResult" class="result"></div>
-    </section>
-
-    <!-- إضافة قسم تشغيل القرآن الكريم -->
+    <!-- إضافة قسم تشغيل القرآن الكريم فوق مرحبًا بكم -->
     <section class="quran-section">
         <h2>تشغيل القرآن الكريم</h2>
         <select id="surah-select">
@@ -302,6 +194,114 @@
             <source src="" type="audio/mpeg">
             المتصفح الخاص بك لا يدعم تشغيل الصوتيات.
         </audio>
+    </section>
+
+    <div class="content">
+        <h2>مرحبًا بكم في الرياضيات السهلة!</h2>
+        <p>هنا يمكنك العثور على جميع الموارد التعليمية لطلاب المرحلة المتوسطة.</p>
+    </div>
+
+    <!-- إضافة زر لوضع الملاحظات وتحليل النتائج -->
+    <div class="button-container">
+        <a href="#" class="button" style="background-color: #cc66ff;" onclick="redirectToAnalysis()">
+            <i class="fas fa-chart-line"></i> وضع الملاحظات وتحليل النتائج
+        </a>
+    </div>
+
+    <!-- مقاطع الفيديو التعليمية -->
+    <section class="video-section">
+        <h2>مقاطع فيديو تعليمية</h2>
+        <div class="video-container">
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/BXc936XjzpU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/G-4JB9Li74g" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/MUNuJz3hagQ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe width="560" height="315" src="https://www.youtube.com/embed/ilb7iZjaMlc" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <!-- الاختبارات التفاعلية -->
+    <section class="interactive-tests">
+        <h2>اختبارات تفاعلية</h2>
+        <div class="test-container">
+            <div class="test-card">
+                <h3>اختبار الجبر</h3>
+                <p>اختبر معرفتك في الجبر مع هذا الاختبار التفاعلي.</p>
+                <a href="#algebra-test" class="test-button" id="start-algebra-test">ابدأ الاختبار</a>
+            </div>
+            <div class="test-card">
+                <h3>اختبار الهندسة</h3>
+                <p>اختبر معرفتك في الهندسة مع هذا الاختبار التفاعلي.</p>
+                <a href="#geometry-test" class="test-button" id="start-geometry-test">ابدأ الاختبار</a>
+            </div>
+            <div class="test-card">
+                <h3>اختبار الإحصاء</h3>
+                <p>اختبر معرفتك في الإحصاء مع هذا الاختبار التفاعلي.</p>
+                <a href="#statistics-test" class="test-button" id="start-statistics-test">ابدأ الاختبار</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- اختبار الجبر -->
+    <section id="algebra-test" class="test-section" style="display: none;">
+        <h2>اختبار الجبر</h2>
+        <form id="algebraTestForm">
+            <div class="question">
+                <p>1. ما هو حل المعادلة: 2x + 3 = 7؟</p>
+                <label><input type="radio" name="q1" value="a"> أ) 1</label>
+                <label><input type="radio" name="q1" value="b"> ب) 2</label>
+                <label><input type="radio" name="q1" value="c"> ج) 3</label>
+            </div>
+            <div class="question">
+                <p>2. ما هو حل المعادلة: 3x - 5 = 4؟</p>
+                <label><input type="radio" name="q2" value="a"> أ) 2</label>
+                <label><input type="radio" name="q2" value="b"> ب) 3</label>
+                <label><input type="radio" name="q2" value="c"> ج) 4</label>
+            </div>
+            <button type="submit">تقديم الإجابات</button>
+        </form>
+        <div id="algebraResult" class="result"></div>
+    </section>
+
+    <!-- اختبار الهندسة -->
+    <section id="geometry-test" class="test-section" style="display: none;">
+        <h2>اختبار الهندسة</h2>
+        <form id="geometryTestForm">
+            <div class="question">
+                <p>1. ما هو محيط المربع إذا كان طول ضلعه 5 سم؟</p>
+                <label><input type="radio" name="q1" value="a"> أ) 10 سم</label>
+                <label><input type="radio" name="q1" value="b"> ب) 20 سم</label>
+                <label><input type="radio" name="q1" value="c"> ج) 25 سم</label>
+            </div>
+            <div class="question">
+                <p>2. ما هو مساحة المثلث إذا كان طول القاعدة 6 سم والارتفاع 4 سم؟</p>
+                <label><input type="radio" name="q2" value="a"> أ) 12 سم²</label>
+                <label><input type="radio" name="q2" value="b"> ب) 24 سم²</label>
+                <label><input type="radio" name="q2" value="c"> ج) 18 سم²</label>
+            </div>
+            <button type="submit">تقديم الإجابات</button>
+        </form>
+        <div id="geometryResult" class="result"></div>
+    </section>
+
+    <!-- اختبار الإحصاء -->
+    <section id="statistics-test" class="test-section" style="display: none;">
+        <h2>اختبار الإحصاء</h2>
+        <form id="statisticsTestForm">
+            <div class="question">
+                <p>1. ما هو المتوسط الحسابي للأعداد: 5، 10، 15؟</p>
+                <label><input type="radio" name="q1" value="a"> أ) 10</label>
+                <label><input type="radio" name="q1" value="b"> ب) 15</label>
+                <label><input type="radio" name="q1" value="c"> ج) 20</label>
+            </div>
+            <div class="question">
+                <p>2. ما هو الوسيط للأعداد: 3، 7، 1، 9؟</p>
+                <label><input type="radio" name="q2" value="a"> أ) 5</label>
+                <label><input type="radio" name="q2" value="b"> ب) 7</label>
+                <label><input type="radio" name="q2" value="c"> ج) 9</label>
+            </div>
+            <button type="submit">تقديم الإجابات</button>
+        </form>
+        <div id="statisticsResult" class="result"></div>
     </section>
 
     <footer>
