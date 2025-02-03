@@ -91,9 +91,9 @@ async function uploadFilesToGitHub(files, year, fileType, semester, token) {
         currentIndex += 1; // الترقيم المستمر
         const path = `${year}/${fileType}/${file.name}`; // استخدام الاسم الأصلي للملف
         const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
-        
+
         const content = await toBase64(file);
-        
+
         console.log('البيانات قبل الرفع:', { path, contentPreview: content.slice(0, 50) });
 
         const response = await fetch(url, {
@@ -124,7 +124,7 @@ async function uploadFilesToGitHub(files, year, fileType, semester, token) {
 // معالجة رفع الملفات
 document.getElementById('upload-form').addEventListener('submit', async function (e) {
     e.preventDefault();
-    
+
     const token = localStorage.getItem('github-token');
     if (!token) {
         alert('يرجى تسجيل الدخول أولاً.');
@@ -147,7 +147,7 @@ document.getElementById('upload-form').addEventListener('submit', async function
 
     try {
         const downloadUrls = await uploadFilesToGitHub(files, year, fileType, semester, token);
-        message.innerHTML = `تم رفع الملفات بنجاح:${downloadUrls.map(url => `${url}`).join('')}`;
+        message.innerHTML = `تم رفع الملفات بنجاح:${downloadUrls.map(url => `${url}`).join('<br>')}`;
     } catch (error) {
         console.error(error);
         message.textContent = 'حدث خطأ أثناء رفع الملفات: ' + error.message;
