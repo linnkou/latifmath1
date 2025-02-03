@@ -5,259 +5,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>السنة ثالثة متوسط</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js"></script>
     <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
         .file-item {
             display: flex;
             align-items: center;
-            margin-bottom: 10px;
-            padding: 15px;
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            justify-content: space-between;
+            margin: 10px;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
         }
-        .file-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        }
-        .file-item i {
-            margin-left: 10px;
-            font-size: 1.5em;
-            color: #003366;
-        }
-        .file-item a {
-            text-decoration: none;
-            color: #003366;
-            font-weight: bold;
-            margin-right: 10px;
-            font-size: 1.1em;
-        }
-        .file-item a:hover {
-            color: #ffcc00;
-        }
-        .pagination {
-            display: flex;
-            justify-content: center;
-            margin-top: 20px;
-        }
+        .file-item i { margin-left: 10px; font-size: 1.5em; color: #003366; }
+        .file-item a { text-decoration: none; color: #003366; font-weight: bold; }
+        .file-item a:hover { color: #ff6600; }
+        .pagination { margin-top: 20px; }
         .pagination button {
-            margin: 0 5px;
-            padding: 8px 16px;
+            margin: 5px;
+            padding: 8px 12px;
             cursor: pointer;
             background-color: #003366;
             color: white;
             border: none;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
         }
-        .pagination button:hover {
-            background-color: #ffcc00;
-            color: #003366;
-        }
-        .semester-section {
-            margin-bottom: 30px;
-        }
-        .semester-section h3 {
-            font-size: 1.5em;
-            color: #003366;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-        }
-        .semester-section h3 i {
-            margin-left: 10px;
-            font-size: 1.2em;
-            color: #ffcc00;
-        }
+        .pagination button:hover { background-color: #ff6600; }
     </style>
 </head>
 <body>
-    <header>
-        <div class="main-title">
-            <h1>السنة ثالثة متوسط</h1>
-            <p>جميع الموارد التعليمية للسنة ثالثة متوسط</p>
-        </div>
-        <nav>
-            <a href="index.html">الرئيسية</a>
-            <a href="first-year.html">السنة أولى متوسط</a>
-            <a href="second-year.html">السنة ثانية متوسط</a>
-            <a href="third-year.html" class="active">السنة ثالثة متوسط</a>
-            <a href="fourth-year.html">السنة رابعة متوسط</a>
-            <a href="teacher-documents.html">وثائق الأستاذ</a>
-            <a href="login.html" class="login-button">تسجيل الدخول</a>
-        </nav>
-    </header>
+
+    <h1>الملفات المرفوعة للسنة ثالثة متوسط</h1>
 
     <div class="button-container">
-        <a href="#" class="button" style="background-color: #ff6666;" onclick="showFiles('monthly-grades')"><i class="fas fa-calendar-alt"></i> التدرجات الشهرية و السنوية</a>
-        <a href="#" class="button" style="background-color: #66cc66;" onclick="showFiles('diagnostic-models')"><i class="fas fa-puzzle-piece"></i> نماذج تقويم تشخيصي</a>
-        <a href="#" class="button" style="background-color: #66ccff;" onclick="showFiles('situations')"><i class="fas fa-chalkboard-teacher"></i> وضعيات (إنطلاق - إدماج - تقويم)</a>
-        <a href="#" class="button" style="background-color: #ffcc33;" onclick="showFiles('lesson-notes')"><i class="fas fa-book"></i> مذكرات دروس</a>
-        <a href="#" class="button" style="background-color: #ff9966;" onclick="showFiles('guided-work')"><i class="fas fa-pencil-alt"></i> مذكرات أعمال موجهة</a>
-        <a href="#" class="button" style="background-color: #ffcc66;" onclick="showFiles('textbook-solutions')"><i class="fas fa-book-open"></i> حلول تمارين كتاب المدرسي</a>
-        <a href="#" class="button" style="background-color: #66ccff;" onclick="showFiles('homework')"><i class="fas fa-file-alt"></i> فروض</a>
-        <a href="#" class="button" style="background-color: #66ff66;" onclick="showFiles('exams')"><i class="fas fa-check-circle"></i> اختبارات</a>
+        <button onclick="showFiles('exams')">عرض الاختبارات</button>
+        <button onclick="showFiles('lesson-notes')">عرض مذكرات الدروس</button>
+        <button onclick="showFiles('homework')">عرض الفروض</button>
     </div>
 
-    <!-- قسم عرض الملفات -->
-    <section id="files-section" style="display: none;">
-        <h2>الملفات المرفوعة</h2>
-        <div id="files-list">
-            <!-- سيتم عرض الملفات هنا تلقائيًا -->
-        </div>
-        <div class="pagination" id="pagination">
-            <!-- سيتم عرض أزرار الترقيم هنا -->
-        </div>
+    <section id="files-section">
+        <h2>الملفات:</h2>
+        <div id="files-list"></div>
+        <div class="pagination" id="pagination"></div>
     </section>
-
-    <footer>
-        <div class="footer-content">
-            <p>&copy; 2025 الرياضيات السهلة - جميع الحقوق محفوظة</p>
-            <div class="social-links">
-                <a href="https://www.facebook.com/latifboudihir/" target="_blank">
-                    <img src="https://raw.githubusercontent.com/linnkou/latifmath1/main/images/giphy.gif" alt="للتواصل معي" style="width: 50px; height: 50px;">
-                    <span class="contact-text">للتواصل معي انقر</span>
-                </a>
-            </div>
-        </div>
-    </footer>
 
     <script>
         let currentPage = 1;
-        const itemsPerPage = 10; // عدد الملفات المعروضة في كل صفحة
-        let currentFileType = 'lesson-notes'; // النوع الافتراضي للعرض
+        const itemsPerPage = 10;
+        let currentFileType = 'exams';
+
+        // إعداد بيانات GitHub
+        const repoOwner = "linnkou";
+        const repoName = "latifmath1";
+        const githubToken = ""; // يمكنك وضع GitHub Token هنا لتجاوز حدود API
 
         // دالة لإرجاع الأيقونة المناسبة بناءً على امتداد الملف
         function getFileIcon(fileName) {
             const extension = fileName.split('.').pop().toLowerCase();
-            switch (extension) {
-                case 'pdf':
-                    return 'fas fa-file-pdf'; // أيقونة PDF
-                case 'doc':
-                case 'docx':
-                    return 'fas fa-file-word'; // أيقونة Word
-                case 'xls':
-                case 'xlsx':
-                    return 'fas fa-file-excel'; // أيقونة Excel
-                case 'jpg':
-                case 'jpeg':
-                case 'png':
-                case 'gif':
-                    return 'fas fa-file-image'; // أيقونة الصور
-                case 'zip':
-                case 'rar':
-                    return 'fas fa-file-archive'; // أيقونة الأرشيف
-                case 'txt':
-                    return 'fas fa-file-alt'; // أيقونة النصوص
-                case 'ppt':
-                case 'pptx':
-                    return 'fas fa-file-powerpoint'; // أيقونة PowerPoint
-                default:
-                    return 'fas fa-file'; // أيقونة عامة للملفات الأخرى
-            }
+            const icons = {
+                "pdf": "fas fa-file-pdf",
+                "doc": "fas fa-file-word", "docx": "fas fa-file-word",
+                "xls": "fas fa-file-excel", "xlsx": "fas fa-file-excel",
+                "jpg": "fas fa-file-image", "jpeg": "fas fa-file-image", "png": "fas fa-file-image",
+                "zip": "fas fa-file-archive", "rar": "fas fa-file-archive",
+                "txt": "fas fa-file-alt", "ppt": "fas fa-file-powerpoint", "pptx": "fas fa-file-powerpoint"
+            };
+            return icons[extension] || "fas fa-file";
         }
 
-        // دالة لجلب الملفات المرفوعة من GitHub
+        // جلب الملفات من GitHub
         async function fetchUploadedFiles(fileType) {
-            const repoOwner = 'linnkou'; // اسم مستخدم GitHub الخاص بك
-            const repoName = 'latifmath1'; // اسم المستودع
-            const path = `third-year/${fileType}`; // المسار في المستودع (تغيير المسار إلى السنة ثالثة متوسط)
-
+            const path = `third-year/${fileType}`;
             const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
+            try {
+                const headers = githubToken ? { Authorization: `token ${githubToken}` } : {};
+                const response = await fetch(url, { headers });
 
-            const response = await fetch(url);
+                if (!response.ok) throw new Error(`خطأ في جلب الملفات: ${response.statusText}`);
 
-            if (!response.ok) {
-                throw new Error(`خطأ في جلب الملفات: ${response.statusText}`);
+                const data = await response.json();
+                console.log("الملفات المسترجعة:", data);
+                return data;
+            } catch (error) {
+                console.error("حدث خطأ أثناء جلب الملفات:", error);
+                return [];
             }
-
-            const data = await response.json();
-            return data;
         }
 
-        // دالة لعرض الملفات المرفوعة مع ترقيم الصفحات
+        // عرض الملفات مع الترقيم
         async function displayFiles(fileType, page = 1) {
-            const filesList = document.getElementById('files-list');
-            const pagination = document.getElementById('pagination');
-            filesList.innerHTML = 'جاري تحميل الملفات...';
-            pagination.innerHTML = '';
+            const filesList = document.getElementById("files-list");
+            const pagination = document.getElementById("pagination");
+            filesList.innerHTML = "جاري تحميل الملفات...";
+            pagination.innerHTML = "";
 
             try {
                 const files = await fetchUploadedFiles(fileType);
-                const totalPages = Math.ceil(files.length / itemsPerPage);
+                if (!files.length) {
+                    filesList.innerHTML = "لا توجد ملفات متاحة.";
+                    return;
+                }
 
+                const totalPages = Math.ceil(files.length / itemsPerPage);
                 const startIndex = (page - 1) * itemsPerPage;
                 const endIndex = startIndex + itemsPerPage;
                 const filesToDisplay = files.slice(startIndex, endIndex);
 
-                // تقسيم الملفات حسب الفصول (فقط للفروض والاختبارات)
-                let filesHtml = '';
-                if (fileType === 'homework' || fileType === 'exams') {
-                    const semesters = {
-                        'الفصل الأول': filesToDisplay.filter(file => file.name.includes('الفصل الأول')),
-                        'الفصل الثاني': filesToDisplay.filter(file => file.name.includes('الفصل الثاني')),
-                        'الفصل الثالث': filesToDisplay.filter(file => file.name.includes('الفصل الثالث'))
-                    };
-
-                    filesHtml = Object.entries(semesters).map(([semester, files]) => `
-                        <div class="semester-section">
-                            <h3><i class="fas fa-book-open"></i> ${semester}</h3>
-                            ${files.map(file => {
-                                const iconClass = getFileIcon(file.name); // الحصول على الأيقونة المناسبة
-                                return `
-                                    <div class="file-item">
-                                        <i class="${iconClass}"></i>
-                                        <a href="${file.download_url}" target="_blank">${file.name}</a>
-                                    </div>
-                                `;
-                            }).join('')}
-                        </div>
-                    `).join('');
-                } else {
-                    // عرض الملفات بدون تقسيم الفصول
-                    filesHtml = filesToDisplay.map(file => {
-                        const iconClass = getFileIcon(file.name); // الحصول على الأيقونة المناسبة
-                        return `
-                            <div class="file-item">
-                                <i class="${iconClass}"></i>
-                                <a href="${file.download_url}" target="_blank">${file.name}</a>
-                            </div>
-                        `;
-                    }).join('');
-                }
-
-                filesList.innerHTML = filesHtml;
+                filesList.innerHTML = filesToDisplay.map(file => `
+                    <div class="file-item">
+                        <i class="${getFileIcon(file.name)}"></i>
+                        <a href="${file.download_url}" target="_blank">${file.name}</a>
+                    </div>
+                `).join("");
 
                 if (totalPages > 1) {
                     for (let i = 1; i <= totalPages; i++) {
-                        const button = document.createElement('button');
+                        const button = document.createElement("button");
                         button.textContent = i;
-                        button.addEventListener('click', () => {
-                            currentPage = i;
-                            displayFiles(fileType, currentPage);
-                        });
+                        button.onclick = () => displayFiles(fileType, i);
                         pagination.appendChild(button);
                     }
                 }
             } catch (error) {
-                filesList.innerHTML = 'حدث خطأ أثناء جلب الملفات: ' + error.message;
+                filesList.innerHTML = "حدث خطأ أثناء جلب الملفات.";
             }
         }
 
-        // دالة للتبديل بين أنواع الملفات وإظهار قسم الملفات
+        // تبديل نوع الملفات عند الضغط على زر معين
         function showFiles(fileType) {
             currentFileType = fileType;
             currentPage = 1;
-            document.getElementById('files-section').style.display = 'block'; // إظهار قسم الملفات
             displayFiles(fileType, currentPage);
         }
 
-        // عرض الملفات عند تحميل الصفحة
+        // تحميل الملفات عند فتح الصفحة
         window.onload = () => {
             displayFiles(currentFileType, currentPage);
         };
     </script>
+
 </body>
 </html>
