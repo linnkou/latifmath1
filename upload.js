@@ -19,6 +19,7 @@ async function getLastFileIndex(repoOwner, repoName, fileType, year, token) {
                 'Content-Type': 'application/json'
             }
         });
+
         if (!response.ok) {
             if (response.status === 404) {
                 // إذا كان المجلد غير موجود
@@ -28,11 +29,13 @@ async function getLastFileIndex(repoOwner, repoName, fileType, year, token) {
             console.error('تفاصيل الخطأ:', errorData);
             throw new Error(`خطأ أثناء قراءة الملفات: ${response.statusText}`);
         }
+
         const data = await response.json();
         const fileNames = data.map(file => file.name);
         const indices = fileNames
             .map(name => parseInt(name.match(/_(\d+)\./)?.[1])) // استخراج الأرقام
             .filter(Number.isFinite); // تصفية الأرقام الصحيحة فقط
+
         return indices.length > 0 ? Math.max(...indices) : 0; // أكبر رقم موجود
     } catch (error) {
         console.error('خطأ أثناء تحديد آخر رقم:', error);
@@ -86,12 +89,12 @@ async function uploadFilesToGitHub(files, year, fileType, semester, token) {
 
     const uploadPromises = Array.from(files).map(async (file) => {
         currentIndex += 1; // الترقيم المستمر
-        const fileName = generateFileName(fileType, semester, currentIndex);
-        const path = `${year}/${fileType}/${fileName}.${file.name.split('.').pop()}`;
+        const path = `${year}/${fileType}/${file.name}`; // استخدام الاسم الأصلي للملف
         const url = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
+        
         const content = await toBase64(file);
         
-        console.log('البيانات قبل الرفع:', { path, fileName, contentPreview: content.slice(0, 50) });
+        console.log('البيانات قبل الرفع:', { path, contentPreview: content.slice(0, 50) });
 
         const response = await fetch(url, {
             method: 'PUT',
@@ -100,7 +103,7 @@ async function uploadFilesToGitHub(files, year, fileType, semester, token) {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                message: `رفع ملف: ${fileName}`,
+                message: `رفع ملف: ${file.name}`, // استخدام الاسم الأصلي في الرسالة
                 content: content
             })
         });
@@ -121,25 +124,30 @@ async function uploadFilesToGitHub(files, year, fileType, semester, token) {
 // معالجة رفع الملفات
 document.getElementById('upload-form').addEventListener('submit', async function (e) {
     e.preventDefault();
+    
     const token = localStorage.getItem('github-token');
     if (!token) {
         alert('يرجى تسجيل الدخول أولاً.');
         window.location.href = 'login.html';
         return;
     }
+
     const year = document.getElementById('year').value;
     const fileType = document.getElementById('file-type').value;
     const semester = document.getElementById('semester').value;
     const files = document.getElementById('file-upload').files;
+
     if (files.length === 0) {
         alert('يرجى اختيار ملفات.');
         return;
     }
+
     const message = document.getElementById('message');
     message.textContent = 'جاري رفع الملفات...';
+
     try {
         const downloadUrls = await uploadFilesToGitHub(files, year, fileType, semester, token);
-        message.innerHTML = `تم رفع الملفات بنجاح:<br>${downloadUrls.map(url => `<a href="${url}" target="_blank">${url}</a><br>`).join('')}`;
+        message.innerHTML = `تم رفع الملفات بنجاح:${downloadUrls.map(url => `${url}`).join('')}`;
     } catch (error) {
         console.error(error);
         message.textContent = 'حدث خطأ أثناء رفع الملفات: ' + error.message;
